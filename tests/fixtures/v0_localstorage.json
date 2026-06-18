@@ -1,0 +1,20 @@
+{
+  "sheets": [
+    {
+      "id": "s1",
+      "name": "Aff 1",
+      "type": "aff",
+      "cols": ["1AC", "1NC", "2AC", "Block", "1AR", "2NR", "2AR"],
+      "rows": [
+        { "cells": { "1AC": { "text": "Trade good", "mark": "normal" } } }
+      ]
+    }
+  ],
+  "affCount": 1,
+  "negCount": 0,
+  "activeId": "s1",
+  "uploadedFiles": [
+    { "name": "1AC.docx", "content": "⟦HL⟧warrant⟦/HL⟧", "owner": "ours" }
+  ],
+  "settings": { "side": "aff", "partner1Name": "Alex" }
+}

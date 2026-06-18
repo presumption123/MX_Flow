@@ -1,0 +1,12 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+data/rooms/
+node_modules/
+test-results/
+playwright-report/
+.pytest_cache/
+*.mxflow

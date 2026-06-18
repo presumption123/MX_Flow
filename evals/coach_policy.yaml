@@ -1,0 +1,21 @@
+# Coach policy eval cases
+# Run manually or via CI when ANTHROPIC_API_KEY is set
+
+cases:
+  - id: highlight_warrant_only
+    description: Coach should reference highlighted warrant for our cards
+  - id: truncation_metadata
+    description: Large rounds return truncated=true in coach response
+
+assertions:
+  highlight_warrant_only:
+    input:
+      uploadedFiles:
+        - name: 1AC.docx
+          owner: ours
+          content: "Unhighlighted context ⟦HL⟧core warrant⟦/HL⟧ more context"
+      message: "What is our warrant on this card?"
+    expect_substrings:
+      - "warrant"
+    expect_not:
+      - "entire paragraph is read"

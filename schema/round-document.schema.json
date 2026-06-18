@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RoundDocument",
+  "type": "object",
+  "required": ["schemaVersion", "id", "partners", "settings"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "id": { "type": "string" },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "tournament": { "type": "string" },
+        "opponent": { "type": "string" },
+        "date": { "type": "string" },
+        "side": { "enum": ["aff", "neg", ""] }
+      }
+    },
+    "partners": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Partner" }
+    },
+    "uploadedFiles": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/UploadedFile" }
+    },
+    "settings": { "$ref": "#/definitions/Settings" },
+    "activePartnerId": { "type": "string" }
+  },
+  "definitions": {
+    "SpeechColumns": {
+      "aff": ["1AC", "1NC", "2AC", "Block", "1AR", "2NR", "2AR"],
+      "neg": ["1NC", "2AC", "Block", "1AR", "2NR", "2AR"]
+    },
+    "Cell": {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "mark": { "enum": ["normal", "dropped", "conceded"] }
+      }
+    },
+    "Sheet": {
+      "type": "object",
+      "required": ["id", "name", "type", "cols", "rows"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "enum": ["aff", "neg"] },
+        "cols": { "type": "array", "items": { "type": "string" } },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cells": {
+                "type": "object",
+                "additionalProperties": { "$ref": "#/definitions/Cell" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Partner": {
+      "type": "object",
+      "required": ["id", "name", "sheets"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "activeSheetId": { "type": ["string", "null"] },
+        "sheets": { "type": "array", "items": { "$ref": "#/definitions/Sheet" } },
+        "affCount": { "type": "integer" },
+        "negCount": { "type": "integer" }
+      }
+    },
+    "UploadedFile": {
+      "type": "object",
+      "required": ["name", "content"],
+      "properties": {
+        "name": { "type": "string" },
+        "content": { "type": "string" },
+        "owner": { "enum": ["ours", "opponent"] }
+      }
+    },
+    "Settings": {
+      "type": "object",
+      "properties": {
+        "side": { "enum": ["aff", "neg", ""] },
+        "model": { "type": "string" },
+        "maxTokens": { "type": "integer" },
+        "insertMode": { "type": "boolean" },
+        "partner1Name": { "type": "string" },
+        "partner2Name": { "type": "string" }
+      }
+    }
+  }
+}
