@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debate Flow</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-alt: #161b22;
+    --bg-elev: #1c2129;
+    --border: #30363d;
+    --border-bright: #58a6ff;
+    --text: #c9d1d9;
+    --text-dim: #8b949e;
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb;
+    --dropped: #5a1e1e;
+    --conceded: #1e4d2b;
+    --user-msg: #1f2d3d;
+    --claude-msg: #21262d;
+    --mono: 'SF Mono', 'Consolas', 'Menlo', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow: hidden;
+  }
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ---- Layout ---- */
+  #app { display: flex; flex-direction: column; height: 100vh; }
+  #topbar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 14px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  #topbar .title { font-weight: 700; font-size: 16px; color: var(--accent); letter-spacing: .5px; }
+  #topbar .spacer { flex: 1; }
+  .tb-btn {
+    background: var(--bg-elev);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  .tb-btn:hover { border-color: var(--accent); }
+
+  #main-split { display: flex; flex: 1; min-height: 0; }
+  #flow-area { width: 75%; display: flex; flex-direction: column; min-width: 0; border-right: 1px solid var(--border); }
+  #sidebar { width: 25%; display: flex; flex-direction: column; min-width: 320px; background: var(--bg-alt); }
+
+  /* ---- Tab bar ---- */
+  #tabbar {
+    display: flex; align-items: center; gap: 4px;
+    padding: 6px 8px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+  #tabs { display: flex; gap: 4px; }
+  .tab {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 6px 6px 0 0;
+    padding: 6px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+    color: var(--text-dim);
+  }
+  .tab.active { background: var(--bg); color: var(--text); border-color: var(--accent); border-bottom-color: var(--bg); }
+  .tab .tab-name { outline: none; }
+  .tab .tab-name[contenteditable="true"] { background: var(--bg); padding: 0 3px; border-radius: 3px; }
+  .tab .tab-type { font-size: 10px; opacity: .6; }
+  .tab .tab-close {
+    background: none; border: none; color: var(--text-dim);
+    font-size: 14px; line-height: 1; padding: 0 2px;
+  }
+  .tab .tab-close:hover { color: #f85149; }
+  .tab-add-btns { display: flex; gap: 4px; margin-left: 8px; flex-shrink: 0; }
+  .tab-add-btns button {
+    background: var(--accent-dim); color: #fff; border: none;
+    border-radius: 6px; padding: 6px 10px; font-size: 12px; white-space: nowrap;
+  }
+  .tab-add-btns button:hover { background: var(--accent); }
+
+  /* ---- Flow grid ---- */
+  #grid-wrap { flex: 1; overflow: auto; padding: 0; }
+  table.flow { border-collapse: collapse; width: 100%; min-width: max-content; }
+  table.flow th, table.flow td { border: 1px solid var(--border); vertical-align: top; }
+  table.flow th {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--bg-elev);
+    color: var(--accent);
+    font-size: 12px; text-transform: uppercase; letter-spacing: .5px;
+    padding: 8px; text-align: left;
+    min-width: 160px;
+  }
+  table.flow th.rownum-h { min-width: 36px; width: 36px; text-align: center; }
+  td.rownum {
+    width: 36px; text-align: center; background: var(--bg-alt);
+    color: var(--text-dim); font-size: 11px; position: relative;
+    user-select: none;
+  }
+  td.rownum .del-row {
+    background: none; border: none; color: var(--text-dim);
+    font-size: 12px; display: block; margin: 2px auto 0;
+  }
+  td.rownum .del-row:hover { color: #f85149; }
+  .cell {
+    min-height: 48px;
+    padding: 6px 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.4;
+    outline: none;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-width: 160px;
+  }
+  .cell:focus { box-shadow: inset 0 0 0 2px var(--border-bright); }
+  .cell.selected { box-shadow: inset 0 0 0 2px var(--border-bright); background: rgba(88,166,255,.05); }
+  .cell.dropped { background: var(--dropped); }
+  .cell.conceded { background: var(--conceded); }
+  #grid-footer { padding: 8px; flex-shrink: 0; border-top: 1px solid var(--border); background: var(--bg-alt); }
+  #add-row-btn {
+    background: var(--bg-elev); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 14px; font-size: 13px;
+  }
+  #add-row-btn:hover { border-color: var(--accent); }
+  #empty-state { padding: 40px; text-align: center; color: var(--text-dim); }
+
+  /* ---- Context menu ---- */
+  #ctx-menu {
+    position: fixed; z-index: 1000; display: none;
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: 6px; padding: 4px; min-width: 220px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  }
+  #ctx-menu button {
+    display: block; width: 100%; text-align: left;
+    background: none; border: none; color: var(--text);
+    padding: 8px 10px; font-size: 13px; border-radius: 4px;
+  }
+  #ctx-menu button:hover { background: var(--accent-dim); color: #fff; }
+  #ctx-menu .sep { height: 1px; background: var(--border); margin: 4px 0; }
+
+  /* ---- Sidebar chat ---- */
+  #sb-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  #sb-header .sb-title { font-weight: 600; font-size: 14px; flex: 1; }
+  #mode-toggle {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    color: var(--text); border-radius: 6px; padding: 5px 10px; font-size: 12px;
+  }
+  #mode-toggle.cell-mode { border-color: var(--accent); color: var(--accent); }
+  #chat-history { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { border-radius: 8px; padding: 10px 12px; font-size: 13px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+  .msg.user { background: var(--user-msg); align-self: flex-end; max-width: 90%; }
+  .msg.claude { background: var(--claude-msg); border: 1px solid var(--border); max-width: 100%; }
+  .msg.claude .msg-body { font-family: var(--mono); font-size: 12px; }
+  .msg .msg-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .msg .msg-actions button {
+    background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-dim);
+    border-radius: 5px; padding: 3px 8px; font-size: 11px;
+  }
+  .msg .msg-actions button:hover { border-color: var(--accent); color: var(--accent); }
+  .msg.thinking { color: var(--text-dim); font-style: italic; }
+  .msg.error { background: #3d1c1c; border: 1px solid #f85149; color: #ffa198; }
+
+  #sb-input-wrap { border-top: 1px solid var(--border); padding: 10px; flex-shrink: 0; }
+  #cell-context-banner {
+    display: none; font-size: 11px; color: var(--accent);
+    background: rgba(88,166,255,.08); border: 1px solid var(--border);
+    border-radius: 6px; padding: 5px 8px; margin-bottom: 6px;
+  }
+  #sb-input {
+    width: 100%; resize: vertical; min-height: 70px; max-height: 220px;
+    background: var(--bg); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px; font-family: var(--mono); font-size: 12px;
+  }
+  #sb-input:focus { outline: none; border-color: var(--accent); }
+  #send-row { display: flex; gap: 8px; margin-top: 8px; }
+  #send-btn { flex: 1; background: var(--accent-dim); color: #fff; border: none; border-radius: 6px; padding: 8px; font-size: 13px; font-weight: 600; }
+  #send-btn:hover { background: var(--accent); }
+  #send-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* ---- Files list ---- */
+  #files-panel {
+    position: absolute; top: 48px; right: 12px; z-index: 900;
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px; width: 560px; max-width: 92vw; display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  }
+  .files-cols { display: flex; gap: 14px; }
+  .files-col { flex: 1; min-width: 0; }
+  .files-col h4 { font-size: 12px; margin-bottom: 8px; color: var(--accent); letter-spacing: .5px; }
+  .dropzone {
+    border: 1px dashed var(--border); border-radius: 8px;
+    padding: 14px 10px; text-align: center; font-size: 11px; color: var(--text-dim);
+    margin-bottom: 8px; transition: .15s;
+  }
+  .dropzone.drag { border-color: var(--accent); background: rgba(88,166,255,.1); color: var(--accent); }
+  .pick-btn { margin-top: 8px; background: var(--accent-dim); color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 12px; }
+  .pick-btn:hover { background: var(--accent); }
+  .file-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 12px; }
+  .file-item .fname { flex: 1; font-family: var(--mono); word-break: break-all; }
+  .file-item .frm { background: none; border: none; color: var(--text-dim); font-size: 14px; }
+  .file-item .frm:hover { color: #f85149; }
+  .files-list .none { color: var(--text-dim); font-size: 11px; padding: 2px 0; }
+
+  #coach-collapse, #coach-reopen {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    color: var(--text); border-radius: 6px; padding: 5px 9px; font-size: 13px;
+  }
+  #coach-collapse:hover, #coach-reopen:hover { border-color: var(--accent); }
+
+  /* ---- Settings modal ---- */
+  #modal-overlay {
+    position: fixed; inset: 0; z-index: 2000; display: none;
+    background: rgba(0,0,0,.6); align-items: center; justify-content: center;
+  }
+  #settings-modal {
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px; width: 440px; max-width: 90vw;
+  }
+  #settings-modal h2 { font-size: 18px; margin-bottom: 16px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 5px; }
+  .field input, .field select {
+    width: 100%; background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-size: 13px;
+  }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+  .modal-actions { display: flex; gap: 8px; margin-top: 20px; }
+  #save-settings { flex: 1; background: var(--accent-dim); color: #fff; border: none; border-radius: 6px; padding: 9px; font-weight: 600; }
+  #save-settings:hover { background: var(--accent); }
+  #close-settings { background: var(--bg-elev); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 9px 16px; }
+  #clear-flow-btn { background: #3d1c1c; color: #ffa198; border: 1px solid #f85149; border-radius: 6px; padding: 9px 12px; font-size: 12px; width: 100%; margin-top: 8px; }
+  #clear-flow-btn:hover { background: #5a1e1e; }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <span class="title">⚑ DEBATE FLOW</span>
+    <div class="spacer"></div>
+    <button class="tb-btn" id="upload-btn">⬆ Upload Cards</button>
+    <input type="file" id="file-input" accept=".docx,.txt" multiple style="display:none">
+    <button class="tb-btn" id="coach-reopen" style="display:none">💬 Coach</button>
+    <button class="tb-btn" id="settings-btn">⚙ Settings</button>
+  </div>
+
+  <div id="files-panel">
+    <div class="files-cols">
+      <div class="files-col">
+        <h4>MY CARDS</h4>
+        <div class="dropzone" data-owner="ours">
+          Drag &amp; drop .docx / .txt here
+          <br><button class="pick-btn" data-owner="ours">+ Choose files</button>
+        </div>
+        <div class="files-list" data-owner="ours"></div>
+      </div>
+      <div class="files-col">
+        <h4>OPPONENT CARDS</h4>
+        <div class="dropzone" data-owner="opponent">
+          Drag &amp; drop .docx / .txt here
+          <br><button class="pick-btn" data-owner="opponent">+ Choose files</button>
+        </div>
+        <div class="files-list" data-owner="opponent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN SPLIT -->
+  <div id="main-split">
+    <!-- FLOW AREA -->
+    <div id="flow-area">
+      <div id="tabbar">
+        <div id="tabs"></div>
+        <div class="tab-add-btns">
+          <button id="add-aff">+ Aff Flow</button>
+          <button id="add-neg">+ Neg Flow</button>
+        </div>
+      </div>
+      <div id="grid-wrap"></div>
+      <div id="grid-footer">
+        <button id="add-row-btn">+ Add Row</button>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+      <div id="sb-header">
+        <span class="sb-title">AI Coach</span>
+        <button id="mode-toggle">Free Chat</button>
+        <button id="coach-collapse" title="Hide coach">⟩</button>
+      </div>
+      <div id="chat-history"></div>
+      <div id="sb-input-wrap">
+        <div id="cell-context-banner"></div>
+        <textarea id="sb-input" placeholder="Ask the coach anything... (Enter to send, Shift+Enter for newline)"></textarea>
+        <div id="send-row">
+          <button id="send-btn">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div id="ctx-menu">
+  <button data-action="generate">⚡ Generate response for this argument</button>
+  <div class="sep"></div>
+  <button data-action="dropped">🟥 Mark as dropped</button>
+  <button data-action="conceded">🟩 Mark as conceded</button>
+  <button data-action="normal">⬜ Clear marking</button>
+  <div class="sep"></div>
+  <button data-action="clear">🗑 Clear cell</button>
+</div>
+
+<!-- SIDE SELECTION OVERLAY (first launch) -->
+<div id="side-overlay" style="position:fixed;inset:0;z-index:2500;display:none;background:rgba(0,0,0,.75);align-items:center;justify-content:center;">
+  <div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:32px;width:420px;max-width:90vw;text-align:center;">
+    <h2 style="font-size:20px;margin-bottom:8px;">Which side are you?</h2>
+    <p style="color:var(--text-dim);font-size:13px;margin-bottom:22px;">This tells the coach which uploaded files are your speeches and which are the opponent's.</p>
+    <div style="display:flex;gap:14px;">
+      <button class="side-pick" data-side="aff" style="flex:1;background:var(--accent-dim);color:#fff;border:none;border-radius:10px;padding:18px;font-size:16px;font-weight:700;">AFF</button>
+      <button class="side-pick" data-side="neg" style="flex:1;background:#6e2a2a;color:#fff;border:none;border-radius:10px;padding:18px;font-size:16px;font-weight:700;">NEG</button>
+    </div>
+    <p style="color:var(--text-dim);font-size:11px;margin-top:16px;">You can change this anytime in Settings.</p>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="modal-overlay">
+  <div id="settings-modal">
+    <h2>⚙ Settings</h2>
+    <div class="field">
+      <label>Your side this round</label>
+      <select id="set-side">
+        <option value="aff">AFF (affirmative)</option>
+        <option value="neg">NEG (negative)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Anthropic API Key</label>
+      <input type="password" id="set-apikey" placeholder="sk-ant-...">
+    </div>
+    <div class="field">
+      <label>Model</label>
+      <select id="set-model">
+        <option value="claude-sonnet-4-6">claude-sonnet-4-6</option>
+        <option value="claude-opus-4-8">claude-opus-4-8</option>
+        <option value="claude-haiku-4-5-20251001">claude-haiku-4-5</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Max tokens</label>
+      <input type="number" id="set-maxtokens" value="1000" min="100" max="8000">
+    </div>
+    <div class="modal-actions">
+      <button id="save-settings">Save</button>
+      <button id="close-settings">Cancel</button>
+    </div>
+    <button id="clear-flow-btn">⚠ Clear All Flows (wipes everything)</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DEBATE FLOW — vanilla JS
+   ============================================================ */
+
+const SYSTEM_PROMPT = "You are an expert policy debate coach. You have full context of the current round's flow — a set of flow sheets, each representing one advantage or off-case position, showing every argument made in each speech (1AC, 1NC, 2AC, Block/2NC+1NR, 1AR, 2NR, 2AR). You also have access to evidence cards uploaded by the debater. When asked to generate a response to an argument, be specific, technical, and concise — as if you are coaching a debater in real time during a round. Reference specific cards and flow positions when relevant. Format responses as flowing bullet points a debater could read quickly.\n\nKeep the first response quick and not too in-depth — the debater can ask for more explanation after seeing the brief version. Order your answers by effectiveness: lead with the single most strategic/effective response, then list the rest in descending order of strength.\n\nYou will be told whether the debater is AFF or NEG. Use that to determine which uploaded speech files are OURS and which are the OPPONENT's, so you coach from the debater's perspective.\n\nHighlighting rule — applies STRICTLY ONLY to OUR OWN speeches/cards: only the highlighted portion of our cards (text wrapped in ⟦HL⟧...⟦/HL⟧) is the warrant we can explicitly reference and read in-round — not the entire underlying paragraph. You may and should read the surrounding unhighlighted text (often the bold/underlined tag and context) to understand what our highlighted warrant means, but do not treat unhighlighted text as if it were read. For the OPPONENT's speeches, do NOT assume any fixed convention about highlighting, bold, or underline — their formatting is not reliable, so treat their card text as context and reason about it holistically rather than enforcing a highlighted-only rule.\n\nDo evidence comparison wherever it helps win the argument, rather than just asserting. Use standard comparative framings: recency (e.g. 'their card is too old / predates and doesn't assume X'), context ('their evidence is in the context of X, doesn't apply to our Y'), author qualification ('prefer ours — we cite a more qualified source, X'), and bias ('their author is biased because X, so err aff/neg'). Tell the debater why to prefer a piece of evidence, not just that they should.";
+
+const AFF_COLS = ["1AC", "1NC", "2AC", "Block", "1AR", "2NR", "2AR"];
+const NEG_COLS = ["1NC", "2AC", "Block", "1AR", "2NR", "2AR"];
+
+const LS_SHEETS = "debateFlow.sheets";
+const LS_ACTIVE = "debateFlow.activeId";
+const LS_SETTINGS = "debateFlow.settings";
+
+// ---- State ----
+let state = {
+  sheets: [],        // {id, name, type:'aff'|'neg', cols:[], rows:[ {cells:{col:{text,mark}}} ]}
+  activeId: null,
+  affCount: 0,
+  negCount: 0,
+};
+let uploadedFiles = []; // {name, content}  (memory only)
+let settings = { apiKey: "", model: "claude-sonnet-4-6", maxTokens: 1000, side: "" };
+let chatMessages = []; // {role:'user'|'assistant', text}
+let selectedCell = null; // {sheetId, rowIdx, col}
+let cellMode = false;
+let ctxTarget = null; // {sheetId, rowIdx, col}
+
+const uid = () => Math.random().toString(36).slice(2, 10);
+
+// ---- Safe localStorage (some contexts block it and throw) ----
+function lsGet(k) { try { return localStorage.getItem(k); } catch(e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch(e) { /* storage unavailable */ } }
+
+// ---- Persistence ----
+function saveSheets() {
+  lsSet(LS_SHEETS, JSON.stringify({
+    sheets: state.sheets, affCount: state.affCount, negCount: state.negCount
+  }));
+  lsSet(LS_ACTIVE, state.activeId || "");
+}
+function loadSheets() {
+  try {
+    const raw = JSON.parse(lsGet(LS_SHEETS) || "null");
+    if (raw && raw.sheets) {
+      state.sheets = raw.sheets;
+      state.affCount = raw.affCount || 0;
+      state.negCount = raw.negCount || 0;
+    }
+  } catch(e) { console.warn("load sheets failed", e); }
+  state.activeId = lsGet(LS_ACTIVE) || (state.sheets[0] && state.sheets[0].id) || null;
+  if (!state.sheets.find(s => s.id === state.activeId)) {
+    state.activeId = state.sheets[0] ? state.sheets[0].id : null;
+  }
+}
+function saveSettings() { lsSet(LS_SETTINGS, JSON.stringify(settings)); }
+function loadSettings() {
+  try {
+    const raw = JSON.parse(lsGet(LS_SETTINGS) || "null");
+    if (raw) settings = Object.assign(settings, raw);
+  } catch(e) {}
+}
+
+// ---- Sheet operations ----
+function makeRow(cols) {
+  const cells = {};
+  cols.forEach(c => cells[c] = { text: "", mark: "normal" });
+  return { cells };
+}
+function newSheet(type) {
+  const cols = type === "aff" ? [...AFF_COLS] : [...NEG_COLS];
+  let name;
+  if (type === "aff") { state.affCount++; name = "Aff " + state.affCount; }
+  else { state.negCount++; name = "Neg " + state.negCount; }
+  const sheet = {
+    id: uid(), name, type, cols,
+    rows: [makeRow(cols), makeRow(cols), makeRow(cols)]
+  };
+  state.sheets.push(sheet);
+  state.activeId = sheet.id;
+  saveSheets();
+  renderTabs();
+  renderGrid();
+}
+function deleteSheet(id) {
+  const s = state.sheets.find(x => x.id === id);
+  if (!s) return;
+  if (!confirm(`Delete flow "${s.name}"? This cannot be undone.`)) return;
+  state.sheets = state.sheets.filter(x => x.id !== id);
+  if (state.activeId === id) state.activeId = state.sheets[0] ? state.sheets[0].id : null;
+  saveSheets();
+  renderTabs();
+  renderGrid();
+}
+function activeSheet() { return state.sheets.find(s => s.id === state.activeId) || null; }
+
+// ---- Render Tabs ----
+function renderTabs() {
+  const tabsEl = document.getElementById("tabs");
+  tabsEl.innerHTML = "";
+  state.sheets.forEach(sheet => {
+    const tab = document.createElement("div");
+    tab.className = "tab" + (sheet.id === state.activeId ? " active" : "");
+    tab.dataset.id = sheet.id;
+
+    const typeLabel = document.createElement("span");
+    typeLabel.className = "tab-type";
+    typeLabel.textContent = sheet.type === "aff" ? "AFF" : "NEG";
+
+    const nameEl = document.createElement("span");
+    nameEl.className = "tab-name";
+    nameEl.textContent = sheet.name;
+    nameEl.title = "Double-click to rename";
+
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "tab-close";
+    closeBtn.textContent = "×";
+    closeBtn.title = "Delete flow";
+
+    tab.appendChild(typeLabel);
+    tab.appendChild(nameEl);
+    tab.appendChild(closeBtn);
+
+    tab.addEventListener("click", (e) => {
+      if (e.target === closeBtn) return;
+      if (nameEl.getAttribute("contenteditable") === "true") return;
+      state.activeId = sheet.id;
+      saveSheets();
+      renderTabs();
+      renderGrid();
+    });
+
+    nameEl.addEventListener("dblclick", (e) => {
+      e.stopPropagation();
+      nameEl.setAttribute("contenteditable", "true");
+      nameEl.focus();
+      document.execCommand && document.getSelection().selectAllChildren(nameEl);
+    });
+    const commitName = () => {
+      nameEl.removeAttribute("contenteditable");
+      const v = nameEl.textContent.trim();
+      sheet.name = v || sheet.name;
+      nameEl.textContent = sheet.name;
+      saveSheets();
+    };
+    nameEl.addEventListener("blur", commitName);
+    nameEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); nameEl.blur(); }
+      if (e.key === "Escape") { nameEl.textContent = sheet.name; nameEl.blur(); }
+    });
+
+    closeBtn.addEventListener("click", (e) => { e.stopPropagation(); deleteSheet(sheet.id); });
+
+    tabsEl.appendChild(tab);
+  });
+}
+
+// ---- Render Grid ----
+function renderGrid() {
+  const wrap = document.getElementById("grid-wrap");
+  const sheet = activeSheet();
+  wrap.innerHTML = "";
+  document.getElementById("grid-footer").style.display = sheet ? "block" : "none";
+
+  if (!sheet) {
+    wrap.innerHTML = '<div id="empty-state">No flows yet. Click <b>+ Aff Flow</b> or <b>+ Neg Flow</b> to start.</div>';
+    return;
+  }
+
+  const table = document.createElement("table");
+  table.className = "flow";
+
+  // header
+  const thead = document.createElement("thead");
+  const htr = document.createElement("tr");
+  const cornerTh = document.createElement("th");
+  cornerTh.className = "rownum-h";
+  cornerTh.textContent = "#";
+  htr.appendChild(cornerTh);
+  sheet.cols.forEach(col => {
+    const th = document.createElement("th");
+    th.textContent = col;
+    htr.appendChild(th);
+  });
+  thead.appendChild(htr);
+  table.appendChild(thead);
+
+  // body
+  const tbody = document.createElement("tbody");
+  sheet.rows.forEach((row, rowIdx) => {
+    const tr = document.createElement("tr");
+
+    const numTd = document.createElement("td");
+    numTd.className = "rownum";
+    numTd.innerHTML = `<div>${rowIdx + 1}</div>`;
+    const delBtn = document.createElement("button");
+    delBtn.className = "del-row";
+    delBtn.textContent = "×";
+    delBtn.title = "Delete row";
+    delBtn.addEventListener("click", () => {
+      if (sheet.rows.length <= 1) { sheet.rows = [makeRow(sheet.cols)]; }
+      else { sheet.rows.splice(rowIdx, 1); }
+      saveSheets(); renderGrid();
+    });
+    numTd.appendChild(delBtn);
+    tr.appendChild(numTd);
+
+    sheet.cols.forEach(col => {
+      const td = document.createElement("td");
+      const cellData = row.cells[col] || (row.cells[col] = { text: "", mark: "normal" });
+      const div = document.createElement("div");
+      div.className = "cell" + (cellData.mark !== "normal" ? " " + cellData.mark : "");
+      div.setAttribute("contenteditable", "true");
+      div.textContent = cellData.text;
+      div.dataset.row = rowIdx;
+      div.dataset.col = col;
+
+      if (selectedCell && selectedCell.sheetId === sheet.id &&
+          selectedCell.rowIdx === rowIdx && selectedCell.col === col) {
+        div.classList.add("selected");
+      }
+
+      div.addEventListener("input", () => {
+        cellData.text = div.textContent;
+        saveSheets();
+      });
+      div.addEventListener("focus", () => selectCell(sheet.id, rowIdx, col, div));
+      div.addEventListener("click", () => selectCell(sheet.id, rowIdx, col, div));
+      div.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sheet.rows.splice(rowIdx + 1, 0, makeRow(sheet.cols));
+          saveSheets();
+          renderGrid();
+          focusCell(sheet.id, rowIdx + 1, col);
+        }
+      });
+      div.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        selectCell(sheet.id, rowIdx, col, div);
+        openCtxMenu(e.clientX, e.clientY, sheet.id, rowIdx, col);
+      });
+
+      td.appendChild(div);
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrap.appendChild(table);
+}
+
+function selectCell(sheetId, rowIdx, col, div) {
+  selectedCell = { sheetId, rowIdx, col };
+  document.querySelectorAll(".cell.selected").forEach(c => c.classList.remove("selected"));
+  if (div) div.classList.add("selected");
+  if (cellMode) updateCellContextBanner();
+}
+
+function focusCell(sheetId, rowIdx, col) {
+  if (sheetId !== state.activeId) return;
+  const el = document.querySelector(
+    `#grid-wrap .cell[data-row="${rowIdx}"][data-col="${CSS.escape(col)}"]`
+  );
+  if (el) { el.focus(); selectCell(sheetId, rowIdx, col, el); }
+}
+
+function getCellData(sheetId, rowIdx, col) {
+  const s = state.sheets.find(x => x.id === sheetId);
+  if (!s) return null;
+  return s.rows[rowIdx] && s.rows[rowIdx].cells[col];
+}
+
+// ---- Context Menu ----
+const ctxMenu = document.getElementById("ctx-menu");
+function openCtxMenu(x, y, sheetId, rowIdx, col) {
+  ctxTarget = { sheetId, rowIdx, col };
+  ctxMenu.style.display = "block";
+  ctxMenu.style.left = Math.min(x, window.innerWidth - 240) + "px";
+  ctxMenu.style.top = Math.min(y, window.innerHeight - 220) + "px";
+}
+function closeCtxMenu() { ctxMenu.style.display = "none"; ctxTarget = null; }
+document.addEventListener("click", (e) => { if (!ctxMenu.contains(e.target)) closeCtxMenu(); });
+ctxMenu.addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn || !ctxTarget) return;
+  const { sheetId, rowIdx, col } = ctxTarget;
+  const cell = getCellData(sheetId, rowIdx, col);
+  const action = btn.dataset.action;
+  if (action === "generate") {
+    const sheet = state.sheets.find(s => s.id === sheetId);
+    generateResponseForCell(sheet, col, cell ? cell.text : "");
+  } else if (action === "dropped") { cell.mark = "dropped"; saveSheets(); renderGrid(); }
+  else if (action === "conceded") { cell.mark = "conceded"; saveSheets(); renderGrid(); }
+  else if (action === "normal") { cell.mark = "normal"; saveSheets(); renderGrid(); }
+  else if (action === "clear") { cell.text = ""; cell.mark = "normal"; saveSheets(); renderGrid(); }
+  closeCtxMenu();
+});
+
+// ---- Serialize flows for Claude ----
+function serializeFlows() {
+  if (!state.sheets.length) return "(No flow sheets yet.)";
+  return state.sheets.map(sheet => {
+    const typeLabel = sheet.type === "aff" ? "Aff Flow" : "Neg Flow";
+    const header = `[${typeLabel} — "${sheet.name}"]`;
+    const lines = [];
+    sheet.rows.forEach((row, ri) => {
+      const parts = [];
+      sheet.cols.forEach(col => {
+        const c = row.cells[col];
+        if (c && c.text.trim()) {
+          let tag = "";
+          if (c.mark === "dropped") tag = " (DROPPED)";
+          else if (c.mark === "conceded") tag = " (CONCEDED)";
+          parts.push(`${col}: ${c.text.trim()}${tag}`);
+        }
+      });
+      if (parts.length) lines.push(`  Row ${ri + 1} | ` + parts.join("  |  "));
+    });
+    return header + (lines.length ? "\n" + lines.join("\n") : "\n  (empty)");
+  }).join("\n\n");
+}
+function serializeSide() {
+  const side = settings.side === "neg" ? "NEG" : "AFF";
+  const ours = side === "AFF" ? "1AC, 2AC, 1AR, 2AR" : "1NC, Block (2NC/1NR), 2NR";
+  const theirs = side === "AFF" ? "1NC, Block (2NC/1NR), 2NR" : "1AC, 2AC, 1AR, 2AR";
+  return "=== SIDE ===\n" +
+    `The debater is on the ${side} side this round. OUR speeches are: ${ours}. ` +
+    `The OPPONENT's speeches are: ${theirs}. ` +
+    "Uploaded files are usually named by the speech they contain (e.g. \"1NC\", \"2AC\") — " +
+    "use the filename plus the side above to decide whether a file is ours or the opponent's. " +
+    "If a file's owner is genuinely unclear, say so rather than guessing.\n\n";
+}
+
+function serializeFiles() {
+  if (!uploadedFiles.length) return "";
+  const fmt = arr => arr.map(f => `\n--- FILE: ${f.name} ---\n${f.content}`).join("\n");
+  const ours = uploadedFiles.filter(f => (f.owner || "ours") === "ours");
+  const opp = uploadedFiles.filter(f => f.owner === "opponent");
+  const legend = "\n\n=== UPLOADED EVIDENCE CARDS ===\n" +
+    "Files are grouped by team. Text wrapped in ⟦HL⟧...⟦/HL⟧ is HIGHLIGHTED (read in-round). " +
+    "For OUR cards, the highlighted text is the warrant we may reference explicitly; unmarked text is context. " +
+    "For OPPONENT cards, do not assume any highlighting/formatting convention — treat their text holistically as context.";
+  return legend +
+    "\n\n>>> OUR CARDS <<<" + (ours.length ? fmt(ours) : "\n(none uploaded)") +
+    "\n\n>>> OPPONENT CARDS <<<" + (opp.length ? fmt(opp) : "\n(none uploaded)");
+}
+
+// ---- Minimal markdown (bold/italic) with HTML escaping ----
+function renderMarkdown(text) {
+  let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
+  return html;
+}
+
+// ---- Chat rendering ----
+function renderChat() {
+  const hist = document.getElementById("chat-history");
+  hist.innerHTML = "";
+  chatMessages.forEach((m) => {
+    const div = document.createElement("div");
+    div.className = "msg " + (m.role === "user" ? "user" : (m.error ? "claude error" : "claude"));
+    if (m.thinking) { div.className = "msg claude thinking"; div.textContent = m.text; hist.appendChild(div); return; }
+
+    const body = document.createElement("div");
+    body.className = "msg-body";
+    if (m.role === "assistant" && !m.error) body.innerHTML = renderMarkdown(m.text);
+    else body.textContent = m.text;
+    div.appendChild(body);
+
+    if (m.role === "assistant" && !m.error) {
+      const actions = document.createElement("div");
+      actions.className = "msg-actions";
+      const insertBtn = document.createElement("button");
+      insertBtn.textContent = "↳ Insert into cell";
+      insertBtn.addEventListener("click", () => insertIntoCell(m.text));
+      const copyBtn = document.createElement("button");
+      copyBtn.textContent = "⧉ Copy";
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(m.text);
+        copyBtn.textContent = "✓ Copied";
+        setTimeout(() => copyBtn.textContent = "⧉ Copy", 1200);
+      });
+      actions.appendChild(insertBtn);
+      actions.appendChild(copyBtn);
+      div.appendChild(actions);
+    }
+    hist.appendChild(div);
+  });
+  hist.scrollTop = hist.scrollHeight;
+}
+
+function insertIntoCell(text) {
+  if (!selectedCell) { alert("Select a cell first (click a cell in the grid)."); return; }
+  const cell = getCellData(selectedCell.sheetId, selectedCell.rowIdx, selectedCell.col);
+  if (!cell) return;
+  cell.text = (cell.text ? cell.text + "\n" : "") + text;
+  saveSheets();
+  renderGrid();
+}
+
+// ---- API call ----
+async function callClaude(userMessage) {
+  if (!settings.apiKey) {
+    chatMessages.push({ role: "assistant", text: "⚠ No API key set. Open Settings (⚙) and add your Anthropic API key.", error: true });
+    renderChat();
+    openSettings();
+    return;
+  }
+
+  const fullContext =
+    serializeSide() +
+    "=== CURRENT ROUND FLOW (all sheets) ===\n" + serializeFlows() +
+    serializeFiles() +
+    "\n\n=== DEBATER'S REQUEST ===\n" + userMessage;
+
+  chatMessages.push({ role: "user", text: userMessage });
+  const thinking = { role: "assistant", thinking: true, text: "Coach is thinking…" };
+  chatMessages.push(thinking);
+  renderChat();
+  document.getElementById("send-btn").disabled = true;
+
+  // Build full message history for multi-turn (include prior exchange, but only
+  // the latest user turn carries the heavy flow/card context).
+  const apiMessages = [];
+  chatMessages.filter(m => !m.thinking && !m.error).forEach((m, idx, arr) => {
+    if (m.role === "user") {
+      // last user message gets full context
+      if (idx === arr.length - 1) apiMessages.push({ role: "user", content: fullContext });
+      else apiMessages.push({ role: "user", content: m.text });
+    } else {
+      apiMessages.push({ role: "assistant", content: m.text });
+    }
+  });
+
+  try {
+    const resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": settings.apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: settings.model,
+        max_tokens: parseInt(settings.maxTokens) || 1000,
+        system: SYSTEM_PROMPT,
+        messages: apiMessages
+      })
+    });
+
+    // remove thinking placeholder
+    chatMessages = chatMessages.filter(m => m !== thinking);
+
+    if (!resp.ok) {
+      let errText = `API error ${resp.status}`;
+      try { const j = await resp.json(); errText = (j.error && j.error.message) || errText; } catch(e) {}
+      chatMessages.push({ role: "assistant", text: "⚠ " + errText, error: true });
+    } else {
+      const data = await resp.json();
+      const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("\n").trim();
+      chatMessages.push({ role: "assistant", text: text || "(empty response)" });
+    }
+  } catch (err) {
+    chatMessages = chatMessages.filter(m => m !== thinking);
+    chatMessages.push({ role: "assistant", text: "⚠ Request failed: " + err.message, error: true });
+  }
+  document.getElementById("send-btn").disabled = false;
+  renderChat();
+}
+
+function generateResponseForCell(sheet, col, text) {
+  const typeLabel = sheet.type === "aff" ? "Aff Flow" : "Neg Flow";
+  const msg = `Generate a response to this argument from the ${col} column on the ${typeLabel} "${sheet.name}":\n\n"${text}"`;
+  callClaude(msg);
+}
+
+// ---- Mode toggle / cell context banner ----
+function updateCellContextBanner() {
+  const banner = document.getElementById("cell-context-banner");
+  const input = document.getElementById("sb-input");
+  if (cellMode && selectedCell) {
+    const cell = getCellData(selectedCell.sheetId, selectedCell.rowIdx, selectedCell.col);
+    const sheet = state.sheets.find(s => s.id === selectedCell.sheetId);
+    banner.style.display = "block";
+    banner.textContent = `Cell mode → ${sheet ? sheet.name : ""} / ${selectedCell.col} column`;
+    if (cell && cell.text.trim() && !input.value.trim()) {
+      input.value = `This argument is in the ${selectedCell.col} column:\n"${cell.text.trim()}"\n\nGenerate a response.`;
+    }
+  } else if (cellMode) {
+    banner.style.display = "block";
+    banner.textContent = "Cell mode → select a cell in the grid";
+  } else {
+    banner.style.display = "none";
+  }
+}
+
+// ---- Files / upload ----
+// Flatten mammoth HTML to text, wrapping highlighted (<mark>) runs in explicit
+// markers so the coach knows which text is the highlighted/read warrant vs.
+// surrounding context.
+function htmlToMarkedText(html) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  doc.querySelectorAll("mark").forEach(m => {
+    m.replaceWith("⟦HL⟧" + m.textContent + "⟦/HL⟧");
+  });
+  const blocks = doc.body.querySelectorAll("p, li, h1, h2, h3, h4, h5, h6, tr, blockquote");
+  let out = blocks.length
+    ? Array.from(blocks).map(b => b.textContent.trim()).filter(Boolean).join("\n")
+    : doc.body.textContent.trim();
+  // Word highlights each word as its own run, so collapse adjacent HL markers
+  // into one continuous highlighted span.
+  out = out.replace(/⟦\/HL⟧(\s*)⟦HL⟧/g, "$1");
+  return out;
+}
+
+async function handleFiles(fileList, owner) {
+  owner = owner === "opponent" ? "opponent" : "ours";
+  for (const file of fileList) {
+    const name = file.name;
+    try {
+      let content = "";
+      if (name.toLowerCase().endsWith(".docx")) {
+        const arrayBuffer = await file.arrayBuffer();
+        // Convert to HTML with a style map so Word highlighting is preserved
+        // as <mark> elements, then flatten to text with explicit HL markers.
+        const result = await mammoth.convertToHtml(
+          { arrayBuffer },
+          { styleMap: ["highlight => mark"] }
+        );
+        content = htmlToMarkedText(result.value);
+      } else {
+        content = await file.text();
+      }
+      uploadedFiles.push({ name, content, owner });
+    } catch (e) {
+      alert(`Failed to read ${name}: ${e.message}`);
+    }
+  }
+  renderFiles();
+}
+function renderFiles() {
+  ["ours", "opponent"].forEach(owner => {
+    const list = document.querySelector(`.files-list[data-owner="${owner}"]`);
+    if (!list) return;
+    list.innerHTML = "";
+    const files = uploadedFiles.filter(f => (f.owner || "ours") === owner);
+    if (!files.length) {
+      list.innerHTML = '<div class="none">None uploaded (cleared on refresh).</div>';
+      return;
+    }
+    files.forEach(f => {
+      const item = document.createElement("div");
+      item.className = "file-item";
+      const nm = document.createElement("span");
+      nm.className = "fname";
+      nm.textContent = f.name;
+      const rm = document.createElement("button");
+      rm.className = "frm";
+      rm.textContent = "×";
+      rm.addEventListener("click", () => {
+        const idx = uploadedFiles.indexOf(f);
+        if (idx > -1) uploadedFiles.splice(idx, 1);
+        renderFiles();
+      });
+      item.appendChild(nm);
+      item.appendChild(rm);
+      list.appendChild(item);
+    });
+  });
+}
+
+// ---- Settings modal ----
+function openSettings() {
+  document.getElementById("set-side").value = settings.side || "aff";
+  document.getElementById("set-apikey").value = settings.apiKey;
+  document.getElementById("set-model").value = settings.model;
+  document.getElementById("set-maxtokens").value = settings.maxTokens;
+  document.getElementById("modal-overlay").style.display = "flex";
+}
+function closeSettings() { document.getElementById("modal-overlay").style.display = "none"; }
+
+// ============================================================
+//  Wiring
+// ============================================================
+document.getElementById("add-aff").addEventListener("click", () => newSheet("aff"));
+document.getElementById("add-neg").addEventListener("click", () => newSheet("neg"));
+
+document.getElementById("add-row-btn").addEventListener("click", () => {
+  const sheet = activeSheet();
+  if (!sheet) return;
+  sheet.rows.push(makeRow(sheet.cols));
+  saveSheets();
+  renderGrid();
+});
+
+// upload
+let pendingOwner = "ours";
+document.getElementById("upload-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  const panel = document.getElementById("files-panel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+  renderFiles();
+});
+document.getElementById("files-panel").addEventListener("click", (e) => e.stopPropagation());
+document.addEventListener("click", () => { document.getElementById("files-panel").style.display = "none"; });
+
+// "Choose files" buttons — remember which team to assign to
+document.querySelectorAll(".pick-btn").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    pendingOwner = btn.dataset.owner;
+    document.getElementById("file-input").click();
+  });
+});
+document.getElementById("file-input").addEventListener("change", (e) => {
+  handleFiles(e.target.files, pendingOwner);
+  e.target.value = "";
+});
+
+// Drag & drop onto each team's dropzone
+document.querySelectorAll(".dropzone").forEach(zone => {
+  ["dragenter", "dragover"].forEach(ev =>
+    zone.addEventListener(ev, (e) => { e.preventDefault(); e.stopPropagation(); zone.classList.add("drag"); })
+  );
+  ["dragleave", "dragend"].forEach(ev =>
+    zone.addEventListener(ev, (e) => { e.preventDefault(); e.stopPropagation(); zone.classList.remove("drag"); })
+  );
+  zone.addEventListener("drop", (e) => {
+    e.preventDefault(); e.stopPropagation();
+    zone.classList.remove("drag");
+    if (e.dataTransfer && e.dataTransfer.files.length) {
+      handleFiles(e.dataTransfer.files, zone.dataset.owner);
+    }
+  });
+});
+
+// Stop the browser from opening a file dropped outside a dropzone
+["dragover", "drop"].forEach(ev =>
+  window.addEventListener(ev, (e) => { e.preventDefault(); }, false)
+);
+
+// coach show/hide
+function setCoachVisible(visible) {
+  document.getElementById("sidebar").style.display = visible ? "flex" : "none";
+  document.getElementById("flow-area").style.width = visible ? "75%" : "100%";
+  document.getElementById("coach-reopen").style.display = visible ? "none" : "inline-block";
+}
+document.getElementById("coach-collapse").addEventListener("click", () => setCoachVisible(false));
+document.getElementById("coach-reopen").addEventListener("click", () => setCoachVisible(true));
+
+// settings
+document.getElementById("settings-btn").addEventListener("click", openSettings);
+document.getElementById("close-settings").addEventListener("click", closeSettings);
+document.getElementById("save-settings").addEventListener("click", () => {
+  settings.side = document.getElementById("set-side").value;
+  settings.apiKey = document.getElementById("set-apikey").value.trim();
+  settings.model = document.getElementById("set-model").value;
+  settings.maxTokens = parseInt(document.getElementById("set-maxtokens").value) || 1000;
+  saveSettings();
+  closeSettings();
+});
+
+// side selection overlay (first launch / no side chosen)
+document.querySelectorAll(".side-pick").forEach(btn => {
+  btn.addEventListener("click", () => {
+    settings.side = btn.dataset.side;
+    saveSettings();
+    document.getElementById("side-overlay").style.display = "none";
+  });
+});
+document.getElementById("clear-flow-btn").addEventListener("click", () => {
+  if (!confirm("Wipe ALL flow sheets from this browser? This cannot be undone.")) return;
+  state.sheets = []; state.activeId = null; state.affCount = 0; state.negCount = 0;
+  selectedCell = null;
+  saveSheets();
+  renderTabs(); renderGrid();
+  closeSettings();
+});
+document.getElementById("modal-overlay").addEventListener("click", (e) => {
+  if (e.target.id === "modal-overlay") closeSettings();
+});
+
+// mode toggle
+document.getElementById("mode-toggle").addEventListener("click", () => {
+  cellMode = !cellMode;
+  const btn = document.getElementById("mode-toggle");
+  btn.textContent = cellMode ? "Cell Mode" : "Free Chat";
+  btn.classList.toggle("cell-mode", cellMode);
+  updateCellContextBanner();
+});
+
+// send
+function doSend() {
+  const input = document.getElementById("sb-input");
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = "";
+  document.getElementById("cell-context-banner").style.display = cellMode ? "block" : "none";
+  callClaude(text);
+}
+document.getElementById("send-btn").addEventListener("click", doSend);
+document.getElementById("sb-input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); doSend(); }
+});
+
+// ============================================================
+//  Init
+// ============================================================
+loadSettings();
+loadSheets();
+renderTabs();
+renderGrid();
+renderChat();
+renderFiles();
+// Prompt for side on first launch if none chosen yet
+if (!settings.side) {
+  document.getElementById("side-overlay").style.display = "flex";
+}
+</script>
+</body>
+</html>
