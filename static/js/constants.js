@@ -8,7 +8,7 @@ export const DEFAULT_SETTINGS = {
   side: "",
   model: "claude-sonnet-4-6",
   maxTokens: 1000,
-  insertMode: true,
+  insertMode: false,
   partner1Name: "Partner 1",
   partner2Name: "Partner 2",
 };

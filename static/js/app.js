@@ -370,7 +370,7 @@ function openSettings() {
   document.getElementById("set-side").value = round.settings.side || "aff";
   document.getElementById("set-model").value = round.settings.model;
   document.getElementById("set-maxtokens").value = round.settings.maxTokens;
-  document.getElementById("set-insert").checked = round.settings.insertMode !== false;
+  document.getElementById("set-insert").checked = round.settings.insertMode === true;
   document.getElementById("set-partner1").value = round.settings.partner1Name || "Partner 1";
   document.getElementById("set-partner2").value = round.settings.partner2Name || "Partner 2";
   document.getElementById("set-opponent").value = round.meta?.opponent || "";

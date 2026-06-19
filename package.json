@@ -2,7 +2,8 @@
   "name": "mx-flow",
   "private": true,
   "devDependencies": {
-    "@playwright/test": "^1.49.0"
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^25.9.3"
   },
   "scripts": {
     "test:e2e": "playwright test"

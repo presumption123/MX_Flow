@@ -17,8 +17,19 @@ test("add aff flow and type in cell", async ({ page }) => {
   await page.getByRole("button", { name: "Add Aff flow" }).click();
   const cell = page.locator('.cell[data-col="1AC"]').first();
   await cell.click();
-  await cell.fill("Trade increases growth");
+  await page.keyboard.type("Trade increases growth");
   await expect(cell).toContainText("Trade increases growth");
+});
+
+test("type in cell without losing focus", async ({ page }) => {
+  await page.goto("/");
+  await pickAffSide(page);
+  await page.getByRole("button", { name: "Add Aff flow" }).click();
+  const cell = page.locator('.cell[data-col="1AC"]').first();
+  await cell.dblclick();
+  await page.keyboard.type("Long argument text");
+  await expect(cell).toContainText("Long argument text");
+  await expect(cell).toHaveClass(/editing/);
 });
 
 test("partner tab switch", async ({ page }) => {
@@ -34,7 +45,7 @@ test("mark cell as dropped", async ({ page }) => {
   await page.getByRole("button", { name: "Add Aff flow" }).click();
   const cell = page.locator('.cell[data-col="1AC"]').first();
   await cell.click();
-  await cell.fill("Poverty link");
+  await page.keyboard.type("Poverty link");
   await cell.click({ button: "right" });
   await page.getByRole("menuitem", { name: "Mark dropped" }).click();
   await expect(cell).toHaveClass(/dropped/);
