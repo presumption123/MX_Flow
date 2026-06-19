@@ -16,17 +16,16 @@ import { getAppState } from "./router.js";
 let roundRef = { current: null };
 let selectedCell = null;
 let ctxTarget = null;
-let insertMode = false;
 let editing = false;
 let editingDiv = null;
 let editSnapshot = null;
+let pendingKeyboardEdit = false;
 let toolbarCallbacks = {};
 
 const listeners = { render: [], cellSelect: [] };
 
 export function setRound(round) {
   roundRef.current = round;
-  insertMode = round.settings?.insertMode === true;
 }
 
 export function getRound() {
@@ -153,6 +152,52 @@ function cancelEdit(div) {
   editSnapshot = null;
 }
 
+function isModKey(e) {
+  return e.metaKey || e.ctrlKey;
+}
+
+function insertRowBelow(sheet, rowIdx, col) {
+  sheet.rows.splice(rowIdx + 1, 0, makeRow(sheet.cols));
+  selectedCell = { sheetId: sheet.id, rowIdx: rowIdx + 1, col };
+  pendingKeyboardEdit = true;
+  touch();
+}
+
+function focusEquivalentCell(rowIdx, col) {
+  const sheet = getActiveSheet(roundRef.current);
+  if (!sheet) return;
+  const safeRow = Math.min(rowIdx, Math.max(0, sheet.rows.length - 1));
+  const safeCol = sheet.cols.includes(col) ? col : sheet.cols[0];
+  selectedCell = { sheetId: sheet.id, rowIdx: safeRow, col: safeCol };
+}
+
+function handleEnterShortcuts(e, sheet, rowIdx, col, div, { inEdit = false } = {}) {
+  if (e.key !== "Enter") return false;
+
+  if (isModKey(e) && e.shiftKey) {
+    e.preventDefault();
+    if (inEdit) endEdit(div);
+    switchPositionTab(1, { rowIdx, col });
+    return true;
+  }
+
+  if (isModKey(e) && !e.shiftKey) {
+    e.preventDefault();
+    if (inEdit) endEdit(div);
+    moveSelection(1, 0);
+    return true;
+  }
+
+  if (inEdit && (e.shiftKey || e.altKey)) {
+    return false;
+  }
+
+  e.preventDefault();
+  if (inEdit) endEdit(div);
+  insertRowBelow(sheet, rowIdx, col);
+  return true;
+}
+
 function moveSelection(dRow, dCol) {
   if (!selectedCell) return;
   const sheet = getActiveSheet(roundRef.current);
@@ -165,7 +210,7 @@ function moveSelection(dRow, dCol) {
   if (newRow < 0 || newRow >= sheet.rows.length) return;
   if (newColIdx < 0 || newColIdx >= sheet.cols.length) return;
 
-  focusCell(sheet.id, newRow, sheet.cols[newColIdx]);
+  focusCell(sheet.id, newRow, sheet.cols[newColIdx], { edit: true });
 }
 
 function restoreGridFocus(sheet) {
@@ -174,6 +219,12 @@ function restoreGridFocus(sheet) {
   if (el) {
     el.focus();
     selectCell(sheet.id, selectedCell.rowIdx, selectedCell.col, el);
+    if (pendingKeyboardEdit) {
+      pendingKeyboardEdit = false;
+      beginEdit(el, { clear: false });
+    }
+  } else {
+    pendingKeyboardEdit = false;
   }
 }
 
@@ -575,11 +626,7 @@ function handleCellKeydown(e, sheet, row, rowIdx, col, colIdx, div) {
     moveSelection(0, e.shiftKey ? -1 : 1);
     return;
   }
-  if (e.key === "Enter") {
-    e.preventDefault();
-    moveSelection(1, 0);
-    return;
-  }
+  if (handleEnterShortcuts(e, sheet, rowIdx, col, div)) return;
   if (e.key === "F2") {
     e.preventDefault();
     beginEdit(div, { clear: false });
@@ -621,11 +668,7 @@ function handleEditingKeydown(e, sheet, rowIdx, col, colIdx, div) {
     return;
   }
   if (e.key === "Enter") {
-    if (insertMode && !e.shiftKey && !e.altKey) return;
-    if (e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    endEdit(div);
-    moveSelection(1, 0);
+    handleEnterShortcuts(e, sheet, rowIdx, col, div, { inEdit: true });
   }
 }
 
@@ -638,11 +681,12 @@ export function selectCell(sheetId, rowIdx, col, div) {
   emitCellSelect();
 }
 
-export function focusCell(sheetId, rowIdx, col) {
+export function focusCell(sheetId, rowIdx, col, { edit = false } = {}) {
   const el = getCellElement(sheetId, rowIdx, col);
   if (el) {
     el.focus();
     selectCell(sheetId, rowIdx, col, el);
+    if (edit) beginEdit(el, { clear: false });
   }
 }
 
@@ -685,17 +729,16 @@ export function getCtxTarget() {
   return ctxTarget;
 }
 
-export function setInsertMode(on) {
-  insertMode = on;
-  if (roundRef.current?.settings) roundRef.current.settings.insertMode = on;
-}
-
-export function switchPositionTab(dir) {
+export function switchPositionTab(dir, focusHint) {
   const partner = getActivePartner(roundRef.current);
   if (!partner?.sheets.length) return;
   const idx = partner.sheets.findIndex((s) => s.id === partner.activeSheetId);
   const next = (idx + dir + partner.sheets.length) % partner.sheets.length;
   partner.activeSheetId = partner.sheets[next].id;
+  if (focusHint) {
+    focusEquivalentCell(focusHint.rowIdx, focusHint.col);
+    pendingKeyboardEdit = true;
+  }
   touch();
 }
 

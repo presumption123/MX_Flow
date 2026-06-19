@@ -38,7 +38,6 @@ import {
   getRound,
   getSelectedCell,
   focusCell,
-  setInsertMode,
   switchPartnerTab,
   setToolbarCallbacks,
 } from "./grid.js";
@@ -470,7 +469,6 @@ function openSettings() {
     document.getElementById("set-side").value = round.settings.side || "aff";
     document.getElementById("set-model").value = round.settings.model;
     document.getElementById("set-maxtokens").value = round.settings.maxTokens;
-    document.getElementById("set-insert").checked = round.settings.insertMode === true;
     document.getElementById("set-partner1").value = round.settings.partner1Name || "Partner 1";
     document.getElementById("set-partner2").value = round.settings.partner2Name || "Partner 2";
     document.getElementById("set-opponent").value = round.meta?.opponent || "";
@@ -497,7 +495,6 @@ function saveSettingsFromModal() {
     round.settings.side = document.getElementById("set-side").value;
     round.settings.model = document.getElementById("set-model").value;
     round.settings.maxTokens = parseInt(document.getElementById("set-maxtokens").value, 10) || 1000;
-    round.settings.insertMode = document.getElementById("set-insert").checked;
     round.settings.partner1Name = document.getElementById("set-partner1").value.trim() || "Partner 1";
     round.settings.partner2Name = document.getElementById("set-partner2").value.trim() || "Partner 2";
     round.meta = round.meta || {};
@@ -510,7 +507,6 @@ function saveSettingsFromModal() {
     round.meta.negSchool = document.getElementById("set-neg-school").value.trim();
     round.meta.negCode = document.getElementById("set-neg-code").value.trim();
     updatePartnerNames(round);
-    setInsertMode(round.settings.insertMode);
     scheduleSave(round);
   }
   appState.settings.gridFontFamily = document.getElementById("set-grid-font").value;

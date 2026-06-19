@@ -1,9 +1,15 @@
 import { test, expect } from "@playwright/test";
 
+const modKey = process.platform === "darwin" ? "Meta" : "Control";
+
 async function openFirstRound(page: any) {
   const newBtn = page.getByRole("button", { name: "+ New Round" }).first();
   await newBtn.click();
   await expect(page.locator("#flow-view")).toBeVisible();
+}
+
+function rowCount(page: any) {
+  return page.locator(".flow-body .flow-row").count();
 }
 
 test("dashboard empty state on landing", async ({ page }) => {
@@ -98,4 +104,63 @@ test("back to dashboard from flow", async ({ page }) => {
   await openFirstRound(page);
   await page.getByRole("button", { name: "← Dashboard" }).click();
   await expect(page.locator("#dashboard-view")).toBeVisible();
+});
+
+test("Enter inserts row below and focuses new cell", async ({ page }) => {
+  await page.goto("/");
+  await openFirstRound(page);
+  const cell = page.locator('.flow-cell[data-row="0"][data-col="1AC"]');
+  await cell.click();
+  await page.keyboard.type("First argument");
+  await expect(rowCount(page)).resolves.toBe(3);
+
+  await page.keyboard.press("Enter");
+
+  await expect(rowCount(page)).resolves.toBe(4);
+  await expect(page.locator('.flow-cell[data-row="0"][data-col="1AC"]')).toContainText("First argument");
+  await expect(page.locator('.flow-cell[data-row="1"][data-col="1AC"]')).toHaveText("");
+  await expect(page.locator('.flow-cell[data-row="1"][data-col="1AC"]')).toHaveClass(/selected/);
+  await page.keyboard.type("Second argument");
+  await expect(page.locator('.flow-cell[data-row="1"][data-col="1AC"]')).toContainText("Second argument");
+});
+
+test("mod+Enter moves down without inserting row", async ({ page }) => {
+  await page.goto("/");
+  await openFirstRound(page);
+  const cell = page.locator('.flow-cell[data-row="0"][data-col="1AC"]');
+  await cell.click();
+  await page.keyboard.type("Top row");
+  await expect(rowCount(page)).resolves.toBe(3);
+
+  await page.keyboard.press(`${modKey}+Enter`);
+
+  await expect(rowCount(page)).resolves.toBe(3);
+  await expect(page.locator('.flow-cell[data-row="1"][data-col="1AC"]')).toHaveClass(/selected/);
+  await page.keyboard.type("Bottom row");
+  await expect(page.locator('.flow-cell[data-row="1"][data-col="1AC"]')).toContainText("Bottom row");
+});
+
+test("mod+Shift+Enter switches to next position tab", async ({ page }) => {
+  await page.goto("/");
+  await openFirstRound(page);
+  const cell = page.locator('.flow-cell[data-row="0"][data-col="1AC"]');
+  await cell.click();
+  await expect(page.locator(".tab.active .tab-name")).toHaveText("Case");
+
+  await page.keyboard.press(`${modKey}+Shift+Enter`);
+
+  await expect(page.locator(".tab.active .tab-name")).toHaveText("Off 1");
+  await expect(page.locator('.flow-cell[data-row="0"][data-col="1NC"].selected')).toBeVisible();
+});
+
+test("Shift+Enter inserts newline while editing", async ({ page }) => {
+  await page.goto("/");
+  await openFirstRound(page);
+  const cell = page.locator('.flow-cell[data-row="0"][data-col="1AC"]');
+  await cell.dblclick();
+  await page.keyboard.type("line one");
+  await page.keyboard.press("Shift+Enter");
+  await page.keyboard.type("line two");
+  await expect(cell).toContainText("line one");
+  await expect(cell).toContainText("line two");
 });
