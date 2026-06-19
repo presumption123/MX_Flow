@@ -1,21 +1,34 @@
 import {
+  loadAppState,
+  saveAppState,
   loadActiveRound,
-  saveActiveRound,
-  scheduleSave,
-  flushSave,
-  setupBeforeUnload,
-  listArchivedRounds,
   loadRoundById,
-  forkRound,
+  saveRound,
+  scheduleSave,
+  setupBeforeUnload,
   exportMxflow,
-  importMxflow,
-  saveRoundToArchive,
 } from "./archive.js";
+import {
+  initRouter,
+  getAppState,
+  setAppState,
+  showDashboard,
+  showFlow,
+  applyViewDom,
+  onViewChange,
+} from "./router.js";
+import {
+  renderDashboard,
+  wireDashboard,
+  wireDashboardControls,
+  createAndOpenRound,
+  handleBackupImport,
+} from "./dashboard.js";
 import {
   setRound,
   renderPartnerTabs,
-  renderBreadcrumb,
   renderPositionTabs,
+  renderFlowToolbar,
   renderGrid,
   onRender,
   addRow,
@@ -24,11 +37,10 @@ import {
   getCtxTarget,
   getRound,
   getSelectedCell,
-  selectCell,
   focusCell,
   setInsertMode,
   switchPartnerTab,
-  switchPositionTab,
+  setToolbarCallbacks,
 } from "./grid.js";
 import {
   checkCoachAvailable,
@@ -48,25 +60,47 @@ import {
   updatePartnerNames,
   newSheet,
 } from "./debate-model.js";
+import { applyTheme, THEMES } from "./themes.js";
 
 let round = null;
+let appState = null;
 
 async function init() {
   setupBeforeUnload();
-  round = await loadActiveRound();
-  setRound(round);
-  setFilesRound(round);
+  appState = await loadAppState();
+  initRouter(appState);
 
+  round = await loadActiveRound();
+  if (round) {
+    setRound(round);
+    setFilesRound(round);
+  }
+
+  applyTheme(appState.settings.theme, appState.settings.gridFontFamily);
   await checkCoachAvailable();
   wireUI();
   wireFileUpload();
+  wireDashboard(getDashboardCallbacks());
+  wireDashboardControls(appState);
+
   applyResponsiveCoach();
   window.addEventListener("resize", applyResponsiveCoach);
 
-  renderAll();
+  onViewChange(async (state) => {
+    if (state.view === "dashboard") await renderDashboard();
+    else renderFlow();
+  });
 
-  if (!round.settings.side) {
-    document.getElementById("side-overlay").style.display = "flex";
+  applyViewDom();
+  if (appState.view === "flow" && appState.activeRoundId && round) {
+    renderFlow();
+  } else {
+    appState.view = "dashboard";
+    await renderDashboard();
+  }
+
+  if (round && !round.settings.side) {
+    setTimeout(() => openSettings(), 300);
   }
 
   document.getElementById("status-banner")?.classList.add("hidden");
@@ -88,12 +122,62 @@ async function init() {
   });
 }
 
+function getDashboardCallbacks() {
+  return {
+    onOpenRound: async (id) => {
+      round = await loadRoundById(id);
+      if (!round) return;
+      appState.activeRoundId = id;
+      appState.view = "flow";
+      await persistAppState();
+      setRound(round);
+      setFilesRound(round);
+      showFlow(id);
+      renderFlow();
+    },
+    onNewRound: async () => {
+      round = await createAndOpenRound(appState);
+      setRound(round);
+      setFilesRound(round);
+      renderFlow();
+    },
+    onSaveAppState: persistAppState,
+  };
+}
+
+async function persistAppState() {
+  setAppState(appState);
+  await saveAppState(appState);
+}
+
 function wireUI() {
+  setToolbarCallbacks({
+    onBack: async () => {
+      await saveRound(round, true);
+      appState.view = "dashboard";
+      await persistAppState();
+      showDashboard();
+      await renderDashboard();
+    },
+    onZoom: (delta) => {
+      appState.settings.zoom = Math.min(2, Math.max(0.5, (appState.settings.zoom || 1) + delta));
+      persistAppState();
+      renderFlow();
+    },
+    onUpload: () => toggleFilesPanel(),
+    onExport: () => exportMxflow(round),
+    onCoach: () => toggleCoachPanel(),
+    onSettings: () => openSettings(),
+  });
+
   onRender(() => {
-    setRound(round);
-    setFilesRound(round);
-    renderAll();
-    scheduleSave(round);
+    if (round) {
+      setRound(round);
+      setFilesRound(round);
+    }
+    if (getAppState()?.view === "flow") renderFlow();
+    else renderDashboard();
+    if (round) scheduleSave(round);
   });
 
   onChatRender((messages) => renderChat(messages));
@@ -120,9 +204,9 @@ function wireUI() {
     if (!document.getElementById("ctx-menu")?.contains(e.target)) closeCtxMenu();
   });
 
-  // Keyboard shortcuts
   document.addEventListener("keydown", (e) => {
     if (e.target.matches("textarea, input") && e.key !== "Escape") return;
+    if (getAppState()?.view !== "flow") return;
     if (e.ctrlKey && e.key === "[") {
       e.preventDefault();
       switchPartnerTab(-1);
@@ -137,16 +221,17 @@ function wireUI() {
       if (partner?.sheets[idx]) {
         partner.activeSheetId = partner.sheets[idx].id;
         scheduleSave(round);
-        renderAll();
+        renderFlow();
       }
     }
     if (e.key === "/" && !e.target.matches("textarea, input")) {
       e.preventDefault();
+      toggleCoachPanel(true);
       document.getElementById("sb-input")?.focus();
     }
     if (e.key === "Escape") {
-      closeArchivePanel();
       closeSettings();
+      closeFilesPanel();
     }
   });
 
@@ -169,105 +254,122 @@ function wireUI() {
   });
 
   document.getElementById("coach-collapse")?.addEventListener("click", () => {
-    setCoachLayout("collapsed");
-    document.getElementById("coach-reopen").style.display = "inline-block";
-  });
-  document.getElementById("coach-reopen")?.addEventListener("click", () => {
-    setCoachLayout("full");
-    document.getElementById("coach-reopen").style.display = "none";
+    toggleCoachPanel(false);
   });
 
-  document.getElementById("settings-btn")?.addEventListener("click", openSettings);
   document.getElementById("close-settings")?.addEventListener("click", closeSettings);
   document.getElementById("save-settings")?.addEventListener("click", saveSettingsFromModal);
   document.getElementById("modal-overlay")?.addEventListener("click", (e) => {
     if (e.target.id === "modal-overlay") closeSettings();
   });
 
-  document.querySelectorAll(".side-pick").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      round.settings.side = btn.dataset.side;
-      scheduleSave(round);
-      document.getElementById("side-overlay").style.display = "none";
-      updateTopbarTitle();
-    });
-  });
-
   document.getElementById("clear-flow-btn")?.addEventListener("click", async () => {
-    if (!confirm("Clear all flows for this round?")) return;
+    if (!round || !confirm("Clear all flows for this round?")) return;
     round.partners.forEach((p) => {
       p.sheets = [];
       p.activeSheetId = null;
       p.affCount = 0;
       p.negCount = 0;
     });
-    await saveActiveRound(round, true);
-    renderAll();
+    await saveRound(round, true);
+    renderFlow();
     closeSettings();
   });
 
-  document.getElementById("archive-btn")?.addEventListener("click", () => toggleArchivePanel());
-  document.getElementById("archive-close")?.addEventListener("click", closeArchivePanel);
-  document.getElementById("archive-save")?.addEventListener("click", async () => {
-    await saveRoundToArchive(round);
-    await refreshArchiveList();
-    document.getElementById("archive-status").textContent = "Round saved to archive.";
-  });
-  document.getElementById("archive-export")?.addEventListener("click", () => exportMxflow(round));
-  document.getElementById("archive-import")?.addEventListener("click", () => {
-    document.getElementById("mxflow-input")?.click();
-  });
-  document.getElementById("mxflow-input")?.addEventListener("change", async (e) => {
+  document.getElementById("backup-input")?.addEventListener("change", async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      round = await importMxflow(file);
-      setRound(round);
-      setFilesRound(round);
-      await saveActiveRound(round, true);
-      renderAll();
-      closeArchivePanel();
+      const imported = await handleBackupImport(file, appState);
+      if (imported) {
+        round = imported;
+        setRound(round);
+        setFilesRound(round);
+        renderFlow();
+      }
     } catch (err) {
-      document.getElementById("archive-status").textContent = err.message;
+      alert(err.message);
     }
     e.target.value = "";
   });
-  document.getElementById("archive-search")?.addEventListener("input", refreshArchiveList);
 
-  document.getElementById("share-btn")?.addEventListener("click", () => {
-    alert("Partner sync is coming in a follow-up release. Use Export to share .mxflow files.");
+  renderThemeSwatches();
+}
+
+function renderThemeSwatches() {
+  const container = document.getElementById("theme-swatches");
+  if (!container) return;
+  container.innerHTML = "";
+  Object.entries(THEMES).forEach(([key, theme]) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "theme-swatch" + (appState.settings.theme === key ? " active" : "");
+    btn.textContent = theme.label;
+    btn.dataset.theme = key;
+    btn.addEventListener("click", () => {
+      appState.settings.theme = key;
+      applyTheme(key, appState.settings.gridFontFamily);
+      renderThemeSwatches();
+    });
+    container.appendChild(btn);
   });
 }
 
-function renderAll() {
-  updateTopbarTitle();
+function renderFlow() {
+  if (!round) return;
+  renderFlowToolbar(document.getElementById("flow-toolbar"));
   renderPartnerTabs(document.getElementById("partner-tabs"));
-  renderBreadcrumb(document.getElementById("breadcrumb"));
   renderPositionTabs(
     document.getElementById("tabs"),
     () => {
       newSheet(round, "aff");
       scheduleSave(round);
-      renderAll();
+      renderFlow();
     },
     () => {
       newSheet(round, "neg");
       scheduleSave(round);
-      renderAll();
+      renderFlow();
     }
   );
   renderGrid(document.getElementById("grid-wrap"), document.getElementById("grid-footer"));
   renderFiles();
   updateCellBanner();
+  updateCoachPanelVisibility();
 }
 
-function updateTopbarTitle() {
-  const el = document.getElementById("round-title");
-  if (!el) return;
-  const opp = round.meta?.opponent ? ` vs ${round.meta.opponent}` : "";
-  const tourn = round.meta?.tournament ? ` · ${round.meta.tournament}` : "";
-  el.textContent = `MX Flow${opp}${tourn}`;
-  document.title = `MX Flow${opp}`;
+function toggleCoachPanel(forceOpen) {
+  const panel = document.getElementById("coach-panel");
+  const split = document.getElementById("flow-main-split");
+  if (!panel || !split) return;
+  const open = forceOpen === true ? true : forceOpen === false ? false : panel.hidden;
+  panel.hidden = !open;
+  appState.settings.coachOpen = open;
+  persistAppState();
+  if (open) {
+    split.classList.remove("coach-collapsed");
+    setCoachLayout(window.innerWidth < 1024 ? "bottom" : "full");
+  } else {
+    split.classList.add("coach-collapsed");
+    setCoachLayout("collapsed");
+  }
+}
+
+function updateCoachPanelVisibility() {
+  const panel = document.getElementById("coach-panel");
+  const split = document.getElementById("flow-main-split");
+  if (!panel || !split) return;
+  const open = appState.settings.coachOpen === true;
+  panel.hidden = !open;
+  split.classList.toggle("coach-collapsed", !open);
+}
+
+function toggleFilesPanel() {
+  document.getElementById("files-panel")?.classList.toggle("open");
+}
+
+function closeFilesPanel() {
+  document.getElementById("files-panel")?.classList.remove("open");
 }
 
 function renderChat(messages) {
@@ -301,9 +403,6 @@ function renderChat(messages) {
       const copyBtn = document.createElement("button");
       copyBtn.textContent = "Copy";
       copyBtn.addEventListener("click", () => navigator.clipboard.writeText(m.text));
-      const retryBtn = document.createElement("button");
-      retryBtn.textContent = "Retry";
-      retryBtn.style.display = "none";
       actions.appendChild(insertBtn);
       actions.appendChild(copyBtn);
       div.appendChild(actions);
@@ -333,7 +432,7 @@ function insertIntoCell(text) {
   if (!cell) return;
   cell.text = (cell.text ? cell.text + "\n" : "") + text;
   scheduleSave(round);
-  renderAll();
+  renderFlow();
   focusCell(sel.sheetId, sel.rowIdx, sel.col);
 }
 
@@ -348,7 +447,7 @@ function doSend() {
 function updateCellBanner() {
   const banner = document.getElementById("cell-context-banner");
   const input = document.getElementById("sb-input");
-  if (!banner) return;
+  if (!banner || !round) return;
   if (isCellMode() && getSelectedCell()) {
     const sel = getSelectedCell();
     const sheet = round.partners.flatMap((p) => p.sheets).find((s) => s.id === sel.sheetId);
@@ -367,14 +466,25 @@ function updateCellBanner() {
 }
 
 function openSettings() {
-  document.getElementById("set-side").value = round.settings.side || "aff";
-  document.getElementById("set-model").value = round.settings.model;
-  document.getElementById("set-maxtokens").value = round.settings.maxTokens;
-  document.getElementById("set-insert").checked = round.settings.insertMode === true;
-  document.getElementById("set-partner1").value = round.settings.partner1Name || "Partner 1";
-  document.getElementById("set-partner2").value = round.settings.partner2Name || "Partner 2";
-  document.getElementById("set-opponent").value = round.meta?.opponent || "";
-  document.getElementById("set-tournament").value = round.meta?.tournament || "";
+  if (round) {
+    document.getElementById("set-side").value = round.settings.side || "aff";
+    document.getElementById("set-model").value = round.settings.model;
+    document.getElementById("set-maxtokens").value = round.settings.maxTokens;
+    document.getElementById("set-insert").checked = round.settings.insertMode === true;
+    document.getElementById("set-partner1").value = round.settings.partner1Name || "Partner 1";
+    document.getElementById("set-partner2").value = round.settings.partner2Name || "Partner 2";
+    document.getElementById("set-opponent").value = round.meta?.opponent || "";
+    document.getElementById("set-tournament").value = round.meta?.tournament || "";
+    document.getElementById("set-round-num").value = round.meta?.roundNum || "";
+    document.getElementById("set-judges").value = round.meta?.judges || "";
+    document.getElementById("set-aff-school").value = round.meta?.affSchool || "";
+    document.getElementById("set-aff-code").value = round.meta?.affCode || "";
+    document.getElementById("set-neg-school").value = round.meta?.negSchool || "";
+    document.getElementById("set-neg-code").value = round.meta?.negCode || "";
+  }
+  document.getElementById("set-grid-font").value = appState.settings.gridFontFamily || "Arial, sans-serif";
+  document.getElementById("set-cell-style").value = appState.settings.activeCellStyle || "outlineBlack";
+  renderThemeSwatches();
   document.getElementById("modal-overlay").style.display = "flex";
 }
 
@@ -383,83 +493,32 @@ function closeSettings() {
 }
 
 function saveSettingsFromModal() {
-  round.settings.side = document.getElementById("set-side").value;
-  round.settings.model = document.getElementById("set-model").value;
-  round.settings.maxTokens = parseInt(document.getElementById("set-maxtokens").value, 10) || 1000;
-  round.settings.insertMode = document.getElementById("set-insert").checked;
-  round.settings.partner1Name = document.getElementById("set-partner1").value.trim() || "Partner 1";
-  round.settings.partner2Name = document.getElementById("set-partner2").value.trim() || "Partner 2";
-  round.meta = round.meta || {};
-  round.meta.opponent = document.getElementById("set-opponent").value.trim();
-  round.meta.tournament = document.getElementById("set-tournament").value.trim();
-  updatePartnerNames(round);
-  setInsertMode(round.settings.insertMode);
-  scheduleSave(round);
-  closeSettings();
-  renderAll();
-}
-
-async function toggleArchivePanel() {
-  const panel = document.getElementById("archive-panel");
-  if (!panel) return;
-  const open = panel.classList.toggle("open");
-  if (open) await refreshArchiveList();
-}
-
-function closeArchivePanel() {
-  document.getElementById("archive-panel")?.classList.remove("open");
-}
-
-async function refreshArchiveList() {
-  const list = document.getElementById("archive-list");
-  const q = (document.getElementById("archive-search")?.value || "").toLowerCase();
-  const rounds = await listArchivedRounds();
-  list.innerHTML = "";
-  const filtered = rounds.filter((r) => {
-    const label = `${r.meta?.opponent || ""} ${r.meta?.tournament || ""} ${r.meta?.date || ""}`.toLowerCase();
-    return !q || label.includes(q);
-  });
-  if (!filtered.length) {
-    list.innerHTML = '<div class="archive-empty">No saved rounds yet. Finish a round and click Save to archive.</div>';
-    return;
+  if (round) {
+    round.settings.side = document.getElementById("set-side").value;
+    round.settings.model = document.getElementById("set-model").value;
+    round.settings.maxTokens = parseInt(document.getElementById("set-maxtokens").value, 10) || 1000;
+    round.settings.insertMode = document.getElementById("set-insert").checked;
+    round.settings.partner1Name = document.getElementById("set-partner1").value.trim() || "Partner 1";
+    round.settings.partner2Name = document.getElementById("set-partner2").value.trim() || "Partner 2";
+    round.meta = round.meta || {};
+    round.meta.opponent = document.getElementById("set-opponent").value.trim();
+    round.meta.tournament = document.getElementById("set-tournament").value.trim();
+    round.meta.roundNum = document.getElementById("set-round-num").value.trim();
+    round.meta.judges = document.getElementById("set-judges").value.trim();
+    round.meta.affSchool = document.getElementById("set-aff-school").value.trim();
+    round.meta.affCode = document.getElementById("set-aff-code").value.trim();
+    round.meta.negSchool = document.getElementById("set-neg-school").value.trim();
+    round.meta.negCode = document.getElementById("set-neg-code").value.trim();
+    updatePartnerNames(round);
+    setInsertMode(round.settings.insertMode);
+    scheduleSave(round);
   }
-  filtered.sort((a, b) => (b.meta?.date || "").localeCompare(a.meta?.date || ""));
-  filtered.forEach((r) => {
-    const item = document.createElement("div");
-    item.className = "archive-item";
-    const label = `vs ${r.meta?.opponent || "Unknown"} · ${r.meta?.tournament || "Round"} · ${r.meta?.date || ""}`;
-    item.innerHTML = `<span class="archive-label">${label}</span>`;
-    const actions = document.createElement("div");
-    actions.className = "archive-actions";
-    const openBtn = document.createElement("button");
-    openBtn.textContent = "Open";
-    openBtn.addEventListener("click", async () => {
-      round = await loadRoundById(r.id);
-      setRound(round);
-      setFilesRound(round);
-      await saveActiveRound(round, true);
-      renderAll();
-      closeArchivePanel();
-    });
-    const forkBtn = document.createElement("button");
-    forkBtn.textContent = "Fork";
-    forkBtn.addEventListener("click", async () => {
-      round = await forkRound(r);
-      setRound(round);
-      setFilesRound(round);
-      await saveActiveRound(round, true);
-      renderAll();
-      closeArchivePanel();
-    });
-    const expBtn = document.createElement("button");
-    expBtn.textContent = "Export";
-    expBtn.addEventListener("click", () => exportMxflow(r));
-    actions.appendChild(openBtn);
-    actions.appendChild(forkBtn);
-    actions.appendChild(expBtn);
-    item.appendChild(actions);
-    list.appendChild(item);
-  });
+  appState.settings.gridFontFamily = document.getElementById("set-grid-font").value;
+  appState.settings.activeCellStyle = document.getElementById("set-cell-style").value;
+  applyTheme(appState.settings.theme, appState.settings.gridFontFamily);
+  persistAppState();
+  closeSettings();
+  if (getAppState()?.view === "flow") renderFlow();
 }
 
 init();

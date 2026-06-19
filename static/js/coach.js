@@ -125,19 +125,19 @@ export function renderMarkdown(text) {
 }
 
 export function setCoachLayout(mode) {
-  const split = document.getElementById("main-split");
-  const sidebar = document.getElementById("sidebar");
-  const flow = document.getElementById("flow-area");
-  if (!split || !sidebar || !flow) return;
+  const split = document.getElementById("flow-main-split");
+  const panel = document.getElementById("coach-panel");
+  if (!split) return;
 
   split.classList.remove("coach-collapsed", "coach-bottom");
   if (mode === "collapsed") {
     split.classList.add("coach-collapsed");
-    sidebar.setAttribute("aria-hidden", "true");
+    if (panel) panel.hidden = true;
   } else if (mode === "bottom") {
     split.classList.add("coach-bottom");
-  } else {
-    sidebar.removeAttribute("aria-hidden");
+    if (panel) panel.hidden = false;
+  } else if (panel) {
+    panel.hidden = false;
   }
 }
 
@@ -156,7 +156,6 @@ export function applyResponsiveCoach() {
 
   if (layout === "hidden") {
     setCoachLayout("collapsed");
-    document.getElementById("coach-reopen")?.style.setProperty("display", "inline-block");
   } else if (layout === "bottom") {
     setCoachLayout("bottom");
   } else if (layout === "collapsed") {

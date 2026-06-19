@@ -1,51 +1,35 @@
-# MX Flow Design System (v1)
+# MX Flow Design Tokens
 
-Dense workspace UI for tournament policy debate flowing. Not a marketing site.
-
-## Color tokens
-
-| Token | Value | Use |
-|-------|-------|-----|
-| `--bg` | `#0d1117` | App background |
-| `--bg-alt` | `#161b22` | Topbar, tabs, sidebar |
-| `--bg-elev` | `#1c2129` | Buttons, elevated surfaces |
-| `--border` | `#30363d` | Grid lines, dividers |
-| `--accent` | `#58a6ff` | Active tab, focus ring |
-| `--dropped` | `#5a1e1e` | Dropped cells |
-| `--conceded` | `#1e4d2b` | Conceded cells |
-| `--text` | `#c9d1d9` | Body (13–14px chrome, 12px cells) |
-| `--text-dim` | `#8b949e` | Secondary labels |
-
-## Typography
-
-| Role | Font | Size |
-|------|------|------|
-| Chrome | IBM Plex Sans | 13–14px, weight 500–600 |
-| Flow cells | IBM Plex Mono | 12px |
-| Coach | IBM Plex Mono | 12px |
-
-Self-hosted woff2 in `static/fonts/`. No CDN.
+Reference: New Sheet / Jay Flow v3 dark theme.
 
 ## Layout
 
-| Element | Spec |
-|---------|------|
-| Topbar | 44px |
-| Partner tabs | 40px segmented control |
-| Position tabs | 36px, horizontal scroll |
-| Coach sidebar | 320px desktop; collapsed rail <1280px; bottom sheet <1024px |
-| Cell min-height | 48px |
-| Archive panel | 360px left slide-over |
+| Token | Value |
+|-------|-------|
+| `--sidebar-width` | 260px |
+| `--toolbar-height` | 38px |
+| `--partner-tab-h` | 36px |
+| `--coach-w` | 320px |
+| `--radius` | 6px |
 
-## Anti-slop
+## Typography
 
-- No emoji in chrome (text labels only)
-- No hero, cards-as-marketing, or purple gradients
-- Utility copy: "Upload cards", "Archive", "Settings"
+- UI: Inter (Google Fonts)
+- Grid: user-selectable (`Arial`, `Courier New`, `Times New Roman`)
 
-## Navigation (3 levels)
+## Themes
 
-1. Round context — topbar title
-2. Partner — segmented tabs + breadcrumb
-3. Position — scrollable Aff/Neg tabs
-4. Grid — speech columns × argument rows
+Applied via `data-theme` on `<html>`. Each theme sets aff/neg accent colors.
+
+| Theme | App BG | Aff | Neg |
+|-------|--------|-----|-----|
+| dark (default) | #0a0a0a | #0a8fea | #ff4d00 |
+| light | #ffffff | #2f80ed | #ef4444 |
+| courtroom | #120f0b | #d8d2c5 | #9a5a2d |
+| classic | #0d1117 | #58a6ff | #f85149 |
+| paper | #f5f0e8 | #31572c | #8f1d2c |
+
+## Active cell styles
+
+- `outlineBlack` — inset outline on selection
+- `filledBlue` — filled selection background

@@ -1,10 +1,18 @@
-import { migrateRoundDocument, createEmptyRound } from "./debate-model.js";
-import { SCHEMA_VERSION } from "./constants.js";
+import {
+  migrateRoundDocument,
+  createEmptyRound,
+} from "./debate-model.js";
+import {
+  SCHEMA_VERSION,
+  APP_SCHEMA_VERSION,
+  DEFAULT_APP_SETTINGS,
+} from "./constants.js";
 
 const DB_NAME = "mxflow";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE_ROUNDS = "rounds";
 const STORE_ACTIVE = "activeRound";
+const STORE_APP = "appState";
 const STORE_OUTBOX = "syncOutbox";
 
 let dbPromise = null;
@@ -20,15 +28,24 @@ function openDb() {
   if (dbPromise) return dbPromise;
   dbPromise = new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = () => {
+    req.onupgradeneeded = (ev) => {
       const db = req.result;
       if (!db.objectStoreNames.contains(STORE_ROUNDS)) {
         const store = db.createObjectStore(STORE_ROUNDS, { keyPath: "id" });
         store.createIndex("date", "meta.date", { unique: false });
         store.createIndex("opponent", "meta.opponent", { unique: false });
+        store.createIndex("folderId", "folderId", { unique: false });
+        store.createIndex("lastEdited", "lastEdited", { unique: false });
+      } else if (ev.oldVersion < 2) {
+        const store = ev.target.transaction.objectStore(STORE_ROUNDS);
+        if (!store.indexNames.contains("folderId")) store.createIndex("folderId", "folderId", { unique: false });
+        if (!store.indexNames.contains("lastEdited")) store.createIndex("lastEdited", "lastEdited", { unique: false });
       }
       if (!db.objectStoreNames.contains(STORE_ACTIVE)) {
         db.createObjectStore(STORE_ACTIVE, { keyPath: "key" });
+      }
+      if (!db.objectStoreNames.contains(STORE_APP)) {
+        db.createObjectStore(STORE_APP, { keyPath: "key" });
       }
       if (!db.objectStoreNames.contains(STORE_OUTBOX)) {
         db.createObjectStore(STORE_OUTBOX, { keyPath: "id", autoIncrement: true });
@@ -51,8 +68,46 @@ async function tx(storeName, mode, fn) {
   });
 }
 
+export function createDefaultAppState() {
+  return {
+    schemaVersion: APP_SCHEMA_VERSION,
+    folders: [],
+    activeFolderId: "all",
+    activeRoundId: null,
+    view: "dashboard",
+    settings: { ...DEFAULT_APP_SETTINGS },
+  };
+}
+
+export async function loadAppState() {
+  try {
+    const stored = await tx(STORE_APP, "readonly", (store) => {
+      return new Promise((res) => {
+        const r = store.get("current");
+        r.onsuccess = () => res(r.result?.state || null);
+        r.onerror = () => res(null);
+      });
+    });
+    if (stored) return { ...createDefaultAppState(), ...stored, settings: { ...DEFAULT_APP_SETTINGS, ...stored.settings } };
+  } catch (e) {
+    console.warn("App state load failed", e);
+  }
+  return createDefaultAppState();
+}
+
+export async function saveAppState(state) {
+  await tx(STORE_APP, "readwrite", (store) => store.put({ key: "current", state }));
+  return state;
+}
+
 /** Load active round from IDB or migrate v0 localStorage. */
 export async function loadActiveRound() {
+  const appState = await loadAppState();
+  if (appState.activeRoundId) {
+    const round = await loadRoundById(appState.activeRoundId);
+    if (round) return round;
+  }
+
   try {
     const active = await tx(STORE_ACTIVE, "readonly", (store) => {
       return new Promise((res) => {
@@ -62,20 +117,19 @@ export async function loadActiveRound() {
       });
     });
     if (active?.roundId) {
-      const round = await tx(STORE_ROUNDS, "readonly", (store) => {
-        return new Promise((res) => {
-          const r = store.get(active.roundId);
-          r.onsuccess = () => res(r.result);
-          r.onerror = () => res(null);
-        });
-      });
-      if (round) return migrateRoundDocument(round);
+      const round = await loadRoundById(active.roundId);
+      if (round) {
+        appState.activeRoundId = round.id;
+        appState.view = appState.view || "dashboard";
+        await saveAppState(appState);
+        await putRound(round);
+        return round;
+      }
     }
   } catch (e) {
     console.warn("IDB load failed", e);
   }
 
-  // Migrate v0 localStorage
   try {
     const raw = localStorage.getItem("debateFlow.sheets");
     const settings = JSON.parse(localStorage.getItem("debateFlow.settings") || "null");
@@ -87,18 +141,21 @@ export async function loadActiveRound() {
         activeId,
         settings: settings || {},
       });
-      await saveActiveRound(migrated, true);
+      await putRound(migrated);
+      appState.activeRoundId = migrated.id;
+      await saveAppState(appState);
       return migrated;
     }
   } catch (e) {
     console.warn("localStorage migration failed", e);
   }
 
-  return createEmptyRound();
+  return null;
 }
 
 async function putRound(round) {
   const doc = migrateRoundDocument(round);
+  doc.lastEdited = Date.now();
   await tx(STORE_ROUNDS, "readwrite", (store) => store.put(doc));
   await tx(STORE_ACTIVE, "readwrite", (store) =>
     store.put({ key: "current", roundId: doc.id })
@@ -106,7 +163,7 @@ async function putRound(round) {
   return doc;
 }
 
-export async function saveActiveRound(round, immediate = false) {
+export async function saveRound(round, immediate = false) {
   pendingRound = round;
   if (immediate) {
     if (saveTimer) clearTimeout(saveTimer);
@@ -121,8 +178,11 @@ export async function saveActiveRound(round, immediate = false) {
       throw e;
     }
   }
-  scheduleSave();
+  scheduleSave(round);
 }
+
+/** @deprecated alias */
+export const saveActiveRound = saveRound;
 
 export function scheduleSave(round) {
   if (round) pendingRound = round;
@@ -141,24 +201,35 @@ export function scheduleSave(round) {
 }
 
 export function flushSave() {
-  if (pendingRound) return saveActiveRound(pendingRound, true);
+  if (pendingRound) return saveRound(pendingRound, true);
   return Promise.resolve();
 }
 
 export async function listArchivedRounds() {
+  return listAllRounds();
+}
+
+export async function listAllRounds() {
   return tx(STORE_ROUNDS, "readonly", (store) => {
     return new Promise((res) => {
       const r = store.getAll();
-      r.onsuccess = () => res(r.result || []);
+      r.onsuccess = () => res((r.result || []).map(migrateRoundDocument));
       r.onerror = () => res([]);
     });
   });
 }
 
+export function filterRoundsByFolder(rounds, folderId) {
+  if (folderId === "all") return rounds;
+  if (folderId === "unfiled") return rounds.filter((r) => !r.folderId);
+  return rounds.filter((r) => r.folderId === folderId);
+}
+
 export async function saveRoundToArchive(round) {
-  const doc = migrateRoundDocument({ ...round, id: round.id || crypto.randomUUID().slice(0, 8) });
+  const doc = migrateRoundDocument({ ...round });
   doc.meta = doc.meta || {};
   if (!doc.meta.date) doc.meta.date = new Date().toISOString().slice(0, 10);
+  doc.lastEdited = Date.now();
   await tx(STORE_ROUNDS, "readwrite", (store) => store.put(doc));
   return doc;
 }
@@ -173,10 +244,15 @@ export async function loadRoundById(id) {
   });
 }
 
+export async function deleteRoundById(id) {
+  await tx(STORE_ROUNDS, "readwrite", (store) => store.delete(id));
+}
+
 export async function forkRound(round) {
   const forked = migrateRoundDocument(JSON.parse(JSON.stringify(round)));
   forked.id = crypto.randomUUID().slice(0, 8);
   forked.meta = { ...forked.meta, date: new Date().toISOString().slice(0, 10) };
+  forked.lastEdited = Date.now();
   await saveRoundToArchive(forked);
   return forked;
 }
@@ -195,6 +271,21 @@ export function exportMxflow(round) {
   URL.revokeObjectURL(a.href);
 }
 
+export async function exportBackup(appState, rounds) {
+  const payload = {
+    type: "mxflow-backup",
+    exportedAt: new Date().toISOString(),
+    appState,
+    rounds: rounds.map(migrateRoundDocument),
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `mxflow-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 export async function importMxflow(file) {
   const text = await file.text();
   let parsed;
@@ -203,16 +294,18 @@ export async function importMxflow(file) {
   } catch {
     throw new Error("Invalid JSON file");
   }
+  if (parsed.type === "mxflow-backup") {
+    return { type: "backup", appState: parsed.appState, rounds: (parsed.rounds || []).map(migrateRoundDocument) };
+  }
   if (!parsed.schemaVersion && !parsed.sheets && !parsed.partners) {
     throw new Error("Not a valid .mxflow file");
   }
-  return migrateRoundDocument(parsed);
+  return { type: "round", round: migrateRoundDocument(parsed) };
 }
 
 export function setupBeforeUnload() {
   window.addEventListener("beforeunload", (e) => {
     if (pendingRound) {
-      // Best-effort synchronous flush not possible in IDB; warn user
       e.preventDefault();
       e.returnValue = "";
     }
@@ -224,11 +317,10 @@ export function setupBeforeUnload() {
   });
 }
 
-/** Future Phase 3: queue patches for sync drain */
 export async function enqueueSyncPatch(patch) {
   await tx(STORE_OUTBOX, "readwrite", (store) =>
     store.add({ ...patch, ts: Date.now() })
   );
 }
 
-export { SCHEMA_VERSION };
+export { SCHEMA_VERSION, APP_SCHEMA_VERSION };

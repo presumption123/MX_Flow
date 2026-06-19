@@ -6,8 +6,12 @@ import {
   deleteSheet,
   getCellData,
   autoLabelSheet,
+  extendArgument,
+  formatRoundTitle,
+  sheetTypeLabel,
 } from "./debate-model.js";
 import { scheduleSave } from "./archive.js";
+import { getAppState } from "./router.js";
 
 let roundRef = { current: null };
 let selectedCell = null;
@@ -16,6 +20,7 @@ let insertMode = false;
 let editing = false;
 let editingDiv = null;
 let editSnapshot = null;
+let toolbarCallbacks = {};
 
 const listeners = { render: [], cellSelect: [] };
 
@@ -40,6 +45,10 @@ export function onCellSelect(fn) {
   listeners.cellSelect.push(fn);
 }
 
+export function setToolbarCallbacks(cbs) {
+  toolbarCallbacks = cbs;
+}
+
 function emitRender() {
   listeners.render.forEach((fn) => fn());
 }
@@ -49,8 +58,18 @@ function emitCellSelect() {
 }
 
 function touch() {
+  if (roundRef.current) roundRef.current.lastEdited = Date.now();
   scheduleSave(roundRef.current);
   emitRender();
+}
+
+function getZoom() {
+  return getAppState()?.settings?.zoom ?? 1;
+}
+
+function getCellStyleClass() {
+  const style = getAppState()?.settings?.activeCellStyle || "outlineBlack";
+  return style === "filledBlue" ? "style-filled" : "style-outline";
 }
 
 function getCellElement(sheetId, rowIdx, col) {
@@ -58,7 +77,7 @@ function getCellElement(sheetId, rowIdx, col) {
   const sheet = partner?.sheets.find((s) => s.id === sheetId);
   if (!sheet || partner.activeSheetId !== sheetId) return null;
   return document.querySelector(
-    `#grid-wrap .cell[data-row="${rowIdx}"][data-col="${CSS.escape(col)}"]`
+    `#grid-wrap .flow-cell[data-row="${rowIdx}"][data-col="${CSS.escape(col)}"]`
   );
 }
 
@@ -74,13 +93,10 @@ function refreshSheetLabel(sheet) {
   autoLabelSheet(sheet);
   const tab = document.querySelector(`.tab[data-id="${CSS.escape(sheet.id)}"] .tab-name`);
   if (tab) tab.textContent = sheet.name;
-  renderBreadcrumb(document.getElementById("breadcrumb"));
 }
 
 function beginEdit(div, { clear = false } = {}) {
-  if (editing && editingDiv !== div) {
-    endEdit(editingDiv);
-  }
+  if (editing && editingDiv !== div) endEdit(editingDiv);
   const cellData = getCellDataFromDiv(div);
   if (!cellData) return;
 
@@ -106,7 +122,6 @@ function beginEdit(div, { clear = false } = {}) {
 
 function endEdit(div) {
   if (!div || !editing || editingDiv !== div) return;
-
   const cellData = getCellDataFromDiv(div);
   const rowIdx = parseInt(div.dataset.row, 10);
   const sheet = getActiveSheet(roundRef.current);
@@ -126,13 +141,11 @@ function endEdit(div) {
 
 function cancelEdit(div) {
   if (!div) return;
-
   const cellData = getCellDataFromDiv(div);
   if (cellData && editSnapshot !== null) {
     cellData.text = editSnapshot;
     div.textContent = editSnapshot;
   }
-
   div.contentEditable = "false";
   div.classList.remove("editing");
   editing = false;
@@ -162,6 +175,116 @@ function restoreGridFocus(sheet) {
     el.focus();
     selectCell(sheet.id, selectedCell.rowIdx, selectedCell.col, el);
   }
+}
+
+export function renderFlowToolbar(container) {
+  const round = roundRef.current;
+  if (!container || !round) return;
+  container.innerHTML = "";
+
+  const left = document.createElement("div");
+  left.className = "flow-toolbar-left";
+
+  const back = document.createElement("button");
+  back.type = "button";
+  back.className = "back-btn";
+  back.textContent = "← Dashboard";
+  back.addEventListener("click", () => toolbarCallbacks.onBack?.());
+  left.appendChild(back);
+
+  const title = document.createElement("input");
+  title.className = "round-title-input";
+  title.value = formatRoundTitle(round);
+  title.title = "Round title";
+  title.addEventListener("change", () => {
+    round.meta.name = title.value.trim();
+    touch();
+  });
+  left.appendChild(title);
+
+  const chips = document.createElement("div");
+  chips.className = "round-chips";
+  const m = round.meta || {};
+  if (m.tournament) {
+    const c = document.createElement("span");
+    c.className = "round-chip";
+    c.textContent = m.tournament;
+    chips.appendChild(c);
+  }
+  if (m.roundNum) {
+    const c = document.createElement("span");
+    c.className = "round-chip";
+    c.textContent = m.roundNum;
+    chips.appendChild(c);
+  }
+  const aff = [m.affSchool, m.affCode].filter(Boolean).join(" ");
+  const neg = [m.negSchool, m.negCode].filter(Boolean).join(" ");
+  if (aff) {
+    const c = document.createElement("span");
+    c.className = "round-chip aff";
+    c.textContent = aff;
+    chips.appendChild(c);
+  }
+  if (neg) {
+    const c = document.createElement("span");
+    c.className = "round-chip neg";
+    c.textContent = neg;
+    chips.appendChild(c);
+  }
+  left.appendChild(chips);
+  container.appendChild(left);
+
+  const right = document.createElement("div");
+  right.className = "flow-toolbar-right";
+
+  const zoomWrap = document.createElement("div");
+  zoomWrap.className = "zoom-controls";
+  const zoomOut = document.createElement("button");
+  zoomOut.className = "zoom-btn";
+  zoomOut.textContent = "−";
+  zoomOut.addEventListener("click", () => toolbarCallbacks.onZoom?.(-0.1));
+  const zoomLabel = document.createElement("span");
+  zoomLabel.className = "zoom-label";
+  zoomLabel.id = "zoom-label";
+  zoomLabel.textContent = `${Math.round(getZoom() * 100)}%`;
+  const zoomIn = document.createElement("button");
+  zoomIn.className = "zoom-btn";
+  zoomIn.textContent = "+";
+  zoomIn.addEventListener("click", () => toolbarCallbacks.onZoom?.(0.1));
+  zoomWrap.appendChild(zoomOut);
+  zoomWrap.appendChild(zoomLabel);
+  zoomWrap.appendChild(zoomIn);
+  right.appendChild(zoomWrap);
+
+  const uploadBtn = document.createElement("button");
+  uploadBtn.type = "button";
+  uploadBtn.className = "tb-btn";
+  uploadBtn.textContent = "Cards";
+  uploadBtn.addEventListener("click", () => toolbarCallbacks.onUpload?.());
+  right.appendChild(uploadBtn);
+
+  const exportBtn = document.createElement("button");
+  exportBtn.type = "button";
+  exportBtn.className = "tb-btn";
+  exportBtn.textContent = "Export";
+  exportBtn.addEventListener("click", () => toolbarCallbacks.onExport?.());
+  right.appendChild(exportBtn);
+
+  const coachBtn = document.createElement("button");
+  coachBtn.type = "button";
+  coachBtn.className = "tb-btn";
+  coachBtn.textContent = "Coach";
+  coachBtn.addEventListener("click", () => toolbarCallbacks.onCoach?.());
+  right.appendChild(coachBtn);
+
+  const settingsBtn = document.createElement("button");
+  settingsBtn.type = "button";
+  settingsBtn.className = "tb-btn";
+  settingsBtn.textContent = "Settings";
+  settingsBtn.addEventListener("click", () => toolbarCallbacks.onSettings?.());
+  right.appendChild(settingsBtn);
+
+  container.appendChild(right);
 }
 
 export function renderPartnerTabs(container) {
@@ -194,22 +317,7 @@ export function renderPartnerTabs(container) {
   });
 }
 
-export function renderBreadcrumb(el) {
-  const round = roundRef.current;
-  const partner = getActivePartner(round);
-  const sheet = getActiveSheet(round);
-  if (!el) return;
-  if (!partner) {
-    el.textContent = "";
-    return;
-  }
-  const sheetLabel = sheet
-    ? `${sheet.name} › ${sheet.type === "aff" ? "Aff" : "Neg"} flow`
-    : "No position";
-  el.textContent = `${partner.name} › ${sheetLabel}`;
-}
-
-export function renderPositionTabs(container, onAddAff, onAddNeg) {
+export function renderPositionTabs(container, onAddAff, onAddOff) {
   const round = roundRef.current;
   const partner = getActivePartner(round);
   if (!container) return;
@@ -223,8 +331,8 @@ export function renderPositionTabs(container, onAddAff, onAddNeg) {
     tab.setAttribute("role", "tab");
 
     const typeLabel = document.createElement("span");
-    typeLabel.className = "tab-type";
-    typeLabel.textContent = sheet.type === "aff" ? "AFF" : "NEG";
+    typeLabel.className = "tab-type " + (sheet.type === "aff" ? "aff" : "off");
+    typeLabel.textContent = sheetTypeLabel(sheet.type);
 
     const nameEl = document.createElement("span");
     nameEl.className = "tab-name";
@@ -269,22 +377,27 @@ export function renderPositionTabs(container, onAddAff, onAddNeg) {
   const affBtn = document.createElement("button");
   affBtn.textContent = "+ Aff";
   affBtn.addEventListener("click", onAddAff);
-  const negBtn = document.createElement("button");
-  negBtn.textContent = "+ Neg";
-  negBtn.addEventListener("click", onAddNeg);
+  const offBtn = document.createElement("button");
+  offBtn.textContent = "+ Off";
+  offBtn.addEventListener("click", onAddOff);
   addWrap.appendChild(affBtn);
-  addWrap.appendChild(negBtn);
+  addWrap.appendChild(offBtn);
   container.appendChild(addWrap);
 }
+
+export function renderBreadcrumb() {}
 
 export function renderGrid(wrapEl, footerEl) {
   const round = roundRef.current;
   const sheet = getActiveSheet(round);
   if (!wrapEl) return;
 
-  if (editing && editingDiv) {
-    endEdit(editingDiv);
-  }
+  const zoom = getZoom();
+  document.documentElement.style.setProperty("--zoom", String(zoom));
+  const zoomLabel = document.getElementById("zoom-label");
+  if (zoomLabel) zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
+
+  if (editing && editingDiv) endEdit(editingDiv);
 
   wrapEl.innerHTML = "";
   if (footerEl) footerEl.style.display = sheet ? "block" : "none";
@@ -295,65 +408,64 @@ export function renderGrid(wrapEl, footerEl) {
         <p>No positions yet.</p>
         <div class="empty-actions">
           <button type="button" class="tb-btn" data-add="aff">Add Aff flow</button>
-          <button type="button" class="tb-btn" data-add="neg">Add Neg flow</button>
+          <button type="button" class="tb-btn" data-add="off">Add Off flow</button>
         </div>
       </div>`;
     wrapEl.querySelector('[data-add="aff"]')?.addEventListener("click", () => {
       newSheet(round, "aff");
       touch();
     });
-    wrapEl.querySelector('[data-add="neg"]')?.addEventListener("click", () => {
+    wrapEl.querySelector('[data-add="off"]')?.addEventListener("click", () => {
       newSheet(round, "neg");
       touch();
     });
     return;
   }
 
-  const table = document.createElement("table");
-  table.className = "flow";
-  table.setAttribute("role", "grid");
-  table.setAttribute("aria-label", `${sheet.name} flow sheet`);
+  const sheetEl = document.createElement("div");
+  sheetEl.className = "flow-sheet";
 
-  const thead = document.createElement("thead");
-  const htr = document.createElement("tr");
-  const corner = document.createElement("th");
-  corner.className = "rownum-h";
+  const colTemplate = `28px repeat(${sheet.cols.length}, minmax(calc(140px * var(--zoom)), 1fr))`;
+
+  const header = document.createElement("div");
+  header.className = "flow-header";
+  header.style.gridTemplateColumns = colTemplate;
+
+  const corner = document.createElement("div");
+  corner.className = "flow-header-cell";
   corner.textContent = "#";
-  htr.appendChild(corner);
-  sheet.cols.forEach((col) => {
-    const th = document.createElement("th");
-    th.textContent = col;
-    th.setAttribute("scope", "col");
-    th.setAttribute("aria-label", `${col} speech column`);
-    htr.appendChild(th);
-  });
-  thead.appendChild(htr);
-  table.appendChild(thead);
+  header.appendChild(corner);
 
-  const tbody = document.createElement("tbody");
+  sheet.cols.forEach((col) => {
+    const h = document.createElement("div");
+    h.className = "flow-header-cell";
+    h.textContent = col;
+    header.appendChild(h);
+  });
+  sheetEl.appendChild(header);
+
+  const body = document.createElement("div");
+  body.className = "flow-body";
+
+  const styleClass = getCellStyleClass();
+
   sheet.rows.forEach((row, rowIdx) => {
-    const tr = document.createElement("tr");
-    const numTd = document.createElement("td");
-    numTd.className = "rownum";
-    numTd.textContent = String(rowIdx + 1);
-    const delBtn = document.createElement("button");
-    delBtn.className = "del-row";
-    delBtn.textContent = "×";
-    delBtn.setAttribute("aria-label", `Delete row ${rowIdx + 1}`);
-    delBtn.addEventListener("click", () => {
-      if (sheet.rows.length <= 1) sheet.rows = [makeRow(sheet.cols)];
-      else sheet.rows.splice(rowIdx, 1);
-      touch();
-    });
-    numTd.appendChild(delBtn);
-    tr.appendChild(numTd);
+    const rowEl = document.createElement("div");
+    rowEl.className = "flow-row";
+    rowEl.style.gridTemplateColumns = colTemplate;
+
+    const num = document.createElement("div");
+    num.className = "flow-row-num";
+    num.textContent = String(rowIdx + 1);
+    rowEl.appendChild(num);
 
     sheet.cols.forEach((col, colIdx) => {
       const cellData = row.cells[col] || (row.cells[col] = { text: "", mark: "normal" });
-      const td = document.createElement("td");
-      td.style.position = "relative";
+      const wrap = document.createElement("div");
+      wrap.className = "flow-cell-wrap";
+
       const div = document.createElement("div");
-      div.className = "cell" + (cellData.mark !== "normal" ? " " + cellData.mark : "");
+      div.className = "flow-cell" + (cellData.mark !== "normal" ? " " + cellData.mark : "");
       div.contentEditable = "false";
       div.tabIndex = 0;
       div.textContent = cellData.text;
@@ -361,78 +473,95 @@ export function renderGrid(wrapEl, footerEl) {
       div.dataset.col = col;
       div.setAttribute("role", "gridcell");
 
-      if (cellData.mark === "dropped") {
-        const badge = document.createElement("span");
-        badge.className = "mark-badge";
-        badge.textContent = "DROP";
-        badge.setAttribute("aria-hidden", "true");
-        td.appendChild(badge);
-      } else if (cellData.mark === "conceded") {
-        const badge = document.createElement("span");
-        badge.className = "mark-badge conceded-badge";
-        badge.textContent = "CONC";
-        badge.setAttribute("aria-hidden", "true");
-        td.appendChild(badge);
-      }
-
       if (
         selectedCell &&
         selectedCell.sheetId === sheet.id &&
         selectedCell.rowIdx === rowIdx &&
         selectedCell.col === col
       ) {
-        div.classList.add("selected");
+        div.classList.add("selected", styleClass);
       }
 
-      div.addEventListener("mousedown", (e) => {
-        if (e.button !== 0) return;
-        if (editing && editingDiv !== div) {
-          endEdit(editingDiv);
-        }
-      });
-      div.addEventListener("click", () => {
-        if (!editing || editingDiv !== div) {
-          selectCell(sheet.id, rowIdx, col, div);
-        }
-      });
-      div.addEventListener("dblclick", (e) => {
-        e.preventDefault();
-        selectCell(sheet.id, rowIdx, col, div);
-        beginEdit(div, { clear: false });
-      });
-      div.addEventListener("focus", () => {
-        selectCell(sheet.id, rowIdx, col, div);
-      });
-      div.addEventListener("blur", () => {
-        if (editing && editingDiv === div) {
-          endEdit(div);
-        }
-      });
-      div.addEventListener("input", () => {
-        cellData.text = div.textContent;
-        scheduleSave(roundRef.current);
-        if (rowIdx === 0) refreshSheetLabel(sheet);
-      });
-      div.addEventListener("keydown", (e) =>
-        handleCellKeydown(e, sheet, row, rowIdx, col, colIdx, div)
-      );
-      div.addEventListener("contextmenu", (e) => {
-        e.preventDefault();
-        if (editing && editingDiv === div) {
-          endEdit(div);
-        }
-        selectCell(sheet.id, rowIdx, col, div);
-        openCtxMenu(e.clientX, e.clientY, sheet.id, rowIdx, col);
-      });
+      if (cellData.mark === "dropped") {
+        const badge = document.createElement("span");
+        badge.className = "mark-badge";
+        badge.textContent = "DROP";
+        wrap.appendChild(badge);
+      } else if (cellData.mark === "conceded") {
+        const badge = document.createElement("span");
+        badge.className = "mark-badge conceded-badge";
+        badge.textContent = "CONC";
+        wrap.appendChild(badge);
+      }
 
-      td.appendChild(div);
-      tr.appendChild(td);
+      wireCellEvents(div, sheet, row, rowIdx, col, colIdx);
+      wrap.appendChild(div);
+      rowEl.appendChild(wrap);
     });
-    tbody.appendChild(tr);
+    body.appendChild(rowEl);
   });
-  table.appendChild(tbody);
-  wrapEl.appendChild(table);
+
+  const extendRow = document.createElement("div");
+  extendRow.className = "flow-extend-row";
+  extendRow.style.gridTemplateColumns = colTemplate;
+
+  const extendCorner = document.createElement("div");
+  extendCorner.className = "flow-row-num";
+  extendRow.appendChild(extendCorner);
+
+  sheet.cols.forEach((col) => {
+    const wrap = document.createElement("div");
+    wrap.className = "flow-cell-wrap";
+    const btn = document.createElement("button");
+    btn.className = "extend-btn";
+    btn.textContent = "+";
+    btn.title = `Extend argument in ${col}`;
+    btn.addEventListener("click", () => {
+      extendArgument(sheet, col);
+      touch();
+    });
+    wrap.appendChild(btn);
+    extendRow.appendChild(wrap);
+  });
+  body.appendChild(extendRow);
+
+  sheetEl.appendChild(body);
+  wrapEl.appendChild(sheetEl);
   restoreGridFocus(sheet);
+}
+
+function wireCellEvents(div, sheet, row, rowIdx, col, colIdx) {
+  div.addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
+    if (editing && editingDiv !== div) endEdit(editingDiv);
+  });
+  div.addEventListener("click", () => {
+    if (!editing || editingDiv !== div) selectCell(sheet.id, rowIdx, col, div);
+  });
+  div.addEventListener("dblclick", (e) => {
+    e.preventDefault();
+    selectCell(sheet.id, rowIdx, col, div);
+    beginEdit(div, { clear: false });
+  });
+  div.addEventListener("focus", () => selectCell(sheet.id, rowIdx, col, div));
+  div.addEventListener("blur", () => {
+    if (editing && editingDiv === div) endEdit(div);
+  });
+  div.addEventListener("input", () => {
+    const cellData = row.cells[col];
+    cellData.text = div.textContent;
+    scheduleSave(roundRef.current);
+    if (rowIdx === 0) refreshSheetLabel(sheet);
+  });
+  div.addEventListener("keydown", (e) =>
+    handleCellKeydown(e, sheet, row, rowIdx, col, colIdx, div)
+  );
+  div.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    if (editing && editingDiv === div) endEdit(div);
+    selectCell(sheet.id, rowIdx, col, div);
+    openCtxMenu(e.clientX, e.clientY, sheet.id, rowIdx, col);
+  });
 }
 
 function handleCellKeydown(e, sheet, row, rowIdx, col, colIdx, div) {
@@ -456,26 +585,10 @@ function handleCellKeydown(e, sheet, row, rowIdx, col, colIdx, div) {
     beginEdit(div, { clear: false });
     return;
   }
-  if (e.key === "ArrowUp") {
-    e.preventDefault();
-    moveSelection(-1, 0);
-    return;
-  }
-  if (e.key === "ArrowDown") {
-    e.preventDefault();
-    moveSelection(1, 0);
-    return;
-  }
-  if (e.key === "ArrowLeft") {
-    e.preventDefault();
-    moveSelection(0, -1);
-    return;
-  }
-  if (e.key === "ArrowRight") {
-    e.preventDefault();
-    moveSelection(0, 1);
-    return;
-  }
+  if (e.key === "ArrowUp") { e.preventDefault(); moveSelection(-1, 0); return; }
+  if (e.key === "ArrowDown") { e.preventDefault(); moveSelection(1, 0); return; }
+  if (e.key === "ArrowLeft") { e.preventDefault(); moveSelection(0, -1); return; }
+  if (e.key === "ArrowRight") { e.preventDefault(); moveSelection(0, 1); return; }
   if (e.key === "Backspace" || e.key === "Delete") {
     e.preventDefault();
     const cellData = row.cells[col] || (row.cells[col] = { text: "", mark: "normal" });
@@ -489,13 +602,9 @@ function handleCellKeydown(e, sheet, row, rowIdx, col, colIdx, div) {
     e.preventDefault();
     beginEdit(div, { clear: true });
     document.execCommand("insertText", false, e.key);
-    cellDataFromRow(row, col).text = div.textContent;
+    row.cells[col].text = div.textContent;
     scheduleSave(roundRef.current);
   }
-}
-
-function cellDataFromRow(row, col) {
-  return row.cells[col] || (row.cells[col] = { text: "", mark: "normal" });
 }
 
 function handleEditingKeydown(e, sheet, rowIdx, col, colIdx, div) {
@@ -512,12 +621,8 @@ function handleEditingKeydown(e, sheet, rowIdx, col, colIdx, div) {
     return;
   }
   if (e.key === "Enter") {
-    if (insertMode && !e.shiftKey && !e.altKey) {
-      return;
-    }
-    if (e.shiftKey || e.altKey) {
-      return;
-    }
+    if (insertMode && !e.shiftKey && !e.altKey) return;
+    if (e.shiftKey || e.altKey) return;
     e.preventDefault();
     endEdit(div);
     moveSelection(1, 0);
@@ -526,8 +631,10 @@ function handleEditingKeydown(e, sheet, rowIdx, col, colIdx, div) {
 
 export function selectCell(sheetId, rowIdx, col, div) {
   selectedCell = { sheetId, rowIdx, col };
-  document.querySelectorAll(".cell.selected").forEach((c) => c.classList.remove("selected"));
-  if (div) div.classList.add("selected");
+  document.querySelectorAll(".flow-cell.selected").forEach((c) => {
+    c.classList.remove("selected", "style-outline", "style-filled");
+  });
+  if (div) div.classList.add("selected", getCellStyleClass());
   emitCellSelect();
 }
 

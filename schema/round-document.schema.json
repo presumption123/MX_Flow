@@ -6,10 +6,19 @@
   "properties": {
     "schemaVersion": { "type": "integer", "const": 1 },
     "id": { "type": "string" },
+    "folderId": { "type": ["string", "null"] },
+    "lastEdited": { "type": "number" },
     "meta": {
       "type": "object",
       "properties": {
+        "name": { "type": "string" },
         "tournament": { "type": "string" },
+        "roundNum": { "type": "string" },
+        "judges": { "type": "string" },
+        "affSchool": { "type": "string" },
+        "affCode": { "type": "string" },
+        "negSchool": { "type": "string" },
+        "negCode": { "type": "string" },
         "opponent": { "type": "string" },
         "date": { "type": "string" },
         "side": { "enum": ["aff", "neg", ""] }
@@ -57,7 +66,18 @@
               }
             }
           }
-        }
+        },
+        "extensionLinks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "col": { "type": "string" },
+              "rowIdx": { "type": "integer" }
+            }
+          }
+        },
+        "needsName": { "type": "boolean" }
       }
     },
     "Partner": {

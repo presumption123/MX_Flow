@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MX Flow</title>
+  <title>New Sheet</title>
   <link rel="stylesheet" href="/css/debate-flow.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/flow-grid.css">
   <script src="/lib/mammoth.browser.min.js"></script>
 </head>
 <body>
@@ -14,85 +16,84 @@
   <div id="status-banner" class="status-banner hidden" role="alert"></div>
 
   <div id="app">
-    <header id="topbar">
-      <span class="title" id="round-title">MX Flow</span>
-      <div class="spacer"></div>
-      <button type="button" class="tb-btn" id="upload-btn">Upload cards</button>
-      <button type="button" class="tb-btn" id="archive-btn">Archive</button>
-      <button type="button" class="tb-btn" id="share-btn">Share room</button>
-      <button type="button" class="tb-btn" id="coach-reopen" style="display:none">Coach</button>
-      <button type="button" class="tb-btn" id="settings-btn">Settings</button>
-    </header>
-
-    <div id="files-panel" class="files-panel" aria-label="Upload cards">
-      <div class="files-cols">
-        <div class="files-col">
-          <h4>Our cards</h4>
-          <div class="dropzone" data-owner="ours">
-            Drag and drop .docx or .txt
-            <br><button type="button" class="pick-btn" data-owner="ours">Choose files</button>
-          </div>
-          <div class="files-list" data-owner="ours"></div>
-        </div>
-        <div class="files-col">
-          <h4>Opponent cards</h4>
-          <div class="dropzone" data-owner="opponent">
-            Drag and drop .docx or .txt
-            <br><button type="button" class="pick-btn" data-owner="opponent">Choose files</button>
-          </div>
-          <div class="files-list" data-owner="opponent"></div>
-        </div>
-      </div>
-    </div>
-
-    <aside id="archive-panel" class="archive-panel" aria-label="Flow archive">
-      <div class="archive-header">
-        <h2>Archive</h2>
-        <button type="button" id="archive-close" class="tb-btn" aria-label="Close archive">Close</button>
-      </div>
-      <input type="search" id="archive-search" class="archive-search" placeholder="Search opponent or tournament">
-      <div id="archive-list" class="archive-list"></div>
-      <div class="archive-footer">
-        <p id="archive-status" class="archive-status"></p>
-        <button type="button" class="tb-btn" id="archive-save">Save round</button>
-        <button type="button" class="tb-btn" id="archive-export">Export .mxflow</button>
-        <button type="button" class="tb-btn" id="archive-import">Import .mxflow</button>
-        <input type="file" id="mxflow-input" accept=".mxflow,.json" hidden>
-      </div>
-    </aside>
-
-    <div id="main-split">
-      <main id="flow-area">
-        <nav id="partner-tabs" class="partner-tabs" role="tablist" aria-label="Partner tabs"></nav>
-        <div id="breadcrumb" class="breadcrumb" aria-live="polite"></div>
-        <nav id="tabbar" class="tabbar">
-          <div id="tabs" role="tablist" aria-label="Position tabs"></div>
-        </nav>
-        <div id="grid-wrap"></div>
-        <footer id="grid-footer">
-          <button type="button" id="add-row-btn">Add row</button>
-        </footer>
-      </main>
-
-      <aside id="sidebar" aria-label="AI Coach">
-        <div id="sb-header">
-          <span class="sb-title">AI Coach</span>
-          <button type="button" id="mode-toggle">Free chat</button>
-          <button type="button" id="coach-collapse" title="Hide coach" aria-label="Hide coach">Hide</button>
-        </div>
-        <div id="chat-history" role="log" aria-live="polite"></div>
-        <div id="sb-input-wrap">
-          <div id="cell-context-banner"></div>
-          <textarea id="sb-input" placeholder="Ask the coach… (Enter to send)" aria-label="Coach message"></textarea>
-          <div id="send-row">
-            <button type="button" id="send-btn">Send</button>
-          </div>
+    <!-- Dashboard view -->
+    <div id="dashboard-view">
+      <aside id="sidebar" aria-label="Navigation">
+        <div class="sidebar-brand">New Sheet</div>
+        <div class="sidebar-section-label">Folders</div>
+        <div id="folder-list" class="folder-list"></div>
+        <button type="button" id="folder-add-btn" class="folder-add-btn">+ New folder</button>
+        <div class="sidebar-footer">
+          <button type="button" class="tb-btn" id="sidebar-settings">Settings</button>
+          <button type="button" class="tb-btn" id="sidebar-import">Import Backup</button>
+          <button type="button" class="tb-btn primary" id="sidebar-new-round">+ New Round</button>
         </div>
       </aside>
+      <main id="dashboard-main">
+        <div class="dashboard-header">
+          <h1 id="dashboard-folder-title">All Rounds</h1>
+          <input type="search" id="dashboard-search" class="dashboard-search" placeholder="Search rounds">
+        </div>
+        <div id="round-list"></div>
+      </main>
+    </div>
+
+    <!-- Flow view -->
+    <div id="flow-view" hidden>
+      <header id="flow-toolbar" class="flow-toolbar"></header>
+      <div id="flow-main-split">
+        <div id="flow-area">
+          <nav id="partner-tabs" class="partner-tabs" role="tablist" aria-label="Partner tabs"></nav>
+          <nav id="tabbar" class="tabbar">
+            <div id="tabs" role="tablist" aria-label="Sheet tabs"></div>
+          </nav>
+          <div id="grid-wrap"></div>
+          <footer id="grid-footer">
+            <button type="button" id="add-row-btn" class="tb-btn">Add row</button>
+          </footer>
+        </div>
+        <aside id="coach-panel" aria-label="AI Coach" hidden>
+          <div id="sb-header">
+            <span class="sb-title">AI Coach</span>
+            <button type="button" id="mode-toggle" class="tb-btn">Free chat</button>
+            <button type="button" id="coach-collapse" class="tb-btn" title="Hide coach" aria-label="Hide coach">Hide</button>
+          </div>
+          <div id="chat-history" role="log" aria-live="polite"></div>
+          <div id="sb-input-wrap">
+            <div id="cell-context-banner"></div>
+            <textarea id="sb-input" placeholder="Ask the coach… (Enter to send)" aria-label="Coach message"></textarea>
+            <div id="send-row">
+              <button type="button" id="send-btn">Send</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <div id="files-panel" class="files-panel" aria-label="Upload cards">
+    <div class="files-cols">
+      <div class="files-col">
+        <h4>Our cards</h4>
+        <div class="dropzone" data-owner="ours">
+          Drag and drop .docx or .txt
+          <br><button type="button" class="pick-btn" data-owner="ours">Choose files</button>
+        </div>
+        <div class="files-list" data-owner="ours"></div>
+      </div>
+      <div class="files-col">
+        <h4>Opponent cards</h4>
+        <div class="dropzone" data-owner="opponent">
+          Drag and drop .docx or .txt
+          <br><button type="button" class="pick-btn" data-owner="opponent">Choose files</button>
+        </div>
+        <div class="files-list" data-owner="opponent"></div>
+      </div>
     </div>
   </div>
 
   <input type="file" id="file-input" accept=".docx,.txt" multiple hidden>
+  <input type="file" id="backup-input" accept=".mxflow,.json" hidden>
 
   <menu id="ctx-menu" role="menu" aria-label="Cell actions">
     <button type="button" data-action="generate" role="menuitem">Generate response</button>
@@ -104,20 +105,28 @@
     <button type="button" data-action="clear" role="menuitem">Clear cell</button>
   </menu>
 
-  <div id="side-overlay" class="side-overlay" role="dialog" aria-modal="true" aria-labelledby="side-title">
-    <div class="side-dialog">
-      <h2 id="side-title">Which side are you?</h2>
-      <p class="side-hint">This tells the coach which uploaded files are yours.</p>
-      <div class="side-btns">
-        <button type="button" class="side-pick" data-side="aff">AFF</button>
-        <button type="button" class="side-pick neg" data-side="neg">NEG</button>
-      </div>
-    </div>
-  </div>
-
   <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title">
     <div id="settings-modal" class="settings-modal">
       <h2 id="settings-title">Settings</h2>
+      <div class="field">
+        <label>Theme</label>
+        <div id="theme-swatches" class="theme-swatches"></div>
+      </div>
+      <div class="field">
+        <label for="set-grid-font">Grid font</label>
+        <select id="set-grid-font">
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="Courier New, monospace">Courier New</option>
+          <option value="Times New Roman, serif">Times New Roman</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="set-cell-style">Active cell style</label>
+        <select id="set-cell-style">
+          <option value="outlineBlack">Outline</option>
+          <option value="filledBlue">Filled</option>
+        </select>
+      </div>
       <div class="field">
         <label for="set-side">Your side</label>
         <select id="set-side">
@@ -134,12 +143,36 @@
         <input type="text" id="set-partner2">
       </div>
       <div class="field">
-        <label for="set-opponent">Opponent school</label>
-        <input type="text" id="set-opponent" placeholder="Lincoln HS">
-      </div>
-      <div class="field">
         <label for="set-tournament">Tournament</label>
         <input type="text" id="set-tournament" placeholder="Yale RR">
+      </div>
+      <div class="field">
+        <label for="set-round-num">Round</label>
+        <input type="text" id="set-round-num" placeholder="4">
+      </div>
+      <div class="field">
+        <label for="set-judges">Judges</label>
+        <input type="text" id="set-judges">
+      </div>
+      <div class="field">
+        <label for="set-aff-school">Aff school</label>
+        <input type="text" id="set-aff-school">
+      </div>
+      <div class="field">
+        <label for="set-aff-code">Aff code</label>
+        <input type="text" id="set-aff-code">
+      </div>
+      <div class="field">
+        <label for="set-neg-school">Neg school</label>
+        <input type="text" id="set-neg-school">
+      </div>
+      <div class="field">
+        <label for="set-neg-code">Neg code</label>
+        <input type="text" id="set-neg-code">
+      </div>
+      <div class="field">
+        <label for="set-opponent">Opponent school</label>
+        <input type="text" id="set-opponent" placeholder="Lincoln HS">
       </div>
       <div class="field">
         <label for="set-model">Model</label>
@@ -158,10 +191,10 @@
       </div>
       <p class="settings-note">API key is configured on the server via ANTHROPIC_API_KEY.</p>
       <div class="modal-actions">
-        <button type="button" id="save-settings" class="primary">Save</button>
+        <button type="button" id="save-settings" class="tb-btn primary">Save</button>
         <button type="button" id="close-settings">Cancel</button>
       </div>
-      <button type="button" id="clear-flow-btn" class="danger">Clear all flows</button>
+      <button type="button" id="clear-flow-btn" class="tb-btn danger">Clear all flows</button>
     </div>
   </div>
 
