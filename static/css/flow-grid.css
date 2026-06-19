@@ -163,9 +163,27 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--aff-color);
+  color: var(--text-muted);
   border-right: 1px solid var(--border);
   min-width: calc(140px * var(--zoom));
+}
+.flow-header-cell[data-col="1AC"],
+.flow-header-cell[data-col="2AC"],
+.flow-header-cell[data-col="1AR"],
+.flow-header-cell[data-col="2AR"],
+.flow-cell[data-col="1AC"],
+.flow-cell[data-col="2AC"],
+.flow-cell[data-col="1AR"],
+.flow-cell[data-col="2AR"] {
+  color: var(--speech-aff-text);
+}
+.flow-header-cell[data-col="1NC"],
+.flow-header-cell[data-col="Block"],
+.flow-header-cell[data-col="2NR"],
+.flow-cell[data-col="1NC"],
+.flow-cell[data-col="Block"],
+.flow-cell[data-col="2NR"] {
+  color: var(--speech-neg-text);
 }
 .flow-body { display: flex; flex-direction: column; }
 
@@ -181,7 +199,7 @@
   padding-top: 6px;
   font-size: calc(10px * var(--zoom));
   color: var(--text-muted);
-  background: var(--bg-secondary);
+  background: var(--grid-bg);
   border-right: 1px solid var(--border);
   min-width: calc(28px * var(--zoom));
   user-select: none;
@@ -215,7 +233,7 @@
 }
 .flow-cell.editing {
   cursor: text;
-  background: var(--app-bg);
+  background: var(--grid-bg);
   box-shadow: inset 0 0 0 2px var(--aff-color);
 }
 .flow-cell.dropped { background: var(--dropped); }
@@ -236,7 +254,7 @@
   display: grid;
   border-bottom: 1px solid var(--border);
   min-height: 28px;
-  background: var(--bg-secondary);
+  background: var(--grid-bg);
 }
 .extend-btn {
   background: none;

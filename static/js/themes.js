@@ -11,6 +11,8 @@ export const THEMES = {
     textMuted: "#888888",
     aff: "#0a8fea",
     neg: "#ff4d00",
+    speechAffText: "#9db5c8",
+    speechNegText: "#d9a8a9",
     gridBg: "#0a0a0a",
     gridHeaderBg: "#161616",
     toolbarBg: "#111111",
@@ -28,8 +30,10 @@ export const THEMES = {
     textMuted: "#666666",
     aff: "#2f80ed",
     neg: "#ef4444",
+    speechAffText: "#4a6f8c",
+    speechNegText: "#9b5051",
     gridBg: "#ffffff",
-    gridHeaderBg: "#f0f0f0",
+    gridHeaderBg: "#ffffff",
     toolbarBg: "#f5f5f5",
     selection: "rgba(47, 128, 237, 0.1)",
     dropped: "#fecaca",
@@ -45,6 +49,8 @@ export const THEMES = {
     textMuted: "#8a8278",
     aff: "#d8d2c5",
     neg: "#9a5a2d",
+    speechAffText: "#a5b5c2",
+    speechNegText: "#cc9488",
     gridBg: "#120f0b",
     gridHeaderBg: "#1a1610",
     toolbarBg: "#1a1610",
@@ -62,6 +68,8 @@ export const THEMES = {
     textMuted: "#8b949e",
     aff: "#58a6ff",
     neg: "#f85149",
+    speechAffText: "#9db5c8",
+    speechNegText: "#d9a8a9",
     gridBg: "#0d1117",
     gridHeaderBg: "#161b22",
     toolbarBg: "#161b22",
@@ -79,6 +87,8 @@ export const THEMES = {
     textMuted: "#6b5f4e",
     aff: "#31572c",
     neg: "#8f1d2c",
+    speechAffText: "#4a6f8c",
+    speechNegText: "#9b5051",
     gridBg: "#faf7f2",
     gridHeaderBg: "#ebe4d8",
     toolbarBg: "#ebe4d8",
@@ -100,6 +110,8 @@ export function applyTheme(themeName, gridFontFamily = "Arial, sans-serif") {
   root.style.setProperty("--text-muted", theme.textMuted);
   root.style.setProperty("--aff-color", theme.aff);
   root.style.setProperty("--neg-color", theme.neg);
+  root.style.setProperty("--speech-aff-text", theme.speechAffText);
+  root.style.setProperty("--speech-neg-text", theme.speechNegText);
   root.style.setProperty("--grid-bg", theme.gridBg);
   root.style.setProperty("--grid-header-bg", theme.gridHeaderBg);
   root.style.setProperty("--toolbar-bg", theme.toolbarBg);

@@ -490,6 +490,7 @@ export function renderGrid(wrapEl, footerEl) {
   sheet.cols.forEach((col) => {
     const h = document.createElement("div");
     h.className = "flow-header-cell";
+    h.dataset.col = col;
     h.textContent = col;
     header.appendChild(h);
   });

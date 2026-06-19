@@ -18,7 +18,7 @@ export const DEFAULT_ROUND_SETTINGS = {
 export const DEFAULT_SETTINGS = DEFAULT_ROUND_SETTINGS;
 
 export const DEFAULT_APP_SETTINGS = {
-  theme: "dark",
+  theme: "light",
   gridFontFamily: "Arial, sans-serif",
   activeCellStyle: "outlineBlack",
   zoom: 1,
