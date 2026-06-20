@@ -143,6 +143,23 @@ test("mod+Enter moves down without inserting row", async ({ page }) => {
 test("mod+Shift+Enter switches to next position tab", async ({ page }) => {
   await page.goto("/");
   await openFirstRound(page);
+  await page.getByRole("tab", { name: /Off 1/ }).click();
+  await page.locator('.flow-cell[data-row="0"][data-col="2AC"]').click();
+  await page.getByRole("tab", { name: /Case/ }).click();
+  await page.locator('.flow-cell[data-row="0"][data-col="1AC"]').click();
+  await expect(page.locator(".tab.active .tab-name")).toHaveText("Case");
+
+  await page.keyboard.press(`${modKey}+Shift+Enter`);
+
+  await expect(page.locator(".tab.active .tab-name")).toHaveText("Off 1");
+  await expect(page.locator('.flow-cell[data-row="0"][data-col="2AC"].selected')).toBeVisible();
+});
+
+test("mod+Shift+Enter falls back to equivalent cell when destination tab was never visited", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await openFirstRound(page);
   const cell = page.locator('.flow-cell[data-row="0"][data-col="1AC"]');
   await cell.click();
   await expect(page.locator(".tab.active .tab-name")).toHaveText("Case");

@@ -15,6 +15,8 @@ import { getAppState } from "./router.js";
 
 let roundRef = { current: null };
 let selectedCell = null;
+/** @type {Map<string, { rowIdx: number, col: string }>} */
+const lastCellBySheet = new Map();
 let ctxTarget = null;
 let editing = false;
 let editingDiv = null;
@@ -675,6 +677,7 @@ function handleEditingKeydown(e, sheet, rowIdx, col, colIdx, div) {
 
 export function selectCell(sheetId, rowIdx, col, div) {
   selectedCell = { sheetId, rowIdx, col };
+  lastCellBySheet.set(sheetId, { rowIdx, col });
   document.querySelectorAll(".flow-cell.selected").forEach((c) => {
     c.classList.remove("selected", "style-outline", "style-filled");
   });
@@ -735,8 +738,13 @@ export function switchPositionTab(dir, focusHint) {
   if (!partner?.sheets.length) return;
   const idx = partner.sheets.findIndex((s) => s.id === partner.activeSheetId);
   const next = (idx + dir + partner.sheets.length) % partner.sheets.length;
-  partner.activeSheetId = partner.sheets[next].id;
-  if (focusHint) {
+  const destSheet = partner.sheets[next];
+  partner.activeSheetId = destSheet.id;
+  const saved = lastCellBySheet.get(destSheet.id);
+  if (saved) {
+    focusEquivalentCell(saved.rowIdx, saved.col);
+    pendingKeyboardEdit = true;
+  } else if (focusHint) {
     focusEquivalentCell(focusHint.rowIdx, focusHint.col);
     pendingKeyboardEdit = true;
   }
