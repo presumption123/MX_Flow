@@ -323,4 +323,17 @@ export async function enqueueSyncPatch(patch) {
   );
 }
 
+/** Read and clear every queued sync patch (used to resend after reconnecting). */
+export async function drainSyncOutbox() {
+  const items = await tx(STORE_OUTBOX, "readonly", (store) => {
+    return new Promise((res) => {
+      const r = store.getAll();
+      r.onsuccess = () => res(r.result || []);
+      r.onerror = () => res([]);
+    });
+  });
+  await tx(STORE_OUTBOX, "readwrite", (store) => store.clear());
+  return items;
+}
+
 export { SCHEMA_VERSION, APP_SCHEMA_VERSION };

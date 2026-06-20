@@ -23,8 +23,26 @@ let editingDiv = null;
 let editSnapshot = null;
 let pendingKeyboardEdit = false;
 let toolbarCallbacks = {};
+let syncHook = null;
 
 const listeners = { render: [], cellSelect: [] };
+
+/** Wire a callback that broadcasts a local edit to a connected partner. */
+export function setSyncHook(fn) {
+  syncHook = fn;
+}
+
+function emitOp(type, payload) {
+  if (payload) syncHook?.({ type, payload });
+}
+
+function activePartnerId() {
+  return getActivePartner(roundRef.current)?.id;
+}
+
+function partnerIdForSheet(sheetId) {
+  return roundRef.current?.partners.find((p) => p.sheets.some((s) => s.id === sheetId))?.id;
+}
 
 export function setRound(round) {
   roundRef.current = round;
@@ -130,7 +148,10 @@ function endEdit(div) {
   if (cellData) {
     cellData.text = div.textContent;
     scheduleSave(roundRef.current);
-    if (sheet && rowIdx === 0) refreshSheetLabel(sheet);
+    if (sheet) {
+      emitOp("cell_set", { partnerId: activePartnerId(), sheetId: sheet.id, rowIdx, col: div.dataset.col, text: cellData.text });
+      if (rowIdx === 0) refreshSheetLabel(sheet);
+    }
   }
 
   div.contentEditable = "false";
@@ -159,9 +180,11 @@ function isModKey(e) {
 }
 
 function insertRowBelow(sheet, rowIdx, col) {
-  sheet.rows.splice(rowIdx + 1, 0, makeRow(sheet.cols));
+  const row = makeRow(sheet.cols);
+  sheet.rows.splice(rowIdx + 1, 0, row);
   selectedCell = { sheetId: sheet.id, rowIdx: rowIdx + 1, col };
   pendingKeyboardEdit = true;
+  emitOp("row_add", { partnerId: activePartnerId(), sheetId: sheet.id, rowIdx: rowIdx + 1, row });
   touch();
 }
 
@@ -251,6 +274,7 @@ export function renderFlowToolbar(container) {
   title.title = "Round title";
   title.addEventListener("change", () => {
     round.meta.name = title.value.trim();
+    emitOp("meta_set", { field: "name", value: round.meta.name });
     touch();
   });
   left.appendChild(title);
@@ -323,6 +347,24 @@ export function renderFlowToolbar(container) {
   exportBtn.addEventListener("click", () => toolbarCallbacks.onExport?.());
   right.appendChild(exportBtn);
 
+  const shareBtn = document.createElement("button");
+  shareBtn.type = "button";
+  shareBtn.className = "tb-btn";
+  const shareState = toolbarCallbacks.getShareState?.() || "idle";
+  if (shareState === "connected") {
+    shareBtn.classList.add("sharing");
+    shareBtn.textContent = "● Live";
+    shareBtn.title = "Connected to your partner — click to manage";
+  } else if (shareState !== "idle") {
+    shareBtn.textContent = "Sharing…";
+    shareBtn.title = "Finishing the connection — click to manage";
+  } else {
+    shareBtn.textContent = "Share";
+    shareBtn.title = "Edit this flow together with your partner";
+  }
+  shareBtn.addEventListener("click", () => toolbarCallbacks.onShare?.());
+  right.appendChild(shareBtn);
+
   const coachBtn = document.createElement("button");
   coachBtn.type = "button";
   coachBtn.className = "tb-btn";
@@ -363,6 +405,7 @@ export function renderPartnerTabs(container) {
       if (name?.trim()) {
         round.settings[key] = name.trim();
         p.name = name.trim();
+        emitOp("partner_rename", { partnerId: p.id, name: p.name });
         touch();
       }
     });
@@ -408,6 +451,7 @@ export function renderPositionTabs(container, onAddAff, onAddOff) {
     closeBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       if (!confirm(`Delete flow "${sheet.name}"?`)) return;
+      emitOp("sheet_delete", { partnerId: partnerIdForSheet(sheet.id), sheetId: sheet.id });
       deleteSheet(round, sheet.id);
       touch();
     });
@@ -419,6 +463,7 @@ export function renderPositionTabs(container, onAddAff, onAddOff) {
     nameEl.addEventListener("blur", () => {
       nameEl.contentEditable = "false";
       sheet.name = nameEl.textContent.trim() || sheet.name;
+      emitOp("sheet_rename", { partnerId: partnerIdForSheet(sheet.id), sheetId: sheet.id, name: sheet.name });
       touch();
     });
 
@@ -465,11 +510,13 @@ export function renderGrid(wrapEl, footerEl) {
         </div>
       </div>`;
     wrapEl.querySelector('[data-add="aff"]')?.addEventListener("click", () => {
-      newSheet(round, "aff");
+      const sheet = newSheet(round, "aff");
+      emitOp("sheet_add", { partnerId: activePartnerId(), sheet });
       touch();
     });
     wrapEl.querySelector('[data-add="off"]')?.addEventListener("click", () => {
-      newSheet(round, "neg");
+      const sheet = newSheet(round, "neg");
+      emitOp("sheet_add", { partnerId: activePartnerId(), sheet });
       touch();
     });
     return;
@@ -572,6 +619,12 @@ export function renderGrid(wrapEl, footerEl) {
     btn.title = `Extend argument in ${col}`;
     btn.addEventListener("click", () => {
       extendArgument(sheet, col);
+      emitOp("row_add", {
+        partnerId: partnerIdForSheet(sheet.id),
+        sheetId: sheet.id,
+        rowIdx: sheet.rows.length - 1,
+        row: sheet.rows[sheet.rows.length - 1],
+      });
       touch();
     });
     wrap.appendChild(btn);
@@ -605,6 +658,7 @@ function wireCellEvents(div, sheet, row, rowIdx, col, colIdx) {
     const cellData = row.cells[col];
     cellData.text = div.textContent;
     scheduleSave(roundRef.current);
+    emitOp("cell_set", { partnerId: partnerIdForSheet(sheet.id), sheetId: sheet.id, rowIdx, col, text: cellData.text });
     if (rowIdx === 0) refreshSheetLabel(sheet);
   });
   div.addEventListener("keydown", (e) =>
@@ -645,6 +699,7 @@ function handleCellKeydown(e, sheet, row, rowIdx, col, colIdx, div) {
     cellData.text = "";
     div.textContent = "";
     scheduleSave(roundRef.current);
+    emitOp("cell_set", { partnerId: partnerIdForSheet(sheet.id), sheetId: sheet.id, rowIdx, col, text: "" });
     if (rowIdx === 0) refreshSheetLabel(sheet);
     return;
   }
@@ -697,7 +752,9 @@ export function focusCell(sheetId, rowIdx, col, { edit = false } = {}) {
 export function addRow() {
   const sheet = getActiveSheet(roundRef.current);
   if (!sheet) return;
-  sheet.rows.push(makeRow(sheet.cols));
+  const row = makeRow(sheet.cols);
+  sheet.rows.push(row);
+  emitOp("row_add", { partnerId: activePartnerId(), sheetId: sheet.id, rowIdx: sheet.rows.length - 1, row });
   touch();
 }
 
@@ -705,11 +762,15 @@ export function applyCellMark(mark) {
   if (!ctxTarget) return;
   const cell = getCellData(roundRef.current, ctxTarget.sheetId, ctxTarget.rowIdx, ctxTarget.col);
   if (!cell) return;
+  const pid = partnerIdForSheet(ctxTarget.sheetId);
   if (mark === "clear") {
     cell.text = "";
     cell.mark = "normal";
+    emitOp("cell_set", { partnerId: pid, sheetId: ctxTarget.sheetId, rowIdx: ctxTarget.rowIdx, col: ctxTarget.col, text: "" });
+    emitOp("cell_mark", { partnerId: pid, sheetId: ctxTarget.sheetId, rowIdx: ctxTarget.rowIdx, col: ctxTarget.col, mark: "normal" });
   } else {
     cell.mark = mark;
+    emitOp("cell_mark", { partnerId: pid, sheetId: ctxTarget.sheetId, rowIdx: ctxTarget.rowIdx, col: ctxTarget.col, mark });
   }
   touch();
 }

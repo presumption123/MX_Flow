@@ -4,7 +4,9 @@ import {
   loadActiveRound,
   loadRoundById,
   saveRound,
+  saveRoundToArchive,
   scheduleSave,
+  flushSave,
   setupBeforeUnload,
   exportMxflow,
 } from "./archive.js";
@@ -40,7 +42,11 @@ import {
   focusCell,
   switchPartnerTab,
   setToolbarCallbacks,
+  setSyncHook,
 } from "./grid.js";
+import { ShareSession } from "./share-session.js";
+import { SyncEngine } from "./sync-engine.js";
+import { SHARE_CODE_WARN_LEN } from "./share-protocol.js";
 import {
   checkCoachAvailable,
   sendCoachMessage,
@@ -58,11 +64,14 @@ import {
   getActiveSheet,
   updatePartnerNames,
   newSheet,
+  migrateRoundDocument,
 } from "./debate-model.js";
 import { applyTheme, THEMES } from "./themes.js";
 
 let round = null;
 let appState = null;
+let shareSession = null;
+let shareEngine = null;
 
 async function init() {
   setupBeforeUnload();
@@ -77,6 +86,7 @@ async function init() {
 
   applyTheme(appState.settings.theme, appState.settings.gridFontFamily);
   await checkCoachAvailable();
+  initShare();
   wireUI();
   wireFileUpload();
   wireDashboard(getDashboardCallbacks());
@@ -165,8 +175,10 @@ function wireUI() {
     },
     onUpload: () => toggleFilesPanel(),
     onExport: () => exportMxflow(round),
+    onShare: () => openShareModal(),
     onCoach: () => toggleCoachPanel(),
     onSettings: () => openSettings(),
+    getShareState: () => shareSession?.state || "idle",
   });
 
   onRender(() => {
@@ -231,6 +243,7 @@ function wireUI() {
     if (e.key === "Escape") {
       closeSettings();
       closeFilesPanel();
+      closeShareModal();
     }
   });
 
@@ -271,6 +284,7 @@ function wireUI() {
       p.negCount = 0;
     });
     await saveRound(round, true);
+    shareEngine?.sendFullSnapshot();
     renderFlow();
     closeSettings();
   });
@@ -292,6 +306,7 @@ function wireUI() {
     e.target.value = "";
   });
 
+  wireShareUI();
   renderThemeSwatches();
 }
 
@@ -321,12 +336,14 @@ function renderFlow() {
   renderPositionTabs(
     document.getElementById("tabs"),
     () => {
-      newSheet(round, "aff");
+      const sheet = newSheet(round, "aff");
+      shareEngine?.recordOp({ type: "sheet_add", payload: { partnerId: round.activePartnerId, sheet } });
       scheduleSave(round);
       renderFlow();
     },
     () => {
-      newSheet(round, "neg");
+      const sheet = newSheet(round, "neg");
+      shareEngine?.recordOp({ type: "sheet_add", payload: { partnerId: round.activePartnerId, sheet } });
       scheduleSave(round);
       renderFlow();
     }
@@ -431,6 +448,8 @@ function insertIntoCell(text) {
   if (!cell) return;
   cell.text = (cell.text ? cell.text + "\n" : "") + text;
   scheduleSave(round);
+  const partnerId = round.partners.find((p) => p.sheets.some((s) => s.id === sel.sheetId))?.id;
+  shareEngine?.recordOp({ type: "cell_set", payload: { partnerId, sheetId: sel.sheetId, rowIdx: sel.rowIdx, col: sel.col, text: cell.text } });
   renderFlow();
   focusCell(sel.sheetId, sel.rowIdx, sel.col);
 }
@@ -515,6 +534,209 @@ function saveSettingsFromModal() {
   persistAppState();
   closeSettings();
   if (getAppState()?.view === "flow") renderFlow();
+}
+
+function initShare() {
+  shareSession = new ShareSession({
+    onState: () => renderShareStatus(),
+    onMessage: (msg) => shareEngine.handleMessage(msg),
+    onConnected: () => {
+      shareEngine.onConnect();
+      renderShareStatus();
+    },
+    onDisconnected: () => renderShareStatus(),
+  });
+  shareEngine = new SyncEngine({
+    session: shareSession,
+    getRound: () => round,
+    onApply: onSyncApply,
+  });
+  setSyncHook((op) => shareEngine.recordOp(op));
+}
+
+function affectsActiveView(payload) {
+  if (!round || !payload) return true;
+  if (payload.partnerId && payload.partnerId !== round.activePartnerId) return false;
+  const sheet = getActiveSheet(round);
+  if (payload.sheetId && sheet && payload.sheetId !== sheet.id) return false;
+  return true;
+}
+
+function onSyncApply(info) {
+  if (!round) return;
+  scheduleSave(round);
+  setRound(round);
+  setFilesRound(round);
+  const visible = info.op === "full_snapshot" || affectsActiveView(info.payload);
+  if (visible && getAppState()?.view === "flow") renderFlow();
+}
+
+function renderShareStatus() {
+  if (getAppState()?.view === "flow") {
+    renderFlowToolbar(document.getElementById("flow-toolbar"));
+  }
+  const overlay = document.getElementById("share-overlay");
+  if (overlay && overlay.style.display === "flex") updateShareModal();
+}
+
+function setShareStatus(text, kind = "") {
+  const el = document.getElementById("share-status");
+  if (!el) return;
+  el.textContent = text || "";
+  el.className = "share-status" + (kind ? " " + kind : "");
+}
+
+function warnIfLongCode(code) {
+  if (code.length > SHARE_CODE_WARN_LEN) {
+    setShareStatus(
+      "This code is large because of uploaded cards. It should still work, but may be slow to send over some chat apps.",
+      "warn"
+    );
+  }
+}
+
+function showShareSection(id) {
+  ["share-chooser", "share-start", "share-join"].forEach((s) => {
+    const el = document.getElementById(s);
+    if (el) el.hidden = s !== id;
+  });
+}
+
+function updateShareModal() {
+  const connected = shareSession?.connected;
+  document.getElementById("share-disconnect").hidden = !connected;
+  if (connected) {
+    showShareSection(null);
+    setShareStatus("Connected — you and your partner are editing this flow together.", "ok");
+  }
+}
+
+function openShareJoin() {
+  setShareStatus("Paste the code your partner sent you.");
+  document.getElementById("share-offer-in").value = "";
+  document.getElementById("share-join-step2").hidden = true;
+  document.getElementById("share-disconnect").hidden = !shareSession?.connected;
+  showShareSection("share-join");
+  document.getElementById("share-overlay").style.display = "flex";
+}
+
+function openShareModal() {
+  if (!round) return;
+  setShareStatus("");
+  document.getElementById("share-answer-in").value = "";
+  document.getElementById("share-offer-in").value = "";
+  document.getElementById("share-join-step2").hidden = true;
+  if (shareSession?.connected) {
+    updateShareModal();
+  } else {
+    showShareSection("share-chooser");
+    document.getElementById("share-disconnect").hidden = true;
+  }
+  document.getElementById("share-overlay").style.display = "flex";
+}
+
+function closeShareModal() {
+  document.getElementById("share-overlay").style.display = "none";
+}
+
+async function startShareSession() {
+  showShareSection("share-start");
+  setShareStatus("Preparing your code…");
+  try {
+    shareEngine.reset();
+    const snapshot = JSON.parse(JSON.stringify(round));
+    const code = await shareSession.createOffer(snapshot);
+    document.getElementById("share-code-out").value = code;
+    setShareStatus("Copy code 1 and send it to your partner, then paste their reply below.");
+    warnIfLongCode(code);
+  } catch (e) {
+    setShareStatus(e.message || "Could not create a share code.", "error");
+  }
+}
+
+async function continueShareJoin() {
+  const code = document.getElementById("share-offer-in").value;
+  setShareStatus("Reading your partner's code…");
+  try {
+    shareEngine.reset();
+    const { round: snapshot, code2 } = await shareSession.acceptOffer(code);
+    await flushSave();
+    await applyJoinedRound(snapshot);
+    document.getElementById("share-code-back").value = code2;
+    document.getElementById("share-join-step2").hidden = false;
+    setShareStatus("Send code 2 back to your partner to finish connecting.");
+    warnIfLongCode(code2);
+  } catch (e) {
+    setShareStatus(e.message || "Could not read that code.", "error");
+  }
+}
+
+async function connectShareAnswer() {
+  const code = document.getElementById("share-answer-in").value;
+  setShareStatus("Connecting…");
+  try {
+    await shareSession.acceptAnswer(code);
+    setShareStatus("Connecting… waiting for the link to open.");
+  } catch (e) {
+    setShareStatus(e.message || "Could not use that response code.", "error");
+  }
+}
+
+async function applyJoinedRound(snapshot) {
+  round = migrateRoundDocument(snapshot);
+  await saveRoundToArchive(round);
+  appState.activeRoundId = round.id;
+  appState.view = "flow";
+  await persistAppState();
+  setRound(round);
+  setFilesRound(round);
+  showFlow(round.id);
+  renderFlow();
+}
+
+function disconnectShare() {
+  shareSession.close();
+  shareEngine.reset();
+  closeShareModal();
+}
+
+function wireShareUI() {
+  document.getElementById("share-start-btn")?.addEventListener("click", startShareSession);
+  document.getElementById("share-join-btn")?.addEventListener("click", () => {
+    showShareSection("share-join");
+    setShareStatus("Paste the code your partner sent you.");
+  });
+  document.getElementById("share-continue-btn")?.addEventListener("click", continueShareJoin);
+  document.getElementById("share-connect-btn")?.addEventListener("click", connectShareAnswer);
+  document.getElementById("share-disconnect")?.addEventListener("click", disconnectShare);
+  document.getElementById("share-close")?.addEventListener("click", closeShareModal);
+  document.getElementById("sidebar-join")?.addEventListener("click", openShareJoin);
+  document.getElementById("share-overlay")?.addEventListener("click", (e) => {
+    if (e.target.id === "share-overlay") closeShareModal();
+  });
+  document.getElementById("share-copy-out")?.addEventListener("click", () =>
+    copyShareCode("share-code-out", "share-copy-out")
+  );
+  document.getElementById("share-copy-back")?.addEventListener("click", () =>
+    copyShareCode("share-code-back", "share-copy-back")
+  );
+}
+
+async function copyShareCode(textareaId, btnId) {
+  const ta = document.getElementById(textareaId);
+  const btn = document.getElementById(btnId);
+  if (!ta?.value) return;
+  try {
+    await navigator.clipboard.writeText(ta.value);
+  } catch {
+    ta.select();
+    document.execCommand("copy");
+  }
+  if (btn) {
+    const original = btn.textContent;
+    btn.textContent = "Copied";
+    setTimeout(() => (btn.textContent = original), 1500);
+  }
 }
 
 init();

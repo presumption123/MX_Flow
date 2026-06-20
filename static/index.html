@@ -26,6 +26,7 @@
         <div class="sidebar-footer">
           <button type="button" class="tb-btn" id="sidebar-settings">Settings</button>
           <button type="button" class="tb-btn" id="sidebar-import">Import Backup</button>
+          <button type="button" class="tb-btn" id="sidebar-join">Join Shared Flow</button>
           <button type="button" class="tb-btn primary" id="sidebar-new-round">+ New Round</button>
         </div>
       </aside>
@@ -192,6 +193,56 @@
         <button type="button" id="close-settings">Cancel</button>
       </div>
       <button type="button" id="clear-flow-btn" class="tb-btn danger">Clear all flows</button>
+    </div>
+  </div>
+
+  <div id="share-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="share-title">
+    <div class="settings-modal share-modal">
+      <h2 id="share-title">Share this flow</h2>
+
+      <div id="share-chooser" class="share-section">
+        <p class="settings-note">
+          Edit this flow live with your partner over a direct connection — nothing is stored on a server.
+          One of you starts a session; the other joins. You will trade two codes to connect.
+        </p>
+        <div class="share-choice-btns">
+          <button type="button" id="share-start-btn" class="tb-btn primary">Start a session</button>
+          <button type="button" id="share-join-btn" class="tb-btn">Join a session</button>
+        </div>
+      </div>
+
+      <div id="share-start" class="share-section" hidden>
+        <div class="share-step">
+          <div class="share-step-head"><span class="share-step-num">1</span> Send this code to your partner</div>
+          <textarea id="share-code-out" class="share-code" readonly rows="4" placeholder="Generating…"></textarea>
+          <button type="button" id="share-copy-out" class="tb-btn">Copy code</button>
+        </div>
+        <div class="share-step">
+          <div class="share-step-head"><span class="share-step-num">2</span> Paste the code they send back</div>
+          <textarea id="share-answer-in" class="share-code" rows="4" placeholder="MXSH1…"></textarea>
+          <button type="button" id="share-connect-btn" class="tb-btn primary">Connect</button>
+        </div>
+      </div>
+
+      <div id="share-join" class="share-section" hidden>
+        <div class="share-step">
+          <div class="share-step-head"><span class="share-step-num">1</span> Paste the code from your partner</div>
+          <textarea id="share-offer-in" class="share-code" rows="4" placeholder="MXSH1…"></textarea>
+          <button type="button" id="share-continue-btn" class="tb-btn primary">Continue</button>
+        </div>
+        <div class="share-step" id="share-join-step2" hidden>
+          <div class="share-step-head"><span class="share-step-num">2</span> Send this code back to your partner</div>
+          <textarea id="share-code-back" class="share-code" readonly rows="4"></textarea>
+          <button type="button" id="share-copy-back" class="tb-btn">Copy code</button>
+        </div>
+      </div>
+
+      <div id="share-status" class="share-status" role="status"></div>
+
+      <div class="modal-actions">
+        <button type="button" id="share-disconnect" class="tb-btn danger" hidden>Disconnect</button>
+        <button type="button" id="share-close" class="tb-btn">Close</button>
+      </div>
     </div>
   </div>
 

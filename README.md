@@ -25,6 +25,7 @@ Without `ANTHROPIC_API_KEY`, the grid and archive work; the coach shows instruct
 - Verbatim-style grid: speech columns, keyboard shortcuts (Enter = new row, Shift+Enter = newline), Tab navigation, dropped/conceded marks
 - IndexedDB autosave (300ms debounce) + `.mxflow` export/import
 - Uploaded cards persisted in round document (survives refresh)
+- Live partner sharing: pair two browsers by trading two codes (WebRTC peer-to-peer, no server storage), then edit the flow together in real time
 - AI coach via `POST /api/coach` (no browser API key)
 
 ## Project layout
@@ -59,4 +60,6 @@ npx playwright test   # requires: npm install && npx playwright install
 
 ## Deferred (follow-up PR)
 
-- WebSocket partner sync + VPS deploy
+- TURN relay for partner sharing behind strict NATs/firewalls
+- End-to-end encryption of share codes
+- Server-mediated sync + VPS deploy
