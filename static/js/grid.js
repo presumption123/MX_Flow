@@ -223,7 +223,7 @@ function handleEnterShortcuts(e, sheet, rowIdx, col, div, { inEdit = false } = {
   return true;
 }
 
-function moveSelection(dRow, dCol) {
+function moveSelection(dRow, dCol, { edit = true } = {}) {
   if (!selectedCell) return;
   const sheet = getActiveSheet(roundRef.current);
   if (!sheet || selectedCell.sheetId !== sheet.id) return;
@@ -235,7 +235,7 @@ function moveSelection(dRow, dCol) {
   if (newRow < 0 || newRow >= sheet.rows.length) return;
   if (newColIdx < 0 || newColIdx >= sheet.cols.length) return;
 
-  focusCell(sheet.id, newRow, sheet.cols[newColIdx], { edit: true });
+  focusCell(sheet.id, newRow, sheet.cols[newColIdx], { edit });
 }
 
 function restoreGridFocus(sheet) {
@@ -689,10 +689,10 @@ function handleCellKeydown(e, sheet, row, rowIdx, col, colIdx, div) {
     beginEdit(div, { clear: false });
     return;
   }
-  if (e.key === "ArrowUp") { e.preventDefault(); moveSelection(-1, 0); return; }
-  if (e.key === "ArrowDown") { e.preventDefault(); moveSelection(1, 0); return; }
-  if (e.key === "ArrowLeft") { e.preventDefault(); moveSelection(0, -1); return; }
-  if (e.key === "ArrowRight") { e.preventDefault(); moveSelection(0, 1); return; }
+  if (e.key === "ArrowUp") { e.preventDefault(); moveSelection(-1, 0, { edit: false }); return; }
+  if (e.key === "ArrowDown") { e.preventDefault(); moveSelection(1, 0, { edit: false }); return; }
+  if (e.key === "ArrowLeft") { e.preventDefault(); moveSelection(0, -1, { edit: false }); return; }
+  if (e.key === "ArrowRight") { e.preventDefault(); moveSelection(0, 1, { edit: false }); return; }
   if (e.key === "Backspace" || e.key === "Delete") {
     e.preventDefault();
     const cellData = row.cells[col] || (row.cells[col] = { text: "", mark: "normal" });

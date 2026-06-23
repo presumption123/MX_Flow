@@ -170,6 +170,23 @@ test("mod+Shift+Enter falls back to equivalent cell when destination tab was nev
   await expect(page.locator('.flow-cell[data-row="0"][data-col="1NC"].selected')).toBeVisible();
 });
 
+test("arrow keys move between cells without entering edit mode", async ({ page }) => {
+  await page.goto("/");
+  await openFirstRound(page);
+  const cell = page.locator('.flow-cell[data-row="0"][data-col="1AC"]');
+  await cell.click();
+  await expect(cell).toHaveClass(/selected/);
+  await expect(cell).not.toHaveClass(/editing/);
+
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator('.flow-cell[data-row="0"][data-col="1NC"]')).toHaveClass(/selected/);
+  await expect(page.locator('.flow-cell[data-row="0"][data-col="1NC"]')).not.toHaveClass(/editing/);
+
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator('.flow-cell[data-row="1"][data-col="1NC"]')).toHaveClass(/selected/);
+  await expect(page.locator('.flow-cell[data-row="1"][data-col="1NC"]')).not.toHaveClass(/editing/);
+});
+
 test("Shift+Enter inserts newline while editing", async ({ page }) => {
   await page.goto("/");
   await openFirstRound(page);
