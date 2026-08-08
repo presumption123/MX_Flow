@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "app": "newsheet-superflow",
+  "type": "halcyon-flow-round",
+  "exportedAt": "2026-01-01T00:00:00.000Z",
+  "round": {
+    "id": "round-template",
+    "name": "New Round",
+    "tournament": "",
+    "roundNum": "",
+    "judges": "",
+    "affSchool": "",
+    "affCode": "",
+    "negSchool": "",
+    "negCode": "",
+    "lastEdited": 0,
+    "sheets": [],
+    "activeSheetId": null
+  }
+}

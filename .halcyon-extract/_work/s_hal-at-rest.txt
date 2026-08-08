@@ -1,0 +1,27 @@
+Pb*H5
+halcyonDocsDataDir
+homedir
+process
+platform
+win32
+APPDATA
+AppData
+Roaming
+Halcyon Docs
+halcyon-data
+darwin
+Library
+Application Support
+XDG_CONFIG_HOME
+.config
+evalmachine.<anonymous>
+styles-snapshot.json
+PdFaT:
+readFileSync
+ENOENT
+ENOTDIR
+[hal-at-rest] could not read Halcyon Docs style snapshot:
+styles
+[hal-at-rest] malformed Halcyon Docs style snapshot:
+ Pf>/
+readStylesSnapshot

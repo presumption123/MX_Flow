@@ -1,0 +1,69 @@
+display	debateFormat	Default Format	policy,ld,pf,debate format
+display	checkForUpdatesOnLaunch	Check for Updates on Launch	updates,auto update,upgrade
+display	reportBug	Report a Bug	feedback,issue,problem
+display	suggestFeature	Suggest a Feature	feedback,request,idea
+display	keepRunningInBackground	Keep running in the background when closed	tray,background,minimize to tray,close to tray
+display	textWrap	Text Wrap	wrap cells
+display	showFullBlock	Show Full Block Label	block label
+display	coloredColumnBackgrounds	Colored Column Backgrounds	column colors
+display	colorblindMode	Colorblind Mode (tab side chips)	accessibility,side chips
+display	enterSpacing	Backflow Row Gap	row gap,spacing
+display	colWidth	Column Width (px)	column size
+display	rowHeight	Row Height (px)	row size
+display	fontSize	Font Size (pt)	text size
+display	resetSettings	Reset All Settings	defaults,factory reset
+appearance	uiStyle	UI Style	chrome style,skin
+appearance	uiFont	UI Font	interface font,chrome font
+appearance	folderPanelWidth	Folder Panel Width	dashboard sidebar,folder sidebar width
+appearance	theme	Theme	dark mode,light mode,system theme
+appearance	activeCellStyle	Active Cell Style	cell outline,selection style
+appearance	activeCellBorderColor	Active Cell Line	cell border color
+appearance	activeCellFillColor	Active Cell Shading	cell fill color
+appearance	mainColor	Main Color (UI accent)	accent,brand color,halcyon blue
+appearance	affColor	Aff (Affirmative) Column Color	aff color
+appearance	negColor	Off / Neg (Negative) Column Color	neg color,off color
+appearance	highlightColor	Highlight Color	highlighter
+appearance	blockChipColor	Block Chip Color	block badge
+appearance	blockTextColor	Block Chip Text Color	block badge text
+appearance	cardChipColor	Card Chip Color	card badge
+appearance	cardTextColor	Card Chip Text Color	card badge text
+appearance	tagChipColor	Tag Chip Color	tag badge
+appearance	tagTextColor	Tag Chip Text Color	tag badge text
+appearance	dashboardFormatChipColor	Dashboard Format Chip Color	format chip
+appearance	dashboardTournamentChipColor	Dashboard Tournament Chip Color	tournament chip
+appearance	fontFamily	Flow Font	grid font,typeface
+appearance	maximumTextWidth	Maximum Text Width	text column width,reading width
+appearance	textColumnPosition	Text Column Position	center text,left text,right text
+appearance	scrollbarWidth	Scrollbar width	scroll bar,thin,standard,wide
+appearance	scrollbarColor	Scrollbar color	scroll bar color,thumb color
+appearance	ulThickness	Underline thickness (px)	underline weight,debate underline
+appearance	boxThickness	Box thickness (pt)	emphasis box,box border,frame
+appearance	ulZoomScale	Underline zoom scaling (%)	underline zoom,scale with zoom
+appearance	boxZoomScale	Box zoom scaling (%)	box zoom,scale with zoom
+logistics	selectedSendStyle	Send Style	analytic,normal,send to doc
+logistics	halIpcPort	Doc Connection Port	halcyon docs,port,loopback
+logistics	halSearchCacheSize	Search Documents Cached	cache size,doc cache
+logistics	docSearchIncludeDocx	Search Word Documents	docx,word search
+logistics	docSearchIncludeCmir	Search CardMirror Documents	cmir,cardmirror,doc search
+logistics	caretWordMarks	Apply Marks to the Word at the Cursor	caret,cursor word,f9,word marks
+logistics	advanceAfterInsert	Advance After Insert	next cell
+logistics	autoExpandSearchResults	Auto-expand Search Results	expand results
+logistics	shorthands	Shorthands	abbreviations,expansions,snippets
+logistics	halSearchFolders	Doc Folders	search folders,library,hal folders
+logistics	signpostOnSend	Signpost on Send	signposting
+logistics	signpostTemplate	Signpost Template	signpost format
+logistics	numberSignposting	Number Signposting	numbered signposts
+logistics	overrideSideSignposting	Override side-based signposting	signpost side,aff neg sheets
+logistics	curlyQuotes	Curly Quotes	smart quotes
+logistics	speechOverrides	Per-Speech Overrides	speech signposts
+logistics	customFormats	Custom Formats	format editor,speech names
+timer	timerVisible	Show Timer	timer widget
+timer	colorTheme	Color Theme	timer colors
+timer	sound	Alert Sound	alert,bell,chime,buzzer
+timer	timerAlertPoints	Alert Points	remaining seconds,timer warning
+timer	timerAlertVolume	Alert Volume	timer volume,alarm volume
+timer	constructiveTime	Constructive	constructive time
+timer	rebuttalTime	Rebuttal	rebuttal time
+timer	cxTime	Cross-ex	cross examination,cx time
+timer	prepTime	Prep	prep time
+keybindings	keybindings	Keyboard Shortcuts	keybindings,rebind,hotkeys,shortcut editor,bindings

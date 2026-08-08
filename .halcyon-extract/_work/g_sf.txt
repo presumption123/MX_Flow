@@ -1,0 +1,123 @@
+=== @198843 ===
+ettings`,group:`UI`,default:`Ctrl+,`},"ui.dashboard":{label:`Back to Dashboard`,group:`UI`,default:`Alt+H`},"view.toggleDarkMode":{label:`Toggle Dark Mode`,group:`UI`,default:`Ctrl+Alt+Shift+D`},"app.switchToDocs":{label:`Switch to Halcyon Docs`,group:`UI`,default:`Ctrl+Shift+T`,aliases:[`switch app`,`go to docs`,`open docs`,`halcyon docs`,`docs window`,`toggle app`]},"zoom.in":{label:`Zoom In`,group:`Zoom`,default:`Ctrl+=`},"zoom.out":{label:`Zoom Out`,group:`Zoom`,d
+
+=== @231882 ===
+n?.includeCmir!==!1});return r.truncated&&Object.defineProperty(r.files,`truncated`,{value:r.truncated,enumerable:!1}),r.files}let r=(Array.isArray(t)?t:[]).filter(Boolean);if(!r.length||!e||typeof e.listHalFiles!=`function`)return[];let i=await Promise.all(r.map(t=>Promise.resolve(e.listHalFiles({folder:t})).catch(()=>({files:[]})))),a=new Map;for(let e of i)for(let t of e&&Array.isArray(e.files)?e.files:[])a.set(t.path,t);return[...a.values()]}var Tn=new Set([`.hal`
+
+=== @231967 ===
+value:r.truncated,enumerable:!1}),r.files}let r=(Array.isArray(t)?t:[]).filter(Boolean);if(!r.length||!e||typeof e.listHalFiles!=`function`)return[];let i=await Promise.all(r.map(t=>Promise.resolve(e.listHalFiles({folder:t})).catch(()=>({files:[]})))),a=new Map;for(let e of i)for(let t of e&&Array.isArray(e.files)?e.files:[])a.set(t.path,t);return[...a.values()]}var Tn=new Set([`.hal`,`.docx`,`.cmir`]);function En(e){let t=/\.[^.\\/]+$/.exec(String(e??``));return t?t[
+
+=== @233738 ===
+raryStatus(t)}catch{return null}}))).find(e=>e&&e.truncated)??null),a.forEach((e,t)=>o.set(e,Array.isArray(n[t])?n[t]:[])),{files:On(o,{includeDocx:r,includeCmir:i}),byRoot:o,truncated:s}}if(typeof e.listHalFiles==`function`){let t=await Promise.all(a.map(async t=>{try{return(await e.listHalFiles({folder:t}))?.files??[]}catch{return[]}}));a.forEach((e,n)=>o.set(e,Array.isArray(t[n])?t[n]:[]))}return{files:On(o,{includeDocx:!1,includeCmir:!1}),byRoot:o,truncated:null}}
+
+=== @233823 ===
+o.set(e,Array.isArray(n[t])?n[t]:[])),{files:On(o,{includeDocx:r,includeCmir:i}),byRoot:o,truncated:s}}if(typeof e.listHalFiles==`function`){let t=await Promise.all(a.map(async t=>{try{return(await e.listHalFiles({folder:t}))?.files??[]}catch{return[]}}));a.forEach((e,n)=>o.set(e,Array.isArray(t[n])?t[n]:[]))}return{files:On(o,{includeDocx:!1,includeCmir:!1}),byRoot:o,truncated:null}}function An(e,t){let n=String(e||``),r=n.split(/[\\/]/).pop()||n,i=(e,t)=>{let n=t.re
+
+=== @423464 ===
+r(let e of t){if(!e||typeof e!=`object`)continue;let t=e.id??e.documentId??``;t&&n.push({id:String(t),name:String(e.name??e.title??t),path:e.path??``})}return n}async function nv(e){let t=$_();if(!t?.halProbe)return{state:Q_.UNSUPPORTED};try{let n=await t.halProbe({port:ev(e)}),r={state:n?.state??Q_.NOT_RUNNING};return n&&Array.isArray(n.documents)&&(r.documents=tv(n)),n?.error!=null&&(r.error=n.error),r}catch(e){return{state:Q_.ERROR,error:e}}}async function rv(e
+
+=== @423520 ===
+.id??e.documentId??``;t&&n.push({id:String(t),name:String(e.name??e.title??t),path:e.path??``})}return n}async function nv(e){let t=$_();if(!t?.halProbe)return{state:Q_.UNSUPPORTED};try{let n=await t.halProbe({port:ev(e)}),r={state:n?.state??Q_.NOT_RUNNING};return n&&Array.isArray(n.documents)&&(r.documents=tv(n)),n?.error!=null&&(r.error=n.error),r}catch(e){return{state:Q_.ERROR,error:e}}}async function rv(e,t){let n=$_();if(!n?.halScanDocument||!e)return{ok:!1};
+
+=== @423754 ===
+.state??Q_.NOT_RUNNING};return n&&Array.isArray(n.documents)&&(r.documents=tv(n)),n?.error!=null&&(r.error=n.error),r}catch(e){return{state:Q_.ERROR,error:e}}}async function rv(e,t){let n=$_();if(!n?.halScanDocument||!e)return{ok:!1};try{let r=await n.halScanDocument({port:ev(t),documentId:e});return!r||r.ok!==!0?{ok:!1,error:r?.error}:{ok:!0,headers:Array.isArray(r.headers)?r.headers:[],cards:Array.isArray(r.cards)?r.cards:[],texts:Array.isArray(r.texts)?r.texts
+
+=== @423806 ===
+cuments)&&(r.documents=tv(n)),n?.error!=null&&(r.error=n.error),r}catch(e){return{state:Q_.ERROR,error:e}}}async function rv(e,t){let n=$_();if(!n?.halScanDocument||!e)return{ok:!1};try{let r=await n.halScanDocument({port:ev(t),documentId:e});return!r||r.ok!==!0?{ok:!1,error:r?.error}:{ok:!0,headers:Array.isArray(r.headers)?r.headers:[],cards:Array.isArray(r.cards)?r.cards:[],texts:Array.isArray(r.texts)?r.texts:[]}}catch(e){return{ok:!1,error:e}}}async function 
+
+=== @424101 ===
+aders:Array.isArray(r.headers)?r.headers:[],cards:Array.isArray(r.cards)?r.cards:[],texts:Array.isArray(r.texts)?r.texts:[]}}catch(e){return{ok:!1,error:e}}}async function iv(e,t,n){let r=$_();if(!r?.halSendItems)return{ok:!1,error:`Halcyon Docs isn’t connected. Open Halcyon Docs to send into a document.`};if(!e)return{ok:!1,error:`Choose a Halcyon Docs document to send to first.`};let i=Array.isArray(t)?[...t]:[],a={styleName:n?.selectedSendStyle??`Analytic`,useCurly
+
+=== @424416 ===
+eturn{ok:!1,error:`Choose a Halcyon Docs document to send to first.`};let i=Array.isArray(t)?[...t]:[],a={styleName:n?.selectedSendStyle??`Analytic`,useCurlyQuotes:!!n?.curlyQuotes};try{let t=await r.halSendItems({port:ev(n),documentId:e,items:i,options:a});if(!t||typeof t!=`object`)return{ok:!1,error:`Send failed: no response from Halcyon Docs.`};let o={ok:!!t.ok};return t.inserted!=null&&(o.inserted=t.inserted),t.error!=null&&(o.error=t.error),o}catch(e){return{ok:!
+
+=== @541913 ===
+y.shift())}function Cy(e){let t=yy.indexOf(e);t>=0&&yy.splice(t,1),yy.push(e)}async function wy(e,t=$_()){if(!e)return null;let n=_y(e);if(vy.has(n))return Cy(n),vy.get(n);let r=(async()=>{try{if(!t?.readDocxBytes)return null;let n=await t.readDocxBytes({path:e});if(!n?.ok||!n.bytes)return null;let r=await $v(n.bytes);return r?.ok?r:null}catch{return null}})();return vy.set(n,r),Cy(n),Sy(),r}async function Ty(e,t=$_()){let n=await wy(e,t);return n?.ok?(n.__objects||=iy
+
+=== @541953 ===
+Of(e);t>=0&&yy.splice(t,1),yy.push(e)}async function wy(e,t=$_()){if(!e)return null;let n=_y(e);if(vy.has(n))return Cy(n),vy.get(n);let r=(async()=>{try{if(!t?.readDocxBytes)return null;let n=await t.readDocxBytes({path:e});if(!n?.ok||!n.bytes)return null;let r=await $v(n.bytes);return r?.ok?r:null}catch{return null}})();return vy.set(n,r),Cy(n),Sy(),r}async function Ty(e,t=$_()){let n=await wy(e,t);return n?.ok?(n.__objects||=iy(n.doc),n.__objects):null}function Ey(e)
+
+=== @547113 ===
+value:bt({...n,kind:`block`,block:{...r,title:r.title||``,html:``,nodes:null,headingNode:m,children:f,modified:!0,path:Fy(r.path),searchFolder:``}}),media:l}}async function Vy(e,t=$_()){try{return t?.readDocxBytes?st(e)?await By(e,t):ct(e)?await Ry(e,t):null:null}catch{return null}}var Hy=[`owner`,`editor`,`viewer`];function Uy(e){return typeof e==`string`&&Hy.includes(e)?e:null}function Wy(e){return e===`owner`||e===`editor`}var Gy=new Set;function Ky(e,t,n,r,i,a,o,s)
+
+=== @702485 ===
+=`tag`);if(e&&(e.body||e.tag))return{body:e.body||``,citeFull:n.citeFull||e.cite||n.cite||``,bodyUnderlineRanges:[],bodyStrikeRanges:[],bodyEmphasisRanges:[],bodyHighlightRanges:[]}}let a=$_();if(!a?.readDocxBytes||!n.sourcePath)return{body:n.body||``};try{let e=await wy(n.sourcePath,a);if(!e?.ok)return{body:n.body||``};let t=await Ty(n.sourcePath,a);if(!Array.isArray(t))return{body:n.body||``};let r=n.nodeId&&t.find(e=>e.kind===`card`&&e.node_id===n.nodeId)||t.find(e=
+
+=== @703506 ===
+cite||``,bodyUnderlineRanges:s,bodyStrikeRanges:c,bodyEmphasisRanges:[],bodyHighlightRanges:[]}}catch{return{body:n.body||``,citeFull:n.citeFull||n.cite||``}}}async function rC(e,t){let n=$_();if(!n?.readDocxBytes||!Array.isArray(e))return e;let r=new Map;for(let t of e)!t||t.kind!==`card`||t.body||t.node&&typeof t.node==`object`||Array.isArray(t.bodyParagraphs)&&t.bodyParagraphs.length||typeof t.html==`string`&&t.html.trim()||!t.sourcePath||(r.has(t.sourcePath)||r.set
+
+=== @706488 ===
+ull}}Array.isArray(e.content)&&e.content.forEach(l)};o.forEach(l),e?n.nodes=o:n.node=o[0],n.media=s}return e}async function lC(e,t){await ky(t?.halSearchFolders??[]),e=await rC(e,t);let n=$_();if(!n?.readDocxBytes||!Array.isArray(e))return Array.isArray(e)?cC(e).map(iC):e;let r=[];for(let t of e){if(t&&t.kind===`block`&&Array.isArray(t.nodes)&&t.nodes.length){let e=t.suppressHeader&&t.nodes[0]?.type===`block`?t.nodes.slice(1):t.nodes;e.length&&r.push({...t,nodes:e});co
+
+=== @943960 ===
+arance==`object`?{..._N,...e.appearance}:{..._N},tokens:t,overrideClasses:n},kN}async function MN(){let e=typeof window<`u`?window.halcyonFlowDesktop?.superflow:null;if(!e)return null;try{if(typeof e.halGetStyles==`function`){let t=await e.halGetStyles({});if(t&&t.ok){let e=jN(t);if(e)return e}}}catch{}try{if(typeof e.halGetStylesAtRest==`function`){let t=jN(await e.halGetStylesAtRest());if(t)return t}}catch{}return null}var NN=11;function PN(e){NN=Number.isFinite(e)&
+
+=== @944000 ===
+:{..._N},tokens:t,overrideClasses:n},kN}async function MN(){let e=typeof window<`u`?window.halcyonFlowDesktop?.superflow:null;if(!e)return null;try{if(typeof e.halGetStyles==`function`){let t=await e.halGetStyles({});if(t&&t.ok){let e=jN(t);if(e)return e}}}catch{}try{if(typeof e.halGetStylesAtRest==`function`){let t=jN(await e.halGetStylesAtRest());if(t)return t}}catch{}return null}var NN=11;function PN(e){NN=Number.isFinite(e)&&e>0?e:11}var FN=new Set([`card_body`,`c
+
+=== @944080 ===
+`u`?window.halcyonFlowDesktop?.superflow:null;if(!e)return null;try{if(typeof e.halGetStyles==`function`){let t=await e.halGetStyles({});if(t&&t.ok){let e=jN(t);if(e)return e}}}catch{}try{if(typeof e.halGetStylesAtRest==`function`){let t=jN(await e.halGetStylesAtRest());if(t)return t}}catch{}return null}var NN=11;function PN(e){NN=Number.isFinite(e)&&e>0?e:11}var FN=new Set([`card_body`,`cite_paragraph`,`paragraph`,`undertag`]),IN=new Set([`card_body`,`paragraph`]),LN
+
+=== @944129 ===
+!e)return null;try{if(typeof e.halGetStyles==`function`){let t=await e.halGetStyles({});if(t&&t.ok){let e=jN(t);if(e)return e}}}catch{}try{if(typeof e.halGetStylesAtRest==`function`){let t=jN(await e.halGetStylesAtRest());if(t)return t}}catch{}return null}var NN=11;function PN(e){NN=Number.isFinite(e)&&e>0?e:11}var FN=new Set([`card_body`,`cite_paragraph`,`paragraph`,`undertag`]),IN=new Set([`card_body`,`paragraph`]),LN=new Set([`emphasis_mark`,`highlight`,`underline_
+
+=== @1041835 ===
+ntry:a,_cmirDoc:e};for(;r.length&&r[r.length-1].level>=i;)r.pop();r.length?r[r.length-1].node.children.push(o):n.push(o),i<4&&r.push({level:i,node:o})}return n}async function TR(e,t){if(!e?.path||!t?.readDocxBytes)return{ok:!1,error:`Document search needs the desktop app.`};try{let n=await t.readDocxBytes({path:e.path});if(!n?.ok||!n.bytes)return{ok:!1,error:n?.error||`Could not read the document.`};if(mR(e)){let t=rR(n.bytes);return t?.ok?{ok:!0,path:e.path,file:e,for
+
+=== @1041928 ===
+.children.push(o):n.push(o),i<4&&r.push({level:i,node:o})}return n}async function TR(e,t){if(!e?.path||!t?.readDocxBytes)return{ok:!1,error:`Document search needs the desktop app.`};try{let n=await t.readDocxBytes({path:e.path});if(!n?.ok||!n.bytes)return{ok:!1,error:n?.error||`Could not read the document.`};if(mR(e)){let t=rR(n.bytes);return t?.ok?{ok:!0,path:e.path,file:e,format:`cmir`,mtime:Number(e.mtimeMs??e.modifiedAt)||0,tree:wR(t.doc,e),media:[]}:t}let r=await 
+
+=== @1062322 ===
+)=>{let e=r(fy(n.html)).map(Dz).filter(Oz);return e.length?{segments:e}:null},a=jz();if(!a)return i()??{unreadable:!0};let o=n.path,s=t.halSearchFolders??[];if(!o&&n.title&&s.length)try{let e=await a.searchBlocks({folders:s,query:n.title}),t=[...new Set((e?.results??[]).map(e=>e?.path).filter(Boolean))];if(n.nodeId){let e=[];for(let r of t)(await Ty(r,a))?.some(e=>e.kind===`block`&&e.node_id===n.nodeId)&&e.push(r);e.length===1&&(o=e[0])}else t.length===1&&(o=t[0])}cat
+
+=== @1063248 ===
+)),l=ey(c.map(e=>e.node).filter(Boolean)),u=Ay(l.length?await ry(e.zip,e.manifest,l):[]);return{segments:(u.size?c.map(e=>e.node?{...e,node:Ny(e.node,u)}:e):c).map(Dz).filter(Oz)}}let l;try{l=await a.readDocxBytes({path:o})}catch{return i()??{unreadable:!0}}if(!l?.ok||!l.bytes)return i()??{unreadable:!0};if(c.endsWith(`.cmir`)||n.sourceType===`cmir`){let e=rR(l.bytes);if(!e?.ok)return i()??{unreadable:!0};let t=iR(e.doc),r=n.nodeId&&t.find(e=>e.kind===`block`&&e.node_i
+
+=== @1204614 ===
+n}`:null;if(te!==ee&&(B(te),e&&(n===`shorthands`?(_(`logistics`),A(!0)):_(n),b(eH(r.shorthands)))),!e)return null;let V=async()=>{if(!L){P(`Folder picker needs the desktop app.`);return}let e=await L.chooseBlockFolder();e?.folder&&(u(e.folder),ne())},ne=async()=>{let e=X.getState().settings.halSearchFolders??[];if(!L){P(`Reindex needs the desktop app.`);return}if(!e.length){P(`No folders set.`);return}P(`Indexing…`);try{P(`${(await L.indexBlocks({folders:e})).count??0} blo
+
+=== @1204852 ===
+lder),ne())},ne=async()=>{let e=X.getState().settings.halSearchFolders??[];if(!L){P(`Reindex needs the desktop app.`);return}if(!e.length){P(`No folders set.`);return}P(`Indexing…`);try{P(`${(await L.indexBlocks({folders:e})).count??0} block file(s) indexed across ${e.length} folder${e.length===1?``:`s`}.`)}catch(e){P(`Index failed: ${e.message??e}`)}},re=e=>{let t=String(e).split(/[\\/]/).filter(Boolean);return t.length>2?`…/${t.slice(-2).join(`/`)}`:e},ie=(e,t=``)=
+
+=== @1265178 ===
+e:n}),qH())}async function XH(e,t){let n=_y(e);if(!n)return null;let r=IH.get(n);if(r)return zH(n,r),r.tree;let i=LH.get(n);if(i)return i;let a=(async()=>{try{if(!t)return null;let r=null;if(typeof t.getHalOutlines==`function`?r=await new Promise(r=>{VH.push({path:e,key:n,fn:t.getHalOutlines,bridge:t,resolve:r}),GH()}):typeof t.getHalOutline==`function`&&(r=await t.getHalOutline({path:e})),!r?.ok||!Array.isArray(r.tree))return null;let i=XR(r.tree);return YH(e,i),i}cat
+
+=== @1265256 ===
+n);if(r)return zH(n,r),r.tree;let i=LH.get(n);if(i)return i;let a=(async()=>{try{if(!t)return null;let r=null;if(typeof t.getHalOutlines==`function`?r=await new Promise(r=>{VH.push({path:e,key:n,fn:t.getHalOutlines,bridge:t,resolve:r}),GH()}):typeof t.getHalOutline==`function`&&(r=await t.getHalOutline({path:e})),!r?.ok||!Array.isArray(r.tree))return null;let i=XR(r.tree);return YH(e,i),i}catch{return null}})();return LH.set(n,a),a.then(()=>{RH.add(n),LH.delete(n)}),a}
+
+=== @1265308 ===
+eturn i;let a=(async()=>{try{if(!t)return null;let r=null;if(typeof t.getHalOutlines==`function`?r=await new Promise(r=>{VH.push({path:e,key:n,fn:t.getHalOutlines,bridge:t,resolve:r}),GH()}):typeof t.getHalOutline==`function`&&(r=await t.getHalOutline({path:e})),!r?.ok||!Array.isArray(r.tree))return null;let i=XR(r.tree);return YH(e,i),i}catch{return null}})();return LH.set(n,a),a.then(()=>{RH.add(n),LH.delete(n)}),a}function ZH(e){let t=0;for(let n of e??[]){let e=_y(
+
+=== @1265346 ===
+urn null;let r=null;if(typeof t.getHalOutlines==`function`?r=await new Promise(r=>{VH.push({path:e,key:n,fn:t.getHalOutlines,bridge:t,resolve:r}),GH()}):typeof t.getHalOutline==`function`&&(r=await t.getHalOutline({path:e})),!r?.ok||!Array.isArray(r.tree))return null;let i=XR(r.tree);return YH(e,i),i}catch{return null}})();return LH.set(n,a),a.then(()=>{RH.add(n),LH.delete(n)}),a}function ZH(e){let t=0;for(let n of e??[]){let e=_y(n);e&&(IH.delete(e)&&(t+=1),LH.delete(
+
+=== @1265999 ===
+.has(e)||(s.add(e),o.push(t.path))}(e??[]).length;let c=!1,l=null,u=0,d=async()=>{if(l=null,c||u>=o.length||IH.size>=2e4)return;if(a()){l=i(d);return}let e=o.slice(u,u+r);u+=e.length;try{if(typeof t?.getHalOutlines==`function`){let n=await t.getHalOutlines({paths:e});for(let e of n?.results??[]){let t=_y(e?.path);t&&RH.add(t),e?.ok&&Array.isArray(e.tree)&&YH(e.path,XR(e.tree))}}else await Promise.all(e.map(e=>XH(e,t)))}catch{}c||(l=i(d))};return l=i(d),{stop(){c=!0,l&&
+
+=== @1266041 ===
+.length;let c=!1,l=null,u=0,d=async()=>{if(l=null,c||u>=o.length||IH.size>=2e4)return;if(a()){l=i(d);return}let e=o.slice(u,u+r);u+=e.length;try{if(typeof t?.getHalOutlines==`function`){let n=await t.getHalOutlines({paths:e});for(let e of n?.results??[]){let t=_y(e?.path);t&&RH.add(t),e?.ok&&Array.isArray(e.tree)&&YH(e.path,XR(e.tree))}}else await Promise.all(e.map(e=>XH(e,t)))}catch{}c||(l=i(d))};return l=i(d),{stop(){c=!0,l&&=(l(),null)}}}function $H(e,t){let n=new F
+
+=== @1277123 ===
+ent=setTimeout(()=>{we.current=null,Ne(e)},0))});return()=>{we.current!==null&&clearTimeout(we.current),we.current=null,typeof n==`function`&&n()}},[u,f,Ne,_]);let Pe=async()=>{if(u)try{let e=await u.chooseBlockFolder();e?.folder&&o(e.folder)}catch{}},Fe=(0,y.useCallback)(async e=>{let t=Number(e?.mtimeMs??e?.modifiedAt)||0,n=HR(e?.path,t);if((n?.format===`docx`||n?.format===`cmir`)&&Array.isArray(n.tree))return UR(n,g),{ok:!0,entry:n};let r=await TR(e,u);if(!r?.ok)return 
+
+=== @1278163 ===
+d not open document: ${t?.error??`unknown error`}`);return}let n=t.entry;L(n.tree),F(e),z(n.expanded instanceof Set?n.expanded:new Set(n.expanded??[])),V(``),J(0),v(`tree`),U(``);return}let t=await u.getHalOutline({path:e.path});if(!t?.ok){U(`Could not open document: ${t?.error??`unknown error`}`),W(!1);return}let n=XR(t.tree??[]);L(n),F(e),z(ZR(n,new Set([`pocket`,`hat`]))),V(``),J(0),v(`tree`),U(``)}catch(e){U(`Could not open document: ${e?.message??e}`)}finally{W(!1
+
+=== @1352898 ===
+gs`);break;case`ui.dashboard`:Xe();break;case`ui.commandSearch`:Te(!0);break;case`view.toggleDarkMode`:Qe();break;case`help.replayTutorial`:g();break;case`help.pitch`:g({pitchOnly:!0});break;case`app.switchToDocs`:window.halcyonFlowDesktop?.switchToDocs?.();break;default:{let n=te(f?.[e]??N[e]);if(!n||z(n))break;let r=n.split(`+`),i=r.pop(),a=(t.keyboardMode??`windows`)===`mac`;EW(`halcyon-flow-focus-grid`),document.activeElement?.dispatchEvent(new KeyboardEvent(`keyd
+
+=== @1352939 ===
+case`ui.commandSearch`:Te(!0);break;case`view.toggleDarkMode`:Qe();break;case`help.replayTutorial`:g();break;case`help.pitch`:g({pitchOnly:!0});break;case`app.switchToDocs`:window.halcyonFlowDesktop?.switchToDocs?.();break;default:{let n=te(f?.[e]??N[e]);if(!n||z(n))break;let r=n.split(`+`),i=r.pop(),a=(t.keyboardMode??`windows`)===`mac`;EW(`halcyon-flow-focus-grid`),document.activeElement?.dispatchEvent(new KeyboardEvent(`keydown`,{key:i,bubbles:!0,cancelable:!0,ctrl
+
+=== @1357404 ===
+ack)(async(e=!1)=>{if(!DW()){ye({state:`unsupported`,documents:[]});return}e||xe(`Connecting to Halcyon Docs…`);let n=await nv(t),r=window.halcyonFlowDesktop?.superflow;if(n.state===`not_running`&&r?.halAutodetect){let e=await r.halAutodetect({port:t.halIpcPort});e?.port&&e.port!==t.halIpcPort&&(h({halIpcPort:e.port}),n=await nv({...t,halIpcPort:e.port}))}ye({state:n.state,documents:n.documents??[]}),e||xe(``);let i=n.documents??[];i.length&&!t.selectedDocumentId&&v(i[
+
+=== @1357433 ===
+ye({state:`unsupported`,documents:[]});return}e||xe(`Connecting to Halcyon Docs…`);let n=await nv(t),r=window.halcyonFlowDesktop?.superflow;if(n.state===`not_running`&&r?.halAutodetect){let e=await r.halAutodetect({port:t.halIpcPort});e?.port&&e.port!==t.halIpcPort&&(h({halIpcPort:e.port}),n=await nv({...t,halIpcPort:e.port}))}ye({state:n.state,documents:n.documents??[]}),e||xe(``);let i=n.documents??[];i.length&&!t.selectedDocumentId&&v(i[0].id)},[t,v,h]);(0,y.useEffe
+
+=== @1366414 ===
+ent(new CustomEvent(`halcyon-flow-open-block-picker`)))};return window.addEventListener(`keydown`,t),()=>window.removeEventListener(`keydown`,t)},[e,D]),(0,y.useEffect)(()=>{let e=e=>{if(!oe(e,f,`app.switchToDocs`,D))return;e.preventDefault();let t=window.halcyonFlowDesktop?.switchToDocs?.();t?.then&&t.then(e=>{e&&e.ok===!1&&xe(`Halcyon Docs is not running – open it first.`)}).catch(()=>{})};return window.addEventListener(`keydown`,e),()=>window.removeEventListener(`k
+
+=== @1366490 ===
+entListener(`keydown`,t),()=>window.removeEventListener(`keydown`,t)},[e,D]),(0,y.useEffect)(()=>{let e=e=>{if(!oe(e,f,`app.switchToDocs`,D))return;e.preventDefault();let t=window.halcyonFlowDesktop?.switchToDocs?.();t?.then&&t.then(e=>{e&&e.ok===!1&&xe(`Halcyon Docs is not running – open it first.`)}).catch(()=>{})};return window.addEventListener(`keydown`,e),()=>window.removeEventListener(`keydown`,e)},[f,D]),e===`dashboard`)return(0,Z.jsxs)(Z.Fragment,{children:[(0
+

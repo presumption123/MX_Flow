@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-label="Halcyon Flow">
+  <rect width="360" height="360" rx="90" fill="#6EB5C0"/>
+  <g transform="translate(180, 200) scale(1.45) translate(-180, -185)">
+    <path d="M 170 110 L 220 110 L 185 170 Z" fill="#FFFFFF"/>
+    <path d="M 220 110 L 255 135 L 202 140 Z" fill="#2C4A5A"/>
+    <path d="M 170 110 L 135 100 L 170 122 Z" fill="#E8D8A0"/>
+    <text x="180" y="260" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="700" font-size="88" text-anchor="middle" letter-spacing="6" fill="#FFFFFF">HAL</text>
+  </g>
+</svg>

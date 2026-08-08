@@ -1,0 +1,150 @@
+@27429
+^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$
+
+@48015
+abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel
+
+@148240
+abort canplay canplaythrough durationchange emptied encrypted ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange resize seeked seeking stalled suspend timeupdate volumechange waiting
+
+@333703
+Yjs was already imported. This breaks constructor checks and will lead to issues! - https://github.com/yjs/yjs/issues/438
+
+@361349
+,docSearchIncludeDocx:!0,docSearchIncludeCmir:!0,caretWordMarks:!0,halSearchCacheSize:24,autoExpandSearchResults:!0,advanceAfterInsert:!0,signpostOnSend:!1,signpostTemplate:
+
+@462853
+Can't find end of central directory : is this a zip file ? If it is, see https://stuk.github.io/jszip/documentation/howto/read_zip.html
+
+@559841
+,error:null,identity:o,sharedRound:null,activeFlowId:a.activeRoundId,myRoundId:a.activeRoundId,sharedRoundId:null,hostName:
+
+@566211
+,toolbarBg:t.bg,panelBg:t.bgSecondary,cardBg:t.bgSecondary,inputBg:t.input,border:t.border,borderSubtle:t.borderSubtle,radius:2,cardRadius:3,toolbarHeight:32,tabHeight:27,statusHeight:18,buttonPadding:
+
+@582379
+,toolbarBg:t.bgSecondary,panelBg:t.bgSecondary,cardBg:t.bgSecondary,inputBg:t.input,border:t.border,borderSubtle:t.borderSubtle,radius:4,cardRadius:8,toolbarHeight:40,tabHeight:32,statusHeight:20,buttonPadding:
+
+@597543
+**Sign in** – Halcyon Flow opens to a sign-in screen. Enter your Halcyon account, or click "Create account" to open halcyondebate.org in your browser, where new accounts are created. The app remembers you: the next launch shows a brief "Connecting…" splash and lands on the dashboard. There is no unverified offline mode. If Halcyon cannot re-verify an open session for 15 minutes, the sign-in screen returns over your saved work, and it lifts by itself once the connection is back. One account can run Halcyon Flow and Halcyon Docs together on this device, while another device is blocked until both app sessions here have signed out.
+
+@601363
+**Open from your file manager** – double-clicking a .jflow file opens it in the app. If you were signed out, the file waits behind the sign-in screen and opens right after you log in.
+
+@602065
+**Working from the keyboard** – a dropdown you have opened moves with the up and down arrows, and "Home" and "End" jump to its first and last choice.
+
+@603008
+The list re-checks the disk whenever you return to the dashboard, showing the last known folders instantly while the fresh scan finishes in the background.
+
+@603598
+**Reorganize by drag** – drag a folder onto another folder to nest it inside, or onto "All Rounds" to make it a first-level folder again. The move is real: the directory and every round in it move on disk, and the folder stays selected afterward.
+
+@604930
+**"All Rounds"** – every round newest first, narrowed by the selected folder. A chip whose file was moved or deleted outside the app shows a red "Missing" tag.
+
+@607563
+**Right-click a cell** – opens the sheet-editing menu. "Clear Cell" removes that cell, "Delete Row" removes its whole row across every speech as one undoable collaboration-safe edit, and card cells also offer "Extend" when an extension is available.
+
+@611905
+"↑" and "↓" move through every result, not just the ones on screen, and "Home" and "End" jump to the first and last. "End" keeps following the last result while a "By content" search is still finding more, so you can park at the bottom and watch new hits arrive.
+
+@612170
+In "By content" the highlighted row is the one "Enter" opens, so you can arrow down the list of matching documents and open the one you want.
+
+@612826
+Images in inserted cards, analytics, block headings, and standalone rows are copied into the round. They remain available after Backflow, editing, saving, or reopening even if the source document moves.
+
+@613668
+Very large document folders are listed in full. If a folder ever holds more files than one search can list, or nests deeper than the search reaches, the status line says so instead of quietly showing a short list.
+
+@614048
+Like Ctrl+B, the "/" search reflects your current documents, so recent edits and new extensions carry into the card you drop in.
+
+@616018
+You do not have to select a whole word first: put the cursor anywhere in a word, including at either end of it, and the mark key applies to that word. Press it again on the same word to take the mark off. A hyphenated compound counts as separate words, so only the part under the cursor is marked, while "that's" stays one word. With the cursor in a space instead of a word, the key arms the style for what you type next. Turn "Apply Marks to the Word at the Cursor" off in Settings, "Editing" to keep only that older behavior.
+
+@618167
+**Docs styling match** – when Halcyon Docs is installed, the card editor automatically matches its styling and shortcut setup, live while Docs runs and from its last-known styling when Docs is closed. Emphasis boxes default to black in light theme when no Docs styling is available.
+
+@618785
+**Rows fit their content** – after Backflow or an Insert Card / block-picker insert, each written row sizes itself to what actually rendered: a row never keeps an extra blank line of space above and below a chip, and long text is never cut off at the top and bottom of its cell.
+
+@619072
+**Read-time hover pill** – rest the mouse on a card, tag, or block cell and a small pill floats beside the cell with its read-aloud time per reader.
+
+@619391
+The pill never sits inside the cell, so cell text is never pushed or cut off, and it hides the moment you scroll, type, click, or open an editor. Plain text cells show no pill.
+
+@621000
+**Receiving from Docs** – cards and blocks sent from Halcyon Docs land in your selected cell with their styling and images intact. Those images remain available through editing, Backflow, collaboration, and save/reopen.
+
+@621222
+Every arrival is announced. A message in the corner names what came in, and Halcyon Docs reports the same result on its side, so both apps agree on what happened.
+
+@621387
+If a card arrives when there is nowhere to put it, because you are on the dashboard or you changed sheets while it was on its way, it is held rather than lost. A message names what arrived, and it drops into place as soon as you open a round.
+
+@622380
+The search window browses the whole folder tree and finds rounds at every depth, so a match nested many folders deep still shows up.
+
+@622517
+**Pin a result** – it moves into the "Pinned" list at the top of the panel with its own "Go" button, and survives switching rounds.
+
+@624057
+**Cells being edited** – a collaborator with a block or card open shows a pencil and their name on that cell, so you can see where everyone is working. Nothing is locked: you can still open, change, or delete any cell.
+
+@624278
+**Connection drops** – keep working. When the connection comes back, your changes and your partner's come back together on their own, with both sides' edits preserved.
+
+@625420
+**One window per room** – rooms are per account: each signed-in account can be in a given room from one window at a time. Joining the same room from a second window or device shows "This account is already in the room on another window or device" until the first connection leaves.
+
+@626513
+**Pop out the timer** – choose "Pop Out" in the timer header for a small always-on-top window. Choose "Close" there to return the timer to its normal panel. The pop-out closes with the app and is never restored on launch.
+
+@626737
+**Shared with Docs** – the clock is shared with Halcyon Docs when both apps run: start prep in one and it ticks in the other.
+
+@631145
+"Document Typography" controls the card editor's text column. Set "Maximum Text Width" to 0 for the current full width, or choose a pixel limit and place it with "Text Column Position" as "Centered", "Left", or "Right".
+
+@633185
+On macOS, Halcyon publishes separate Intel and Apple Silicon files. An unsigned build verifies the update for the processor it is running on, closes cleanly, replaces a writable installed app, checks the new bytecode, and reopens it. If the app is translocated, read-only, or fails verification, Halcyon opens the matching .dmg for manual replacement instead. A signed and notarized build uses the native macOS updater.
+
+@633718
+"Pause update checks for 1 week" stops automatic checks and downloads until the shown date. While paused, "Resume now" restarts them immediately. Help ▸ "Check for Updates..." is an explicit manual request and still works while paused, reporting through the same non-blocking status chip.
+
+@634434
+Inserted material is not counted: card text highlighted in gray, or converted to a reference in Halcyon Docs, stays visible but never adds to a time.
+
+@634586
+Readers are shared between the Halcyon apps on this device: edit the list in Halcyon Flow or Halcyon Docs and the other app picks it up on its own.
+
+@635853
+**Shorthands** – expand as you type in grid cells: define a trigger like "T" to expand to "Topicality", with options for immediate expansion, case sensitivity, and plurals.
+
+@670957
+,background:E.appBg??T.bg,backgroundImage:E.appBackgroundImage,backgroundSize:E.appBackgroundSize,backgroundPosition:E.appBackgroundPosition,color:T.text,display:
+
+@695810
+,bodyUnderlineRanges:e.bodyUnderlineRanges,bodyStrikeRanges:e.bodyStrikeRanges,bodyEmphasisRanges:e.bodyEmphasisRanges,bodyHighlightRanges:e.bodyHighlightRanges,bodyParagraphs:e.bodyParagraphs,node:e.node,sourcePath:e.sourcePath??
+
+@893848
+ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package.
+
+@997822
+,background:h.panelBg,backgroundImage:h.panelBackgroundImage??h.appBackgroundImage,backgroundSize:h.appBackgroundSize,border:
+
+@1236561
+,background:u.panelBg,backgroundImage:u.panelBackgroundImage??u.appBackgroundImage,backgroundSize:u.appBackgroundSize,border:
+
+@1368228
+,background:x.appBg??b.bg,backgroundImage:x.appBackgroundImage,backgroundSize:x.appBackgroundSize,backgroundPosition:x.appBackgroundPosition,color:b.text,fontFamily:x.fontFamily,overflow:
+
+@1386272
+A survivable second-strike posture raises the cost of aggression far above any plausible gain, so a rational adversary is deterred from starting a war it cannot win.
+
+@1387226
+Each column across the top is a speech, and every row is one argument. You flow a round by typing down a speech column and answering across into the next one.
+

@@ -1,0 +1,65 @@
+nav.down	Navigation	Move Down	`ArrowDown`	
+nav.up	Navigation	Move Up	`ArrowUp`	
+nav.right	Navigation	Move Right	`ArrowRight`	
+nav.left	Navigation	Move Left	`ArrowLeft`	
+nav.enterDown	Navigation	Enter: move to cell below	`Enter`	
+cell.lineBreak	Navigation	Shift+Enter: line break in cell	`Shift+Enter`	
+cell.addRow	Navigation	Cmd+Enter: add a new row	`Ctrl+Enter`	
+shadow.enter	Navigation	Shadow Flow Enter	`Enter`	
+nav.nextCol	Navigation	Next Speech Column	`Tab`	
+nav.prevCol	Navigation	Prev Speech Column	`Shift+Tab`	
+nav.extendArg	Navigation	Extend Argument Space	`Alt+Enter`	
+arg.extend	Navigation	Extend Argument	`Alt+G`	
+sheet.nextTab	Navigation	Next Sheet Tab	`Ctrl+ArrowRight`	
+sheet.prevTab	Navigation	Prev Sheet Tab	`Ctrl+ArrowLeft`	
+sheet.newOff	Sheets	New Off-Case Sheet	`Alt+N`	
+sheet.newAff	Sheets	New Aff Sheet	`Alt+A`	
+sheet.select1	Sheets	Select Sheet 1	`Ctrl+1`	
+sheet.select2	Sheets	Select Sheet 2	`Ctrl+2`	
+sheet.select3	Sheets	Select Sheet 3	`Ctrl+3`	
+sheet.select4	Sheets	Select Sheet 4	`Ctrl+4`	
+sheet.select5	Sheets	Select Sheet 5	`Ctrl+5`	
+sheet.select6	Sheets	Select Sheet 6	`Ctrl+6`	
+sheet.select7	Sheets	Select Sheet 7	`Ctrl+7`	
+sheet.select8	Sheets	Select Sheet 8	`Ctrl+8`	
+sheet.select9	Sheets	Select Last Sheet	`Ctrl+9`	
+sheet.rename	Sheets	Rename Sheet	`F2`	
+sheet.close	Round	Close Active Flow	`Ctrl+W`	
+sheet.reorderLeft	Sheets	Move Sheet Left	`Ctrl+Shift+ArrowLeft`	
+sheet.reorderRight	Sheets	Move Sheet Right	`Ctrl+Shift+ArrowRight`	
+cell.insert	Cells	Insert Row Below	`Alt+Shift+Enter`	
+cell.delete	Cells	Delete Active Cell	`Delete`	
+row.delete	Cells	Delete Active Row	`Ctrl+Delete`	
+cell.move	Cells	Move Cells	`Ctrl+M`	
+cell.moveCell	Cells	Move Cell	`Ctrl+Shift+M`	
+cell.highlight	Cells	Highlight Active Cell	`Ctrl+H`	
+round.info	Round	Edit Round Info	`Alt+I`	
+shadow.toggle	Document Editing	Toggle Shadow Flow	`Ctrl+Shift+L`	
+drops.highlight	Document Editing	Highlight Drops	`Ctrl+Shift+H`	
+doc.setOrder	Document Editing	Set Order	`Ctrl+Shift+O`	
+cell.block	Document Editing	Insert Block / Card Cell	`Ctrl+B`	
+insert.slashBlockSearch	Document Editing	Insert Block from File…	``	,aliases:[`slash`,`block search`]
+cell.editBlock	Document Editing	Edit Block	`Ctrl+E`	
+cell.createBlock	Document Editing	Create Block	`Ctrl+Shift+B`	
+cell.emptyCard	Document Editing	Create Empty Card	`Ctrl+Shift+C`	
+doc.send	Document Editing	Send to Doc	`Ctrl+Shift+D`	
+doc.construct	Document Editing	Construct Speech	`Ctrl+Shift+S`	
+doc.backflow	Document Editing	Backflow	`Ctrl+Shift+F`	
+ui.shorthands	Document Editing	Shorthands	`Ctrl+Shift+K`	
+format.underline	Document Editing	Underline	`Ctrl+U`	
+format.strike	Document Editing	Strikethrough	`Alt+X`	
+cell.search	Document Editing	Search Cells	`Ctrl+F`	
+export.sheet	Export	Export Sheet CSV	`Alt+E`	
+export.round	Export	Export Round CSV	`Alt+Shift+E`	
+export.roundXlsx	Export	Export Round as Excel…	``	,aliases:[`excel`,`xlsx`,`spreadsheet`,`workbook`]
+ui.commands	UI	Keybindings	`Ctrl+K`	
+ui.commandSearch	UI	Command Search…	`Ctrl+Shift+P`	
+ui.settings	UI	Settings	`Ctrl+,`	
+ui.dashboard	UI	Back to Dashboard	`Alt+H`	
+view.toggleDarkMode	UI	Toggle Dark Mode	`Ctrl+Alt+Shift+D`	
+app.switchToDocs	UI	Switch to Halcyon Docs	`Ctrl+Shift+T`	,aliases:[`switch app`,`go to docs`,`open docs`,`halcyon docs`,`docs window`,`toggle app`]
+zoom.in	Zoom	Zoom In	`Ctrl+=`	
+zoom.out	Zoom	Zoom Out	`Ctrl+-`	
+zoom.reset	Zoom	Reset Zoom	`Alt+0`	
+help.replayTutorial	Help	Replay Tutorial	``	,aliases:[`tutorial`,`getting started`,`onboarding`,`replay tour`,`guided tour`]
+help.pitch	Help	Getting Started	``	,aliases:[`what is new`,`pitch`,`differentiators`,`welcome`]

@@ -1,0 +1,362 @@
+## Getting Started
+
+
+_Signing in, the dashboard, and setting up your first round._
+
+- (bullets) **Sign in** – Halcyon Flow opens to a sign-in screen. Enter your Halcyon account, or click "Create account" to open halcyondebate.org in your browser, where new accounts are created. The app remembers you: the next launch shows a brief "Connecting…" splash and lands on the dashboard. There is no unverified offline mode. If Halcyon cannot re-verify an open session for 15 minutes, the sign-in screen returns over your saved work, and it lifts by itself once the connection is back. One account can run Halcyon Flow and Halcyon Docs together on this device, while another device is blocked until both app sessions here have signed out.
+- **Sign Out Of All Devices** – if signing in says your account is in use on another device and you cannot reach that device (you reinstalled, the laptop died, it was a loaner), choose "Sign Out Other Device & Continue" on the sign-in screen. Halcyon emails you a one-time code, and only after you enter it does the other device get signed out and this one signed in. Because an account can hold only one session at a time, signing out that one device is the same as signing out everywhere. The code step means someone who only knows your password cannot use this to push you out quietly.
+- **Account security** – Open your account chip to manage email-based two-factor authentication. Sign-in codes go to your verified authentication email when one is set, otherwise to your account email; turn on "Require a code every time I sign in" when every login should be confirmed. Use halcyondebate.org for profile-picture, password, and email self-service.
+- **You stay signed in** – there is no time-based sign-out: your session stays live for as long as you keep using the app. Signing out happens only when you choose "Sign out" yourself (or your access is ended by an admin). Closing the window does not sign you out either; see "Runs in the background" below.
+- **The tray icon (Windows notification area; macOS menu bar)** – the Halcyon icon is there whenever the app is running, window open or not. Right-click it (click on macOS) for "Open Halcyon Flow", a line showing who is signed in, "Sign out" (the sign-in screen greets the next open), and "Quit Halcyon Flow". On Windows, closing the last window keeps the app running in the background so your session stays signed in and collaboration stays connected; "Keep running in the background when closed" in Settings ("General") turns that off, making the close button exit the app (the icon stays while the app runs). On macOS it is a small monochrome status icon that follows the light or dark menu bar. The same setting shows or hides it, and the window itself keeps the platform convention: closing it leaves the app in the Dock, Cmd+Q quits.
+- **Your data is private to your account** – on a shared computer, your rounds, pinned files, and "Information" belong to whoever is signed in; sign in as someone else and you see your own, never the previous person's. The flow files themselves stay on the disk and anyone on the computer can still open them from a folder.
+- **"+ New Round"** – sets up a round before flowing: your role (competing or judging), side, tournament, round number, team codes, judges, and the debate format (any built-in format such as Policy, Public Forum, or Lincoln-Douglas, or a custom one). Competing pre-fills your side's school and code from Personal Info.
+- **Open a round** – click its card. Each card shows the round name, a format chip, a tournament chip when one is set, and the last-edited date; each card also lets you move it into a folder, save it to disk, or delete it.
+- **"Round Info" (Alt+I)** – edits round details any time: tournament, round number, teams, judges, your role, and (for judging rounds) the RFD that feeds the Judge Book. Alt+H returns to the dashboard from a round.
+- **Open from your file manager** – double-clicking a .jflow file opens it in the app. If you were signed out, the file waits behind the sign-in screen and opens right after you log in.
+- **Guided tour** – the first time you sign in, a short guided tour walks you through the flow grid, the pieces around it, adding sheets, Shadowflow, Backflow, pulling from your Halcyon Docs files, collaboration, and a keyboard-shortcuts card. Use Next and Back (or the arrow keys), and Skip anytime. It runs once; to see it again, press "Replay Tutorial" in Settings ("General"), click "Getting Started" in the dashboard header, or run "Replay Tutorial" from Command Search (Ctrl+Shift+P) even from inside a round.
+- **Working from the keyboard** – a dropdown you have opened moves with the up and down arrows, and "Home" and "End" jump to its first and last choice.
+
+
+## Dashboard and Folders
+
+
+_The Working Folder is a real folder on disk: its sub-folders organize your rounds._
+
+- (bullets) **Working Folder ("Choose", later "Change")** – the folder sidebar is always on the left of the dashboard, just like Halcyon Docs. Drag its right edge to resize it in this window; the final width is saved as "Folder Panel Width" for future windows, and double-clicking the edge restores the standard width. Folders in the app are real sub-directories of the Working Folder on disk, so your organization is visible in the file manager too.
+- **Automatic library scan** – when you pick a Working Folder, every .jflow round already inside it (sub-folders included) appears on the dashboard; nothing has to be opened first.
+- (sub) The list re-checks the disk whenever you return to the dashboard, showing the last known folders instantly while the fresh scan finishes in the background.
+- Very large libraries show their first 200 chips with a "Show all N" button below.
+- **Nested folders** – a folder inside a folder shows in the sidebar as a tree, and each level steps a little further right so depth is visible at a glance. Click the small arrow on a folder, or double-click the row, to show or hide its sub-folders; the list scrolls when it grows tall. Which folders are open resets when the app restarts.
+- **Reorganize by drag** – drag a folder onto another folder to nest it inside, or onto "All Rounds" to make it a first-level folder again. The move is real: the directory and every round in it move on disk, and the folder stays selected afterward.
+- (sub) A folder cannot be dropped into one of its own sub-folders (the cursor shows it).
+- If the destination already has a folder with that name, the app asks: Keep both (moves under "name (1)") or Cancel.
+- Right-click a folder and choose "New folder" to create a sub-folder inside it.
+- **Create and assign** – make a folder with the sidebar's "+" button. Assign a round with the folder menu on its card (it lists the Working Folder and its top-level folders), or drag the card onto any folder row in the sidebar, however deep; the row under the drag lights up. Either way the .jflow file MOVES into that directory (an unsaved round is written there as a new file). Two same-named unsaved rounds assigned to one folder never overwrite each other: the second file gets a "(2)" suffix automatically.
+- **Dashboard body** – two sections below the header.
+- (sub) **"Recent"** – your most recently edited rounds (capped). It always shows the same list no matter which folder is selected, keeps rounds saved outside the Working Folder, and survives changing the Working Folder.
+- **"All Rounds"** – every round newest first, narrowed by the selected folder. A chip whose file was moved or deleted outside the app shows a red "Missing" tag.
+- **Delete and pin** – the ✕ on a chip deletes the round after a confirm: its saved file moves to the OS Recycle Bin (recoverable there) and the chip disappears. The star next to it pins the round to a "Pinned" section above Recent; pins survive restarting the app.
+- **Dashboard header** – also has "Information" (personal info, the books, schedule, and this manual), "Settings", "Import Round" (open a saved .jflow or exported HTML round), and your account chip.
+
+
+## Flowing Basics
+
+
+_The grid: sheets are arguments, columns are speeches, and typing just works._
+
+- **Move around the grid** – click a cell and type.
+- (sub) "Enter: move to cell below" moves down the column; "Shift+Enter: line break in cell" adds a newline; "Cmd+Enter: add a new row" inserts explicitly. All three actions can be rebound under Settings, "Keybindings".
+- Under Settings, "General", "Enter row creation" can preserve the current context rule, turn automatic insertion off, or limit it to "From chosen column onward". In scoped mode, only text in the chosen column or a column to its right counts; text farther left never triggers a row.
+- "After undoing a row addition" chooses whether the cursor stays where it is or returns to the action starting cell. Alt+Enter extends the argument's space; Delete clears the active cell; Cmd/Ctrl+Delete runs "Delete Active Row".
+- **Cut, copy, paste (Ctrl+X / Ctrl+C / Ctrl+V)** – works on cells, including block and card chips: pasting a copied chip restores the full rich cell, not just its text.
+- **Mark cells as you flow** – Ctrl+H highlights a cell, Ctrl+U underlines its text, Alt+X strikes it through, and the "Highlight Drops" button or Ctrl+Shift+H lights up drops (arguments the other side never answered). Highlight Drops runs on one click every time, and its text stays legible on a dark grid.
+- **Select several cells** – when a cell is selected, Shift+Arrow extends the rectangular grid selection. Hold Ctrl, or Cmd on Mac, while clicking cells or dragging across a patch to add disconnected cells; repeat a modified click to remove one. Highlight, copy, cut, delete, and "Move Cell" affect only the selected cells. While actively editing text, Shift+Arrow continues selecting text until the caret reaches the relevant edge; from that edge it extends the grid selection. Dragging a selection into the top or bottom edge scrolls continuously and keeps extending until you release the mouse.
+- **Right-click a cell** – opens the sheet-editing menu. "Clear Cell" removes that cell, "Delete Row" removes its whole row across every speech as one undoable collaboration-safe edit, and card cells also offer "Extend" when an extension is available.
+- **Undo and redo (Ctrl+Z / Ctrl+Y)** – grid edits, sheet deletions, and a whole Backflow expansion each undo as single steps.
+- **Resize columns from the header** – drag only the right edge of a speech header; dragging inside body cells never resizes. Right-click a header for "Resize Column…" to enter an exact pixel width or "Reset width". Each speech keeps its own width when the round is saved and reopened.
+- **Move cells (Ctrl+M)** – then drop them where they belong. Default column width, row height, the grid font, and text wrapping are set in Settings.
+- **Zoom the grid** – the zoom box at the bottom right of the window shows the current percent. Type a number and press Enter, or use its "−" and "+" buttons; blank means 100%. Ctrl+mouse wheel and the "Zoom In", "Zoom Out", and "Reset Zoom" shortcuts change the same zoom, and your choice now stays put when you switch sheets and when you reopen the app.
+- **Move cell (Ctrl+Shift+M)** – picks up the cell you are on, a selected rectangle, or a disconnected selection, leaving everything else in place; point anywhere in the grid and click to drop it there, or press Esc to cancel.
+- (sub) Drop on any cell in any direction: a move can change row and speech column at once, and a selection keeps its shape (empty cells inside it stay empty). The flow never gains rows or columns, so a drop past an edge lands flush against it.
+- Cells with content are never overwritten or pushed aside: a landing that would cover one slides onward in the same direction to the nearest clear spot, and with nowhere clear the outline turns the negative color and the click does nothing (pick another spot, or press Esc). An empty selection has nothing to move, and one Ctrl+Z brings every moved cell back.
+- **"Set Order" (Ctrl+Shift+O)** – jumps every sheet to the same speech column, the quick way to line the whole round up on the speech you are about to flow.
+
+
+## Sheets
+
+
+_One tab per argument: aff sheets, off-case sheets, and cross-ex pages._
+
+- (bullets) **Add sheets (Alt+A aff, Alt+N off-case)** – or use the toolbar's add buttons with the count box (type 3 and click to add three at once). New sheets ask for a name as they appear.
+- **Rename, close, reorder, and switch** – rename the active sheet with F2 or by double-clicking its tab. The tab's ✕ closes that sheet as an undoable action; Ctrl+Z restores its name, contents, position, and focus, while redo closes it again. Drag tabs to reorder (Ctrl+Shift+ArrowLeft / ArrowRight also works). Ctrl+ArrowLeft / ArrowRight cycle through sheets. Ctrl/Cmd+1 through Ctrl/Cmd+8 select those sheet tabs, and Ctrl/Cmd+9 selects the last sheet; every command can be rebound under Settings, "Keybindings".
+- **Side colors** – tabs are colored by side (aff vs. neg); "Colorblind mode" in Settings adds text labels to the tabs so color is never the only signal.
+
+
+## Blocks, Cards, and the Card Editor
+
+
+_Pull prepared evidence into the flow, and edit cards in a real debate editor._
+
+- **Block picker (Ctrl+B)** – opens over your document search folders (set them in Settings, "Editing"): choose a Halcyon, Word, or CardMirror document, then browse its outline with search and kind filters. Word documents appear with a DOCX chip and CardMirror documents with a CMIR chip, and both are converted in memory without opening or changing the source file. "Search Word Documents" and "Search CardMirror Documents" control the two formats separately. Pocket, Hat, Block, Tag, Cite, and Analytic structure is recognized in Word and CardMirror files, and a Pocket or Hat inserts as a plain text cell whichever format it came from. "Open At" opens the document in Halcyon Docs and jumps to the selected element; it works for Halcyon and CardMirror documents when Halcyon Docs is running, and stays unavailable for Word documents, which have no stable position to jump to. Double-click a result or choose "Insert" to copy it into the active cell. Blocks, cards, and text arrive as editable block, card, and content cells.
+- (sub) "↑" and "↓" move through every result, not just the ones on screen, and "Home" and "End" jump to the first and last. "End" keeps following the last result while a "By content" search is still finding more, so you can park at the bottom and watch new hits arrive.
+- In "By content" the highlighted row is the one "Enter" opens, so you can arrow down the list of matching documents and open the one you want.
+- Select a result and press "Pin" (bottom right, beside "Insert") to keep it in the "Pinned" list at the top of the picker; "Add" on a pinned row drops it into the active cell later, from any document.
+- Each pinned row leads with the same type chip (BLK, CARD, TAG) as the results below, so you can tell what you pinned at a glance.
+- A document you edited in Halcyon Docs shows its latest blocks and cards, and a card you drop in carries its current extensions (the ones its right-click "Extend" menu offers).
+- Images in inserted cards, analytics, block headings, and standalone rows are copied into the round. They remain available after Backflow, editing, saving, or reopening even if the source document moves.
+- **Inline Block search (type "/")** – typing "/" as the first character of a cell opens a search right under it, so you never leave the flow. Keep typing to filter your documents by name, press "Enter" (or click) to dive into a file, then type to filter that document's blocks and standalone tags and "Enter" to drop one into the cell. The in-progress text shows in the accent color while the search is armed.
+- (sub) "Esc" backs out one step, from a file's blocks back to the file list; "Esc" again closes the search and leaves the "/" text as an ordinary cell, which is also how you keep a cell that genuinely starts with "/".
+- Very large document folders are listed in full. If a folder ever holds more files than one search can list, or nests deeper than the search reaches, the status line says so instead of quietly showing a short list.
+- The command "Insert Block from File…" (Command Search, Ctrl+Shift+P) arms the same search on the active cell. The full Block picker window (Ctrl+B) is unchanged.
+- Like Ctrl+B, the "/" search reflects your current documents, so recent edits and new extensions carry into the card you drop in.
+- **Card headlines** – a card chip's headline reads like the printed card: the tag, then a period, then the cite ("It creates binding changes to federal law. Steilen 20."). That period is display-only; the stored tag and anything you send onward are untouched.
+- **Edit blocks and cards** – Ctrl+E (or double-click) opens a block chip's inline editor right in the grid: edit, add, or remove its child cards and analytics. Ctrl+Shift+B turns the current cell into a block; Ctrl+Shift+C creates an empty card.
+- (sub) Ctrl+E closes the editor from anywhere inside it, including from a member cell (so a block you just created closes without arrowing back up to its name); Escape closes it too.
+- Shift+ArrowUp / ArrowDown selects several member cells inside the block, and Delete removes the whole selected run at once; the selection stays within the block.
+- Ctrl+M moves member cells the same way "Move cells" works on the sheet: it grabs the selected run (or the current cell), the mouse positions it while the band previews the new order, a click drops it, and Esc cancels. Members only move within their block, never out of it.
+- Ctrl+C copies the selected member cells and Ctrl+X cuts them; paste anywhere in the grid and they arrive as full cards, keeping their highlighting, marks, and links, not flattened to plain text.
+- **The card editor (double-click a card cell)** – a full debate editor with the same styles as Halcyon Docs.
+- (sub) Tag is F7, Cite F8, Underline F9, Emphasis F10, Highlight F11, Analytic Ctrl+F7, and F12 clears to Normal; highlights, styles, and images are on the toolbar too. Reapplying the same highlight color to a uniformly highlighted selection removes it; a mixed or differently colored selection takes the chosen color first. Zoom it with the toolbar's zoom control or Ctrl+mouse wheel.
+- You do not have to select a whole word first: put the cursor anywhere in a word, including at either end of it, and the mark key applies to that word. Press it again on the same word to take the mark off. A hyphenated compound counts as separate words, so only the part under the cursor is marked, while "that's" stays one word. With the cursor in a space instead of a word, the key arms the style for what you type next. Turn "Apply Marks to the Word at the Cursor" off in Settings, "Editing" to keep only that older behavior.
+- Text cluster (the toolbar's first group): **Bold** {{button:marks.bold}}, **Italic** {{button:marks.italic}}, and **Strikethrough** {{button:marks.strikethrough}} on the top row, with **Superscript** {{button:marks.superscript}}, **Subscript** {{button:marks.subscript}}, and **Emphasize acronym (word-initial)** {{button:marks.emphasizeAcronym}} below.
+- Paragraph cluster: **Bulleted list** {{button:list.bullet}} and **Numbered list** {{button:list.ordered}}, then **Decrease indent** {{button:list.outdent}} and **Increase indent** {{button:list.indent}}; the row beneath holds **Align left** {{button:align.left}}, **Align center** {{button:align.center}}, **Align right** {{button:align.right}}, and **Insert hyperlink** {{button:marks.addLink}} (Ctrl+K).
+- A highlight on emphasized text is the same height as a highlight anywhere else, with the box drawn as a thin frame on top of it, so a box never makes the highlight look shorter. A run of highlighting that crosses text of different sizes stays one even height on each line instead of stepping up and down at each size change, boxed words included. Where the run wraps onto more than one line, only the line that holds the taller text grows, so the lines above and below keep their normal height. Only highlighting that runs together matches: a piece of highlighting rises to larger highlighting it touches on the same line, with the larger always prevailing (even over a smaller box), and separate highlighting nearby always keeps its own height. Highlighting inside an emphasis box never drops below the largest highlighting in that box, on any line.
+- **Docs styling match** – when Halcyon Docs is installed, the card editor automatically matches its styling and shortcut setup, live while Docs runs and from its last-known styling when Docs is closed. Emphasis boxes default to black in light theme when no Docs styling is available.
+- **Backflow (Ctrl+Shift+F)** – expands the block chips in a speech column back into their cards and analytics, across every sheet, as one undoable step. A blank line the author left inside a block comes back as an empty cell (with the default cell spacing). Close any open block editor first; the status line reports what expanded.
+- **Rows fit their content** – after Backflow or an Insert Card / block-picker insert, each written row sizes itself to what actually rendered: a row never keeps an extra blank line of space above and below a chip, and long text is never cut off at the top and bottom of its cell.
+- **Read-time hover pill** – rest the mouse on a card, tag, or block cell and a small pill floats beside the cell with its read-aloud time per reader.
+- (sub) A card's pill leads with its cite ("Johnson 23, 0:21"); tag and block pills show times only, and a block's time covers the cards, tags, and analytics inside it.
+- The pill never sits inside the cell, so cell text is never pushed or cut off, and it hides the moment you scroll, type, click, or open an editor. Plain text cells show no pill.
+
+
+## Sending to Halcyon Docs
+
+
+_Push a speech from the flow into a Halcyon Docs document._
+
+- (bullets) **The "Doc:" selector** – above the grid, lists documents open in Halcyon Docs (detected automatically every few seconds). Pick the target, then "Send to Doc" (Ctrl+Shift+D) sends the active speech column; select a range of cells first and only that selection is sent. Empty cells you left between content are kept as blank lines in the document; nothing else adds space.
+- **"Construct Speech" (Ctrl+Shift+S)** – builds the selected speech across ALL sheets into the document in one pass, skipping content the document already has.
+- **Signposting (optional, Settings, "Editing")** – a template that prefixes each sent item, with optional numbering per speech.
+- (sub) By default signposting is side-based: it marks only the sheets on your competing side (aff sheets when you are aff, neg sheets when you are neg), and every sheet when you are not competing.
+- Turn on "Override side-based signposting" to signpost every sheet regardless of side.
+- **"Shadow Flow" (Ctrl+Shift+L)** – when on, "Shadow Flow Enter" moves the cursor between an argument and the column that answers it, so you flow a point and its response without reaching for the mouse. It is a separate action under Settings, "Keybindings", so it can keep the zig-zag default or be rebound independently of normal Enter.
+- **Receiving from Docs** – cards and blocks sent from Halcyon Docs land in your selected cell with their styling and images intact. Those images remain available through editing, Backflow, collaboration, and save/reopen.
+- Every arrival is announced. A message in the corner names what came in, and Halcyon Docs reports the same result on its side, so both apps agree on what happened.
+- If a card arrives when there is nowhere to put it, because you are on the dashboard or you changed sheets while it was on its way, it is held rather than lost. A message names what arrived, and it drops into place as soon as you open a round.
+- **Switch to Halcyon Docs (Ctrl+Shift+T)** – with both apps open, jumps straight to the Halcyon Docs window; the same shortcut inside Docs jumps back, so you move between your flow and your cards without reaching for the mouse. Rebind it under Settings, "Keybindings".
+
+
+## Search and Extend
+
+
+_Find anything across rounds, and extend arguments into later speeches._
+
+- **Search (Ctrl+F)** – opens the search panel (drag it anywhere by its header).
+- (sub) On the dashboard it searches every round by round name, sheet name, argument text, or folder.
+- In a round it finds cells, and its mode switch chooses whether clicking a result jumps to the cell itself ("Edit") or to the responding column ("Response").
+- The search window browses the whole folder tree and finds rounds at every depth, so a match nested many folders deep still shows up.
+- **Pin a result** – it moves into the "Pinned" list at the top of the panel with its own "Go" button, and survives switching rounds.
+- **Extend an argument** – Alt+G extends the active argument forward, drawing a link into your next speech on that side and opening room there for the response. Separately, right-clicking a card cell opens its "Extend" menu to drop that card's prepared extension (set up in Halcyon Docs) into a later speech, with a chooser when the card has more than one.
+
+
+## Collaboration
+
+
+_Flow the same round live with a partner._
+
+- (bullets) **"Collaborate" (toolbar)** – opens the Collaboration window. "Create room" shows a room id to copy; a guest clicks "Join a room", pastes the id, and presses "Join". The status line shows connected, connecting, or disconnected, and avatars show who is present.
+- **Everyone edits, with one owner control** – every flow shared into the room is editable by every participant by default: the host's flow (always editable), and any flow a partner shares with "Share my flow". A partner who shares their flow gets an "Allow edits" checkbox under it, checked automatically every time sharing is turned on. Unchecking it makes that one flow read-only for everyone else while the owner keeps editing; checking it again (or sharing again) restores editing for the room.
+- **Guest flow switcher** – a guest can switch between "My Flow" and the host's flow with the switcher next to Collaborate; your own rounds stay private unless you explicitly share.
+- **Cells being edited** – a collaborator with a block or card open shows a pencil and their name on that cell, so you can see where everyone is working. Nothing is locked: you can still open, change, or delete any cell.
+- **Connection drops** – keep working. When the connection comes back, your changes and your partner's come back together on their own, with both sides' edits preserved.
+- **LIVE chips on the dashboard** – every flow shared into a live room shows a small "LIVE" chip on its dashboard card: the host's flow, and each partner's flow shared with "Share my flow". A chip stays lit while the room is in use, and re-hosting a flow you just closed rejoins its collaborators rather than starting a duplicate. Leaving a room as the last person turns its chips off right away; losing the connection keeps them lit briefly so you can rejoin. Collaboration chrome (avatars, the status pill, editing pencils) appears on shared flows and stays out of the way on your private ones.
+- **After an unexpected close** – if Halcyon Flow stops while you are in a room, the next launch offers to rejoin it, naming the host. Choose "Not now" and nothing happens; the offer does not come back. A host who re-hosts the same flow returns to the same room, so partners who are still there simply carry on. A normal quit or leaving the room deliberately makes no offer.
+- **One window per room** – rooms are per account: each signed-in account can be in a given room from one window at a time. Joining the same room from a second window or device shows "This account is already in the room on another window or device" until the first connection leaves.
+
+
+## Round Timer
+
+
+_A floating speech-and-prep clock, shared live with Halcyon Docs._
+
+- (bullets) **Toggle the timer (toolbar)** – it floats over the grid, drags anywhere by its header, and remembers its position.
+- **Speech and prep clocks** – pick the speech clock or either side's prep, then start, pause, or reset. Settings ("Timer") includes "Alert Points", which rings once at each listed remaining-second mark, and "Alert Volume", which controls those alerts and the end alarm. "Preset" fills "Constructive", "Rebuttal", "Cross-ex", and "Prep", and each remains editable.
+- **Typing a time** – enter "MM:SS" or bare digits: one or two digits set minutes ("9" is 9:00), while three or four digits work like a keypad where the last two are seconds ("800" is 8:00, "1230" is 12:30).
+- **Pop out the timer** – choose "Pop Out" in the timer header for a small always-on-top window. Choose "Close" there to return the timer to its normal panel. The pop-out closes with the app and is never restored on launch.
+- **Shared with Docs** – the clock is shared with Halcyon Docs when both apps run: start prep in one and it ticks in the other.
+
+
+## The Information Panel
+
+
+_Personal info, the Competitor and Judge Books, your schedule, and this manual._
+
+- (bullets) **"Personal"** – stores your name, school, code, and notes; competing rounds pre-fill from it. Personal info is shared between the Halcyon apps on this device: edit it in Halcyon Flow or Halcyon Docs and the other app picks it up on its own.
+- **"Competitor Book" and "Judge Book"** – "Competitor Book" collects every judge from rounds where you competed, with their RFDs; click an entry to open that round. Right-click a judge to merge duplicate name spellings (Ctrl+Z undoes a merge while the panel is open). "Judge Book" is the mirror image for rounds you judged, grouped by team.
+- **"Tournament Schedule"** – a table of tournaments and dates with "Add tournament", "Remove selected", "Clear all", and "Save"; bulk edits undo with Ctrl+Z and redo with Ctrl+Y while that tab is open. The saved schedule also drives the books' tournament sort.
+- **"Manual"** – this guide: pick a section on the left, read on the right.
+- **Search the manual (Ctrl+F)** – while the "Manual" tab is open, Ctrl+F focuses a "Search the manual" box that filters the section list to matches (with a per-section count) and highlights the hits on the right. Esc clears the box. Switch tabs or close the window and Ctrl+F goes back to its normal job.
+
+
+## Saving, Import, and Export
+
+
+_.jflow round files, and CSV, HTML, and Excel exports._
+
+- (bullets) **Saving (.jflow)** – use a round card's "Save" (an unsaved round asks where, defaulting into your selected folder), and assignment to folders moves the file on disk. Everything you flow also persists locally between launches automatically.
+- **Close Active Flow (Cmd/Ctrl+W)** – returns the current flow to the Dashboard without deleting the round or any sheet. Its content remains saved locally; the Dashboard button uses the same intentional-close path.
+- **Crash recovery** – after edits settle, Halcyon Flow keeps an atomic recovery copy of every open round. If the app or computer stops unexpectedly, the next launch restores the work as an unsaved local round. Intentionally closing a flow or the app does not create a crash-recovery copy. A recovered collaboration round stays offline and never writes stale content back into its former room; re-share it when you are ready.
+- **Export CSV (Alt+E sheet, Alt+Shift+E round)** – writes the sheet or round to a comma-separated file for any spreadsheet.
+- {{button:export.roundXlsx}} **Export the round ("Export" toolbar menu)** – the "Export" menu in the toolbar offers "Export as HTML", a single-page HTML copy that opens in any browser and can be re-imported later, and "Export as Excel…", an .xlsx workbook with one worksheet per sheet.
+- (sub) The Excel workbook mirrors the flow: every column carries its speech colour (aff, neg, CX) with a bold, centred header, and each cell wraps its text and centres it so the space above and below is even however tall the row grows. The text itself is raw: tags and blocks export as plain text, cards as their text content, with no bold, underline, or highlights.
+- **"Import Round" (dashboard)** – opens a saved .jflow file or an exported HTML round and adds it to your library.
+- **"Merge Flow" (toolbar)** – imports another round file and merges its sheets into the round you have open.
+
+
+## Settings and Keybindings
+
+
+_Preferences tab by tab, and rebinding any key._
+
+- **"General" and "Appearance"** – "General" holds the debate format, default column width, row height, grid font size, text wrap, "Enter row creation", "Auto-row scope starts at", "After undoing a row addition", colorblind mode, update checks, and "Keep running in the background when closed" (Windows tray behavior; its "Reset" section's "Reset all settings" button restores every setting to its default after a confirmation). "Appearance" holds the theme, UI style and fonts, the grid font, side colors, the accent color, active-cell style, chip colors, highlight color, and dashboard chip colors. Run "Toggle Dark Mode" from Command Search or use its default Ctrl+Alt+Shift+D shortcut; it is rebindable under "Keybindings".
+- (sub) "Document Typography" controls the card editor's text column. Set "Maximum Text Width" to 0 for the current full width, or choose a pixel limit and place it with "Text Column Position" as "Centered", "Left", or "Right".
+- "Scrollbars" sets the scrollbar "Scrollbar width" ("Thin" or "Standard") and "Scrollbar color" (a swatch; "Auto" resets it to the default grey).
+- "Underline and boxes" sets "Underline thickness (px)" and "Box thickness (pt)" for the card editor's debate underline and emphasis boxes, plus "Underline zoom scaling (%)" and "Box zoom scaling (%)" from 0% to 200% in 25% steps (100% grows the line with zoom, 0% keeps it a fixed size at any zoom, and above 100% it grows faster than the zoom; zooming out never erases the line, a thin minimum always stays visible). Card line spacing always keeps the room the emphasis box needs, so a thicker box can never fuse the boxes on two neighboring lines into one bar, and a later full-size paragraph cannot enlarge the gaps in earlier shrunken text.
+- **"Report a Bug" and "Suggest a Feature"** ("General", "Feedback") open focused forms that send your report to the Halcyon team. Give the report a short "Title (Optional)" so the team can tell it apart at a glance, then write the description, which needs at least 30 words (the title does not count toward it). The app and version are filled automatically, device and operating-system details can be corrected, and bug reports can include the current flow or other supporting files. Clicking outside the window leaves it open so a stray click cannot lose what you typed; close it deliberately with "Close" or the Escape key.
+- **Software Update** – updates download silently in the background. When a strictly newer version is ready, an "Update ready" chip appears in the status bar; hover it for the version and click it to install. No automatic check opens a dialog or steals focus.
+- (sub) On Windows and Linux, clicking the chip installs now; quitting normally also applies an update that is already downloaded.
+- On macOS, Halcyon publishes separate Intel and Apple Silicon files. An unsigned build verifies the update for the processor it is running on, closes cleanly, replaces a writable installed app, checks the new bytecode, and reopens it. If the app is translocated, read-only, or fails verification, Halcyon opens the matching .dmg for manual replacement instead. A signed and notarized build uses the native macOS updater.
+- "Check for Updates on Launch" (under "General", "About this install") runs the same silent check at startup.
+- "Pause update checks for 1 week" stops automatic checks and downloads until the shown date. While paused, "Resume now" restarts them immediately. Help ▸ "Check for Updates..." is an explicit manual request and still works while paused, reporting through the same non-blocking status chip.
+- **"Read Time" (under "General")** – the readers used for the grid's hover pills.
+- (sub) Each row is a name and a words-per-minute rate, added with "+ Add reader" and removed with the row's ✕. The pill lists times in the same order as the rows; with several readers each time is labeled by name.
+- "Show read time on cell hover" turns the pills on or off (on by default), and with no readers listed no pill appears.
+- Inserted material is not counted: card text highlighted in gray, or converted to a reference in Halcyon Docs, stays visible but never adds to a time.
+- Readers are shared between the Halcyon apps on this device: edit the list in Halcyon Flow or Halcyon Docs and the other app picks it up on its own.
+- **"Editing"** – the Halcyon Docs connection, your .hal search folders, block picker options, signposting, shorthand expansions (Ctrl+Shift+K opens the editor), and curly quotes. "Timer" holds clock times, theme, and sound.
+- **"Keybindings" (also Ctrl+K)** – lists every action grouped by area; click one to rebind it, and conflicts are flagged. Settings itself opens with Ctrl+, (or the gear button). Shortcuts shown in this manual are the defaults.
+- **Command Search (Ctrl+Shift+P, Cmd+Shift+P on Mac)** – a palette of every action.
+- (sub) Type to filter by name or group; the highlighted row runs with Enter, a click, or the "Run" button. Each row shows the action's group and its current keyboard shortcut, so a rebind you make in Settings shows up here too.
+- Type "s " followed by words (for example "s highlight color") to search Settings rows instead; Enter opens Settings on that tab.
+- With an empty search the palette lists every action grouped as in the Keybindings panel. Up and Down move through results (wrapping at the ends), Esc closes, and reopening always starts with an empty search.
+- **Shorthands** – expand as you type in grid cells: define a trigger like "T" to expand to "Topicality", with options for immediate expansion, case sensitivity, and plurals.
+- **
+- svg
+- 0 0 24 24
+- none
+- currentColor
+- round
+- round
+- aria-hidden
+- true
+- false
+- span
+- Georgia, "Times New Roman", serif
+- inline-flex
+- center
+- center
+- line-through
+- path
+- M12 3v10
+- path
+- M8.5 9.5 12 13l3.5-3.5
+- path
+- M5 15v3.5a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5V15
+- path
+- M5 19h6
+- path
+- M13.5 5.2l3.3 3.3
+- path
+- M7.2 16.8l-1.7.5.5-1.7 8.1-8.1a1.4 1.4 0 0 1 2 0l1.2 1.2a1.4 1.4 0 0 1 0 2l-8.1 8.1z
+- rect
+- 3.5
+- 4.5
+- 17
+- 15
+- circle
+- 8.5
+- 1.4
+- path
+- M4 17l4.5-4.5 3 3 3.5-3.5 5 5
+- rect
+- 3.5
+- 17
+- 14
+- 1.5
+- path
+- M3.5 10h17M3.5 14.5h17M9.5 5v14M15 5v14
+- path
+- M10 14a4 4 0 0 0 6 .4l3-3a4 4 0 0 0-5.6-5.6l-1.7 1.7
+- path
+- M14 10a4 4 0 0 0-6-.4l-3 3a4 4 0 0 0 5.6 5.6l1.7-1.7
+- italic
+- span
+- span
+- span
+- super
+- span
+- span
+- sub
+- circle
+- 1.4
+- currentColor
+- none
+- circle
+- 12
+- 1.4
+- currentColor
+- none
+- circle
+- 17
+- 1.4
+- currentColor
+- none
+- path
+- M9 7h11M9 12h11M9 17h11
+- path
+- M10 7h10M10 12h10M10 17h10
+- path
+- M4 6.5 5.5 6v4
+- path
+- M3.6 15.2c.2-.7 1.9-.8 1.9.3 0 .8-1.7 1.3-1.9 2.5h2.2
+- path
+- M20 6H10M20 18H10M20 12h-7
+- path
+- M7 9l-3 3 3 3
+- path
+- M4 6h10M4 18h10M4 12h7
+- path
+- M17 9l3 3-3 3
+- path
+- M4 6h16M4 10h10M4 14h16M4 18h10
+- path
+- M4 6h16M7 10h10M4 14h16M7 18h10
+- path
+- M4 6h16M10 10h10M4 14h16M10 18h10
+- marks.bold
+- marks.italic
+- marks.strikethrough
+- marks.superscript
+- marks.subscript
+- marks.emphasizeAcronym
+- list.bullet
+- list.ordered
+- list.outdent
+- list.indent
+- align.left
+- align.center
+- align.right
+- marks.addLink
+- export.roundXlsx
+- marks.bold
+- Bold
+- marks.italic
+- Italic
+- marks.strikethrough
+- Strikethrough
+- marks.superscript
+- Superscript
+- marks.subscript
+- Subscript
+- marks.emphasizeAcronym
+- Emphasize acronym (word-initial)
+- list.bullet
+- Bulleted list
+- list.ordered
+- Numbered list
+- list.outdent
+- Decrease indent
+- list.indent
+- Increase indent
+- align.left
+- Align left
+- align.center
+- Align center
+- align.right
+- Align right
+- marks.addLink
+- Insert hyperlink
+- export.roundXlsx
+- Export Round as Excel
+- img
+- aria-label

@@ -1,0 +1,2783 @@
+0 0 0 2px #ffffff55
+0 0 24 24
+0 0 auto
+0 10px
+0 12px
+0 1px
+0 2px
+0 2px 0 #d5003e
+0 2px 6px
+0 2px 8px
+0 32px
+0 3px
+0 4px 0 #111111
+0 6px
+0 7px
+0 8px
+0 8px 0 4px
+0 9px
+0 keeps the current full width
+0.15em
+0.25em
+1 / -1
+1 1 340px
+1 1 420px
+1.0
+100
+100%
+10000000-1000-4000-8000-100000000000
+100vh
+10:00
+10px 12px
+10px 14px
+10px 18px
+10px 20px
+10px 20px 16px
+11
+11px
+120px
+12px 16px
+12px 20px 16px
+13 pt bold
+14px 0 8px
+14px 18px
+14px 18px 6px
+14px 20px
+14vh
+15px
+16px 20px
+16px 20px 12px
+16px 20px 4px
+16px 20px 6px
+19.2.6
+1A
+1AC
+1AR
+1NC
+1NR
+1OC
+1PC
+1fr 1fr
+1fr 1fr 1fr
+1px 2px
+1px 4px
+1px 5px
+1px 6px
+1px 7px
+1px 8px
+1px solid 
+1px solid #6EB5C0
+1px solid currentColor
+24px
+24px 28px
+28px
+2AC
+2AR
+2NC
+2NC/1NR
+2NR
+2OC/OR
+2PC
+2d
+2px 0
+2px 10px
+2px 2px 0 #d5003e
+2px 4px
+2px 5px
+2px 6px
+2px 7px
+2px 8px
+2px 8px 5px
+300
+360
+3:00
+3px 0
+3px 10px
+3px 11px
+3px 2px
+3px 3px 0 #071026
+3px 3px 0 #ff2c55, -2px -2px 0 #2effb8
+3px 3px 0 #ff6b8a, -2px -2px 0 #6ee7b7
+3px 6px 3px 9px
+3px 7px
+3px 8px
+3px 9px
+3px solid transparent
+400
+4px 0
+4px 10px
+4px 11px
+4px 11px 4px 5px
+4px 12px
+4px 16px
+4px 4px 0 #111111
+4px 4px 0 #f1c453
+4px 5px
+4px 6px
+4px 8px
+4px 9px
+4px 9px 4px 5px
+50%
+5:00
+5px 10px
+5px 12px
+5px 13px
+5px 14px
+5px 5px 0 #ff9aae, -3px -3px 0 #9af2cf
+5px 6px
+60, 30, 5
+60-800
+64px 64px
+6:00
+6px
+6px 0
+6px 0 10px
+6px 10px
+6px 12px
+6px 12px 6px
+6px 14px
+6px 16px
+6px 6px 0 #111111
+6px 6px 0 #ff2c55, -3px -3px 0 #2effb8
+6px 8px
+6px 9px
+700
+70vh
+74vh
+7px 10px
+7px 16px
+7px 4px
+7px 9px
+80px
+80vh
+82vh
+86vh
+88vh
+8:00
+8px
+8px 0 3px
+8px 10px
+8px 11px
+8px 12px
+8px 20px 16px
+8px 2px
+8px solid 
+8px solid transparent
+90
+90%
+92vh
+92vw
+94vw
+9:00
+9px 10px
+9px 14px
+A credible second strike deters great-power war
+A1
+A2
+A3
+AC
+AFF
+AR
+ARb
+ARt
+AS
+About this install
+Account
+Activate your account
+Active Cell Line
+Active Cell Shading
+Active Cell Style
+Activity
+Add
+Add a Hal folder in Settings → Editing, or choose one below.
+Add a document folder in Settings, "Editing".
+Add folder…
+Add to the active cell
+Add tournament
+Advance After Insert
+Aff
+Aff Code
+Aff Prep
+Aff School
+Aff side
+Aff speaks first
+Aff: 
+After undoing a row addition
+Alert Points
+Alert Sound
+Alert Volume
+Align center
+Align left
+Align right
+All
+All Rounds
+Allow edits
+Allow edits – when off, others see your shared flow but cannot change it.
+Alt
+Alt+0
+Alt+E
+Alt+H
+Alt+Shift+E
+Alt+X
+Alt-
+Alt-Backspace
+Alt-Delete
+Alt-F10
+Alt-d
+Amber
+Analytic
+Animation
+AnimationEnd
+AnimationEvent
+AnimationIteration
+AnimationStart
+App
+App Version
+Appearance
+Applies to new rounds only.
+Apply
+Apply Marks to the Word at the Cursor
+Applying a mismatched transaction
+Argument
+Arial
+Arial Black
+Arial, Helvetica, sans-serif
+Arial, sans-serif
+Arial, system-ui, sans-serif
+Array
+ArrowDown
+ArrowLeft
+ArrowRight
+ArrowUp
+At least one column is required.
+Attach Current Flow
+Attachments are limited to 10 MB total.
+AuthError
+Auto
+Auto-expand Search Results
+Auto-row scope starts at
+Automatic
+Automatic updates paused until 
+BLK
+BLOCK
+BODY
+BP
+BQ
+BR
+Back
+Back to Dashboard
+Backflow
+Backflow Row Gap
+Backflowing all sheets…
+Backspace
+Big Questions
+Bill
+Black
+Black outline
+Block
+Block Chip Color
+Block Chip Text Color
+Blocks and tags
+Blue
+Bold
+Bug : can't construct the Blob.
+Bug : uncompressed data size mismatch
+Bug report submitted.
+Bulleted list
+By content
+By name
+CARD
+CC
+CG
+CMIR
+CO
+CR
+CRT Riot
+CS:GO
+CW
+CX
+Calibri
+Calibri, system-ui, sans-serif
+Calling `require` for "
+Calm slate
+Can not convert 
+Can't read the data of '
+Cancel
+Cannot join 
+Cannot resolve promise with itself
+CapsLock
+Capture
+Card
+Card Chip Color
+Card Chip Text Color
+Case
+Caught error while handling a Yjs update
+Cedar
+Centered
+Change
+Changed the client-id because another client seems to be using it.
+Check failed
+Check for Updates on Launch
+Check for Updates...
+Checking for updates…
+Choose
+Choose Files
+Choose a Halcyon Docs document to send to first.
+Choose color
+Choose font color
+Choose highlight color
+Choose working folder
+Cite
+Classic
+Classic Windows
+Clear Cell
+Clear all
+Close
+Close the Block editor before moving this block.
+Close the block editor before running Backflow.
+Close timer window
+Clown horn
+Clsc
+Cmd
+Cmd+Enter: add a new row
+Cmd+K
+Cmd+Left/Right
+Cmd+scroll
+CmirParseError
+Cobalt
+Collaborate
+Collaborate with a partner
+Collaboration
+Collaboration connection failed
+College
+Color Theme
+Colorblind mode
+Colored Column Backgrounds
+Colors
+Columns
+Comic Sans MS
+Comma-separated remaining seconds, such as 60, 30, 5
+Command Search
+Command Search…
+Competing
+Competitor Book
+CompositionEvent
+Con
+Con 
+Cong
+Congress
+Connected
+Connecting to Halcyon Docs…
+Connecting…
+Consolas
+Consolas, "Courier New", monospace
+Consolas, monospace
+Construct Speech
+Constructive
+Constructor match failed
+Content does not fit in gap
+Content hole must be the only child of its parent node
+Content hole not allowed in a leaf node spec
+Context
+Control
+ConvertWorker to 
+Copied
+Copy
+Corrupted zip : compression 
+Corrupted zip or bug: expected 
+Corrupted zip: can't find end of central directory
+Corrupted zip: can't find the ZIP64 end of central directory
+Corrupted zip: can't find the ZIP64 end of central directory locator
+Corrupted zip: missing 
+Could not connect to the room - the server may be unreachable. Try again.
+Could not copy to clipboard.
+Could not create the folder.
+Could not derive a key from the name.
+Could not insert this document result.
+Could not load the documents. Check your connection.
+Could not move the folder.
+Could not move the round into that folder.
+Could not open the subscription portal.
+Could not open the timer window.
+Could not open this document in Halcyon Docs.
+Could not persist recovered flow journal
+Could not read source – empty.
+Could not read the document.
+Could not save the round into that folder.
+Could not save the round.
+Could not save. Please try again.
+Could not sync with the room - the host flow may be too large for the server, or the server is unreachable. Try again.
+Courier New
+Courtroom
+Crc32Probe
+Create
+Create Block
+Create Empty Card
+Create account
+Create room
+Cross-ex
+Ctrl
+Ctrl+,
+Ctrl+-
+Ctrl+Alt+Shift+D
+Ctrl+E
+Ctrl+F
+Ctrl+H
+Ctrl+K
+Ctrl+Left/Right
+Ctrl+Shift+B
+Ctrl+Shift+C
+Ctrl+Shift+D
+Ctrl+Shift+F
+Ctrl+Shift+K
+Ctrl+Shift+P
+Ctrl+Shift+S
+Ctrl+Shift+T
+Ctrl+Shift+X
+Ctrl+U
+Ctrl+scroll
+Ctrl-
+Ctrl-Alt-Backspace
+Ctrl-F7
+Ctrl-a
+Ctrl-d
+Ctrl-e
+Ctrl-h
+Curly Quotes
+Current context
+Custom
+Custom Formats
+Custom Formats…
+Custom colors
+Custom color…
+Cyan
+DIV
+DLO
+DOCX
+DOM position not inside the editor
+DOMCharacterDataModified
+DOMContentLoaded
+DPM
+Dark
+Dashboard
+Dashboard Format Chip Color
+Dashboard Tournament Chip Color
+DataLengthProbe for 
+DataWorker
+Debate bell
+Decrease font size
+Decrease indent
+Default
+Default Format
+Deflate
+Del
+Delete
+Delete Active Row
+Delete Row
+Delete format
+Desk bell
+DetermineComponentFrameRoot
+Device
+Disconnected
+Doc Connection Port
+Doc Folders
+Doc Search 
+Doc:
+Document Construction
+Document Editing
+Document Typography
+Document outline
+Document search needs the desktop app.
+Documents
+Done
+Double-click to edit · Enter inserts below · Delete removes
+Down
+Downloading required update
+Downloading update
+Drag any edge or corner to resize
+Duplicate column names are not allowed.
+Duplicate use of selection JSON ID 
+Duplicate use of step JSON ID 
+Edit
+Edit Block
+Editing
+Editor
+Ember
+Emphasis
+Empty or invalid .hal bytes
+Empty or invalid docx bytes
+Empty text nodes are not allowed
+Encrypted zip are not supported
+End
+Enter
+Enter a width from 60 to 800 pixels.
+Enter row creation
+Enter · next row
+Enter: move to cell below
+ErrorBoundary caught:
+Esc
+Esc close
+Escape
+Event
+Every schema needs a 'text' type
+Existing sheets keep their columns. New sheets and new rounds use this configuration.
+Expand
+Export
+Export Round CSV
+Export Round as Excel
+Export Round as Excel…
+Export Sheet CSV
+Export as Excel…
+Export as HTML
+Export the round as an HTML page or an Excel workbook
+Extend
+F!
+F10
+F12
+F7
+F8
+F9
+Feature Description
+Feature suggestion submitted.
+Feedback
+File not found on disk. It may have been moved or deleted outside the app.
+Filter blocks and cards
+Filter documents
+Filter documents…
+Finish
+FlateWorker/
+Flow
+Flow Font
+Folder
+Folder Panel Width
+Folder moved.
+Folder picker needs the desktop app.
+Format needs a chip label.
+Format needs a name.
+Formats
+Fortnite
+ForwardRef
+Fragment
+From chosen column onward
+GET
+GW
+Gap is not a flat range
+General
+Georgia
+Georgia, "Times New Roman", serif
+Georgia, serif
+Getting Started
+Go
+Go to halcyondebate.org
+Gray
+Green
+Guest
+HEAD
+HTML
+Hal search needs the desktop app.
+Halcyon
+Halcyon Docs is not running – open it first.
+Halcyon Docs is not running.
+Halcyon Docs isn’t connected. Open Halcyon Docs to send into a document.
+Halcyon Flow
+Halcyon Sample 2024
+Halcyon Suite
+Hazmat Pop
+Help
+Helvetica Neue
+Hide
+Hide timer
+High school
+Highlight Color
+Highlight Drops
+Holo Ledger
+Home
+I agree
+IMG
+INPUT
+IPPF
+Idle
+Image
+Image unavailable here – open the card in Halcyon Docs to view it
+Impact
+Impact, "Arial Black", Arial, sans-serif
+Impact, Charcoal, sans-serif
+Import Round
+In this room
+In:
+Include .cmir files in Doc Search
+Include .docx files in Doc Search
+Inconsistent open depths
+Increase font size
+Increase indent
+Index 
+Indexing…
+Inflate
+Information
+Insert
+Insert Block from File…
+Insert hyperlink
+Inserted content deeper than insertion position
+Install required update
+Inter
+Inter, "Segoe UI", Arial, sans-serif
+Inter, sans-serif
+Inter, system-ui, sans-serif
+Intersectinon
+Invalid .hal: document.json is missing.
+Invalid .hal: document.json is unparseable.
+Invalid .hal: manifest.json is missing or corrupt.
+Invalid access: Add Yjs type to a document before reading data.
+Invalid array passed to renderSpec
+Invalid content for node type 
+Invalid input for AddMarkStep.fromJSON
+Invalid input for AddNodeMarkStep.fromJSON
+Invalid input for AttrStep.fromJSON
+Invalid input for DocAttrStep.fromJSON
+Invalid input for EditorState.fromJSON
+Invalid input for Fragment.fromJSON
+Invalid input for Mark.fromJSON
+Invalid input for Node.fromJSON
+Invalid input for NodeSelection.fromJSON
+Invalid input for RemoveMarkStep.fromJSON
+Invalid input for RemoveNodeMarkStep.fromJSON
+Invalid input for ReplaceAroundStep.fromJSON
+Invalid input for ReplaceStep.fromJSON
+Invalid input for Selection.fromJSON
+Invalid input for Slice.fromJSON
+Invalid input for Step.fromJSON
+Invalid input for TextSelection.fromJSON
+Invalid mark data for Node.fromJSON
+Invalid node type: 
+Invalid text node in JSON
+It creates binding changes to federal law. Steilen 20.
+Italic
+JSZip can't accept a stream when loading a zip file.
+Johnson 23, 0:21
+Join
+Join a room
+Joined a session
+Judge Book
+Judge name
+Judges & RFD
+Judging
+Jump to the matched cell and edit it
+Keep both
+Keep going
+Keep running in the background when closed
+Keep the same cell
+Key doesn't match schema
+Keybindings
+Keyboard Shortcuts
+LD
+LI
+LINK
+LIVE
+LO
+Lavender matte
+Leave room
+Left
+Left Click
+LeftClick
+Length exceeded!
+Light
+Linebreak replacement nodes must be inline leaf nodes
+Loading…
+Lucida Console
+M10 14 L15 12 L12 17 Z
+M12 5 L19 11 L17 18 L7 18 L5 11 Z M10 11 L8 9 L10 7 L12 9 Z M14 11 L12 9 L14 7 L16 9 Z
+M12 6 L19 13 L12 21 L5 13 Z M10 12 L9 13 L10 14 L11 13 Z M14 12 L13 13 L14 14 L15 13 Z
+M12 7 L18 11 L16 18 L8 18 L6 11 Z M10 12 L9 13 L10 14 L11 13 Z M14 12 L13 13 L14 14 L15 13 Z
+M15 13 L22 18 L11 19 Z
+M16 9 L22 8 L17 12 Z
+M18 6 L15 4 L14 8 Z
+M19 7 L15 4 L15 9 Z
+M20 5 L15 8 L17 12 Z
+M20 6 L15 8 L17 14 Z
+M4 5 L9 8 L7 12 Z
+M4 6 L9 8 L7 14 Z
+M5 13 L2 9 L9 11 Z
+M5 7 L9 4 L9 9 Z
+M5 8 L19 8 L12 20 Z M10 11 L9 12 L10 13 L11 12 Z M14 11 L13 12 L14 13 L15 12 Z
+M6 6 L9 4 L10 8 Z
+M7 7 L16 9 L17 15 L11 19 L6 16 L5 11 Z M9 11 L8 12 L9 13 L10 12 Z
+MG
+MM:SS
+MO
+MS Sans Serif
+Magenta
+Manage subscription
+Manual
+Maple
+Match UI style
+Maximum Text Width
+Meadow
+Merge Flow
+Merge “
+Meta
+Meta-
+Middle Click
+MiddleClick
+Minecraft
+Minified React error #
+Missing
+Mod-Backspace
+Mod-Delete
+Mod-Enter
+Mod-Shift-,
+Mod-Shift-7
+Mod-Shift-8
+Mod-Shift-b
+Mod-Shift-z
+Mod-[
+Mod-]
+Mod-a
+Mod-i
+Mod-k
+Mod-y
+Mod-z
+Mode
+Mode name
+Modern
+Module
+Monospace
+Move Cell
+Move cells
+Move to the action starting cell
+Move up
+Moved into folder.
+Moz
+Multi-volumes zip are not supported
+Multiple content holes
+Multiple linebreak nodes defined
+My Flow
+N1
+N2
+N3
+NC
+NC/1NR
+NEG
+NFF
+NOF SPAR
+NR
+NRb
+NRt
+NS
+Name
+Neg
+Neg Code
+Neg Prep
+Neg School
+Neg side
+Neg speaks first
+Neg: 
+New Round
+New folder
+Next
+No RFDs yet for this selection.
+No blocks or tags in this document.
+No card to extend.
+No documents contain that text.
+No documents in these folders.
+No file
+No folder set
+No folders set.
+No folders yet. Create one per tournament or round.
+No later speech on this side to extend into.
+No matches.
+No matching blocks or tags.
+No matching commands.
+No matching documents.
+No matching settings.
+No node after pos 
+No node at attribute step's position
+No node at given position
+No node at mark step's position
+No node at position 
+No node type or group '
+No output type specified.
+No subscription found - visit the website to subscribe
+No value supplied for attribute 
+NodeType.create can't construct text nodes
+Nodejs stream input adapter for 
+None
+Normal
+Not a Word document archive: missing word/document.xml
+Not a valid .jflow file
+Not in a room
+Not now
+Not specified
+Nothing to send in this speech.
+NumLock
+Number Signposting
+Numbered list
+O1
+O2
+OG
+OL
+OO
+OR
+OW
+Object property does not match
+Off
+Off 1
+On
+On click:
+Onyx
+Open At
+Open At works with .hal and CardMirror documents
+Open Halcyon Flow
+Open a flow before attaching it.
+Open this document and go to the selected element
+Open timer in its own window
+Opening…
+Opens the host's flow, synced live, in the flow switcher.
+Opp
+Otter
+Override side-based signposting
+Overwatch
+P1
+P2
+PC
+PF
+PK
+PK
+PK
+PK
+PK\x07
+PK\x07\b
+PM
+POST
+PR
+PRE
+PW
+Palatino
+Palatino Linotype
+Paper Knife
+Parli
+Paste a room id
+Pause update checks for 1 week
+Per-Speech Overrides
+Personal
+Pin
+Pin the selected result to the top
+Pin to top
+Pinned
+Platform / OS
+Please review our updated 
+Plugins passed directly to the view must not have a state component
+Pop Out
+Portal
+Preferences tab by tab, and rebinding any key.
+Prep
+Preset
+Preview sound
+Pro
+Pro 
+Profiler
+Prop
+ProseMirror
+ProseMirror-focused
+ProseMirror-hideselection
+ProseMirror-selectednode
+ProseMirror-separator
+ProseMirror-widget
+ProseMirrorClipboard
+Purple
+Quartz
+Quit Halcyon Flow
+React has blocked a javascript: URL as a security precaution.
+React.Children.only expected to receive a single React element child.
+Read Time
+Read error
+Reader
+Reading document…
+Reading folders…
+Reading folder…
+Rebuttal
+Recent
+Recolor every highlight in this card to the current color
+Record
+Red
+Redo
+Reference item not found
+Reindex needs the desktop app.
+Relationship
+Relevant Context or Details
+Relevant Files or Examples
+Reload view
+Remove
+Remove folder
+Remove highlight
+Remove link
+Remove mode
+Remove pin
+Remove reader
+Remove selected
+Remove team
+Remove this shortcut
+Removing non-flat range
+Replay Tutorial
+Report a Bug
+Require a code every time I sign in
+Required config field 'schema' missing
+Reset
+Reset All Settings
+Reset Pos
+Reset Zoom
+Reset all
+Reset all settings
+Reset colors to defaults
+Reset position
+Reset timer position
+Reset to factory
+Reset width
+Resize
+Resize Column…
+Resize Folder Panel
+Response
+Resume now
+Retry
+Retry required update
+Review our updated policies
+Right
+Right Click
+Right-click a folder and choose "New folder" to create a sub-folder inside it.
+Right-click to merge
+RightClick
+Room id – share this so others can join
+Rotation
+Round
+Round Info
+Round Info 
+Round Name
+Run
+Runs in the background
+SCRIPT
+SELECT
+STORE
+STORE compression
+STORE decompression
+STYLE
+Sage
+Save
+Save round to disk
+Saved
+Saving…
+Scrollbar color
+Scrollbar width
+Scrollbars
+Sea glass
+Search CardMirror Documents
+Search Cells
+Search Documents Cached
+Search Hal documents
+Search Word Documents
+Search all saved rounds · drag the header · Esc to close
+Search by:
+Search flow
+Search rounds
+Search rounds…
+Search the current flow · drag the header · Esc to close
+Search the manual
+Segoe UI
+Selection passed to setSelection must point at the current document
+Send Style
+Send failed: no response from Halcyon Docs.
+Send to Doc
+Sending to Halcyon Docs…
+Serious buzz
+Set Order
+Settings
+Settings and Keybindings
+Shadow Flow
+Shadow Flow Enter
+Shadowflow
+Share my flow
+Share my flow – publishes your flow so everyone can see and edit it.
+Shared Flow
+Shares this flow live. You'll get a room id to send others.
+Sheet Name
+Shift
+Shift+Enter: line break in cell
+Shift-
+Shift-Backspace
+Shorthands
+Shorthands…
+Show Full Block Label
+Show Timer
+Show all N
+Show read time on cell hover
+Side
+Sign Out Other Device & Continue
+Sign in before submitting a report.
+Sign in to collaborate
+Sign in to collaborate. You can keep editing local files while signed out.
+Sign out
+Signing in, the dashboard, and setting up your first round.
+Signpost Template
+Signpost on Send
+Skip
+Skip the tour? You can replay it from Getting started.
+Soft chime
+Software update
+Sonar ping
+Sort by
+Spar
+Speaker Order
+Speech
+Standard
+Standardize highlighting
+Start
+Start a new room
+Steps to Reproduce
+StrictMode
+Strikethrough
+Structure gap-replace would overwrite content
+Structure replace would overwrite content
+Style color filled
+Style color outline
+Submit
+Submitting...
+Subscript
+Suggest a Feature
+Superscript
+Suspense
+SuspenseList
+Switch between your flow and a partner's flow
+Switch to Halcyon Docs
+System
+System default
+TAG
+TD
+TEXTAREA
+TH
+TR
+Tab
+Tab · next speech
+Tag
+Tag Chip Color
+Tag Chip Text Color
+Tahoma
+Tahoma, "MS Sans Serif", Arial, sans-serif
+Tahoma, sans-serif
+Tahoma, system-ui, sans-serif
+Team 1
+Team 2
+Team name
+Text
+Text Column Position
+Text Wrap
+Text must be rendered as a DOM text node
+TextEvent
+That room id looks invalid.
+The JSON fields `doc` and `selection` are reserved
+The argument must be a React element, but you passed 
+The constructor with parameters has been removed in JSZip 3.0, please check the upgrade guide.
+The current flow is larger than 5 MB.
+The host clicks "Create room" and shares the room id with you.
+The round was removed from the app, but its file could not be moved to the Recycle Bin.
+The stream '
+The text node type should not have attributes
+Theme
+There is no position after the top-level node
+There is no position before the top-level node
+Thin
+This account is already in the room on another window or device
+This account is already in the room on another window or device.
+This block was deleted by a collaborator – editor closed.
+This document was already integrated as a sub-document. You should create a second instance instead with the same guid.
+This flow has a live collaboration room.
+This method has been removed in JSZip 3.0, please check the upgrade guide.
+This view hit an error and was recovered.
+Throttled
+Timer
+Timer pop-out is available in the desktop app.
+Timer sound volume from 0 to 100
+Times
+Times New Roman
+Toggle Dark Mode
+Toggle Per-Speech Overrides
+Tournament
+Tournament Schedule
+TransformError
+Transition
+TransitionCancel
+TransitionEnd
+TransitionEvent
+TransitionRun
+TransitionStart
+Transparency
+Trebuchet MS
+Tuple
+Turn on "Override side-based signposting" to signpost every sheet regardless of side.
+Type
+Type given to setBlockType should be a textblock
+Type to filter blocks / cards / tags…
+Type to search inside documents.
+UI
+UI Font
+UI Style
+UL
+UNDEFINED
+UNIX
+UTF-8
+Unable to compute message
+Underline
+Underline and boxes
+Underlying side
+Undertag
+Undo
+Unexpected content type
+Unexpected content type in insert operation
+Unexpected trailing text
+Unhandled pattern
+Unidentified
+Union
+Unknown device
+Unknown expr type
+Unknown message type
+Unknown node type: 
+Unknown platform
+Unpin
+Unrecognized modifier name: 
+Up
+Update check failed
+Update found
+Update ready
+Update required
+Use the flow switcher in the header to move between your flow and your partner's flow.
+Using an array from an attribute object as a DOM spec. This may be an attempted cross site scripting attack.
+VITE_AUTH_URL
+VITE_COLLAB_URL_FLOW
+Value doesn't match value
+Verdana
+Verdana, "Trebuchet MS", Arial, sans-serif
+Verdana, sans-serif
+Verdana, system-ui, sans-serif
+Very large libraries show their first 200 chips with a "Show all N" button below.
+Victory run
+Visit halcyondebate.org to subscribe and start your free trial.
+Voted…
+WPM
+WSDC
+Web
+Webkit
+Willow
+With nothing selected, a reading-mark key marks the word the cursor is in
+Worker 
+Wrapper type given to Transform.wrap does not form valid content of its parent wrapper
+Yellow
+You are already hosting this room.
+You are already in this room.
+You are hosting
+You are up to date
+You must agree to continue.
+You must not compute changes after the event-handler fired.
+Your Role
+Your Side
+Your Side 
+Your partner sees this flow as your flow. Keep editing it as usual.
+ZipFileWorker
+Zoom
+Zoom In
+Zoom Out
+Zoom percentage
+abbreviations
+abcdefghijklmnopqrstuvwxyz0123456789
+abcdefghjkmnpqrstuvwxyz23456789
+absolute
+accent
+accent-height
+accent1
+accent2
+accent6
+accentHeight
+accept-charset
+access_expired
+accessibility
+account_locked
+action
+active
+activeCellBorderColor
+activeCellFillColor
+activeCellStyle
+active_sheet_id
+add
+add-row
+addMark
+addNodeMark
+addToHistory
+advanceAfterInsert
+aff
+aff color
+aff neg sheets
+affCode
+affColor
+affPrep
+affPrepBaseRemainingMs
+affSchool
+aff_first
+afterAllTransactions
+afterTransaction
+afterTransactionCleanup
+afterblur
+alarm volume
+alert
+align
+align.center
+align.left
+align.right
+alignment-baseline
+alignmentBaseline
+all
+alt
+altKey
+analytic
+analytic-unit
+analytic_mark
+analytic_unit
+animationend
+animationiteration
+animationstart
+annotations.json
+anonymous
+anywhere
+app closed
+app.switchToDocs
+appearance
+appendedTransaction
+application/json
+application/octet-stream
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+application/vnd.openxmlformats-package.relationships+xml
+application/x-flow-folder-move
+application/x-flow-round-move
+application/xml
+application/zip
+arabic-form
+arabicForm
+area
+arg
+arg.extend
+argument
+aria-
+aria-activedescendant
+aria-autocomplete
+aria-busy
+aria-checked
+aria-controls
+aria-disabled
+aria-expanded
+aria-haspopup
+aria-hidden
+aria-invalid
+aria-label
+aria-level
+aria-live
+aria-modal
+aria-orientation
+aria-pressed
+aria-selected
+array
+arraybuffer
+arrow-aff
+arrow-neg
+arrows
+asArrayBuffer
+asBinary
+asNodeBuffer
+asText
+asUint8Array
+attr
+attributes
+authenticating
+auto
+auto update
+autoExpandSearchResults
+autoReverse
+auxclick
+available
+avatar
+backflow
+background
+backward
+backwards
+base
+base64
+baseline-shift
+baselineShift
+beforeAllTransactions
+beforeObserverCalls
+beforeTransaction
+beforeblur
+beforeinput
+beforetoggle
+bell
+big questions
+bigint
+binarystring
+bindings
+bird
+black
+blk
+blob
+block
+block badge
+block badge text
+block label
+block search
+blockChipColor
+blockPicker
+blockTextColor
+blocks
+blue
+blueprint
+blur
+body
+body text
+bold
+bold cite
+boolean
+border-box
+border-radius:1px
+borderBottom
+borderTop
+bottom
+box border
+box zoom
+box-decoration-break:clone
+box-shadow 200ms ease-out
+boxThickness
+boxZoomScale
+bp
+bq
+br
+brand color
+break
+break-word
+british parliamentary
+bug
+bullet
+button
+button, input
+buzzer
+cache size
+cancel
+canvas
+cap-height
+capHeight
+card
+card badge
+card badge text
+card tag
+cardChipColor
+cardEmphasisBridge
+cardHlStream
+cardLineFit
+cardTextColor
+card_body
+cardmirror
+caret
+caretWordMarks
+cat
+cell
+cell border color
+cell fill color
+cell outline
+cell.addRow
+cell.block
+cell.createBlock
+cell.delete
+cell.editBlock
+cell.emptyCard
+cell.highlight
+cell.insert
+cell.lineBreak
+cell.move
+cell.moveCell
+cell.search
+center
+center text
+centered
+challenge_invalid
+change
+change click focusin focusout input keydown keyup selectionchange
+charCode
+character
+characterData
+checkForUpdatesOnLaunch
+checkbox
+checked
+checking
+childList
+children
+chime
+choice
+choose
+chrome font
+chrome style
+citation
+cite
+cite_mark
+cite_paragraph
+class
+classic
+classicWin
+cleanup
+click
+clip-path
+clip-rule
+clipPath
+clipRule
+clipboardData
+clipboardParser
+clipboardSerializer
+clipboardTextSerializer
+close
+close to tray
+closeFlow
+closeHistory
+closed
+clownHorn
+cmir
+col
+col-resize
+colWidth
+colgroup
+collapsed
+college
+color
+color-interpolation
+color-interpolation-filters
+color-profile
+color-rendering
+colorInterpolation
+colorInterpolationFilters
+colorProfile
+colorRendering
+colorTheme
+colorblindMode
+coloredColumnBackgrounds
+column
+column colors
+column size
+column_index
+combobox
+command
+commandId
+commandSearch
+commands
+comment_range
+compact
+competing
+competitors
+composition
+compositionend
+compositionend focusout keydown keypress keyup mousedown
+compositionstart
+compositionstart focusout keydown keypress keyup mousedown
+compositionupdate
+compositionupdate focusout keydown keypress keyup mousedown
+compressedSize
+compression
+confirm
+conflict
+congress
+connected
+connecting
+connection-close
+connection-error
+construct
+constructive time
+constructiveTime
+contains
+content
+content-type
+contentEditable
+contenteditable
+contextmenu
+contextual
+copy
+copyMove
+courtroom
+cover
+crc32
+createSelectionBetween
+cross examination
+crossOrigin
+crossorigin
+crtRiot
+csgo
+css
+ctrlKey
+curlyQuotes
+current
+currentColor
+cursor word
+custom
+custom prop
+customFormats
+cut
+cx
+cx time
+cxTime
+cyan
+cyberInk
+dangerouslySetInnerHTML
+dark
+dark mode
+darkBlue
+darkCyan
+darkGreen
+darkMagenta
+darkRed
+darkgray
+darkgrey
+darwin
+dashboard
+dashboard sidebar
+dashboardFormatChipColor
+dashboardTournamentChipColor
+data
+data-
+data-cell-col
+data-cell-row
+data-close
+data-color
+data-column-header
+data-column-menu
+data-dx
+data-dy
+data-extend-menu
+data-fill-lum
+data-fliph
+data-flow-grid-scroll
+data-href
+data-idx
+data-indent
+data-layer
+data-link
+data-list
+data-mark
+data-num-restart
+data-opacity
+data-pm-slice
+data-precedence
+data-readtime-pill
+data-rotation
+data-sd
+data-sd-heading
+data-sheet-tab
+data-sid
+data-slash-opt
+data-tab-close
+data-tour
+data-wrap
+data-yjs-hook
+data:
+data_length
+datetime-local
+dblclick
+debate format
+debate underline
+debate-underline
+debateBell
+debateFormat
+decorations
+default
+defaultChecked
+defaultValue
+defaults
+defs
+delete
+deleteContentBackward
+deltaX
+deltaY
+dependency_missing
+deskBell
+destroy
+destroyed
+dev-only
+development
+dialog
+differentiators
+disconnected
+display
+div
+doc
+doc cache
+doc search
+doc.backflow
+doc.construct
+doc.send
+doc.setOrder
+docAttr
+docSearchIncludeCmir
+docSearchIncludeDocx
+docs window
+document.json
+documentMode
+docx
+docx-card-body
+dog
+domParser
+dominant-baseline
+dominantBaseline
+double
+doubleClick
+down
+downloaded
+downloading
+drag
+dragCopies
+dragend
+dragenter
+dragexit
+draggable
+dragleave
+dragover
+dragstart
+drop
+drops.highlight
+dstrike
+econ decline
+edit
+editable
+editor
+ellipsis
+email
+email_unverified
+embed
+emphasis
+emphasis box
+emphasis_mark
+en
+enable-background
+enableBackground
+end
+ensureWorkspace
+enter
+enterSpacing
+error
+es
+evenodd
+event
+ew-resize
+expand results
+expansions
+expired
+export.round
+export.roundXlsx
+export.sheet
+exportRound
+externalResourcesRequired
+f9
+factory reset
+fail
+failed to check custom prop
+false
+feedback
+figure
+file
+files
+fill-opacity
+fill-rule
+fillOpacity
+fillRule
+filledBlue
+fixed
+flex
+flex-end
+flex-start
+float
+flood-color
+flood-opacity
+floodColor
+floodOpacity
+flow
+flow-add-off
+flow-block-picker
+flow-body
+flow-cell
+flow-collaborate
+flow-header
+flow-row
+flow-sheet
+flow-topbar
+flow:collab-session
+focus
+focusable
+focusin
+focusout
+focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange
+folder
+folder sidebar width
+folderPanelWidth
+font
+font-family
+font-size
+font-size-adjust
+font-stretch
+font-style
+font-variant
+font-weight
+fontFamily
+fontSize
+fontSizeAdjust
+fontStretch
+fontStyle
+fontVariant
+fontWeight
+font_color
+font_family
+font_size
+for
+forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported
+forceUpdate
+foreignObject
+forgotPassword
+form
+formAction
+format chip
+format editor
+format.strike
+format.underline
+fortnite
+forward
+forwards
+fox
+frame
+fulfilled
+full
+fullscreenchange
+function
+general
+getting started
+getting-started
+glyph-name
+glyph-orientation-horizontal
+glyph-orientation-vertical
+glyphName
+glyphOrientationHorizontal
+glyphOrientationVertical
+go to docs
+gotpointercapture
+grab
+gray
+green
+grey
+grid
+grid font
+group_header
+guest
+guided tour
+h1
+h2
+h3
+h4
+hal
+hal folders
+hal-results
+halIpcPort
+halSearchCacheSize
+halSearchFolders
+halcyon
+halcyon blue
+halcyon docs
+halcyon-clipboard-failure
+halcyon-flow-
+halcyon-flow-active-speech
+halcyon-flow-backflow
+halcyon-flow-block-edit-add
+halcyon-flow-block-edit-exit
+halcyon-flow-block-edit-focus-first
+halcyon-flow-block-edit-prepend
+halcyon-flow-construct-speech
+halcyon-flow-create-block
+halcyon-flow-edit-block
+halcyon-flow-edit-card
+halcyon-flow-export-round
+halcyon-flow-export-round-html
+halcyon-flow-export-round-xlsx
+halcyon-flow-flush-now
+halcyon-flow-focus-grid
+halcyon-flow-highlight-drops
+halcyon-flow-html-round
+halcyon-flow-inbox-drain
+halcyon-flow-new-aff
+halcyon-flow-new-off
+halcyon-flow-open-block-picker
+halcyon-flow-open-search
+halcyon-flow-open-shorthands
+halcyon-flow-push-undo
+halcyon-flow-query-active-cell
+halcyon-flow-query-active-speech
+halcyon-flow-query-edit-block
+halcyon-flow-redo
+halcyon-flow-reload-grid
+halcyon-flow-remote-cell-edit
+halcyon-flow-request-send-doc
+halcyon-flow-round
+halcyon-flow-round-data
+halcyon-flow-send-doc
+halcyon-flow-send-to-cell
+halcyon-flow-set-rich-cell
+halcyon-flow-undo
+halcyon-timer-state-v1
+halcyon-timer-v1
+halcyon-tour-hole
+halcyon.cardshare.deviceId
+halcyon.refresh
+handleClick
+handleClickOn
+handleDOMEvents
+handleDoubleClick
+handleDoubleClickOn
+handleDrop
+handleKeyDown
+handleKeyPress
+handlePaste
+handleScrollToSelection
+handleTextInput
+handleTripleClick
+handleTripleClickOn
+has_documents
+hashchange
+hat
+hazmatPop
+head
+header crc mismatch
+header-cell
+header_cell
+heading 1
+heading 2
+heading 3
+heading 4
+height:0
+help.pitch
+help.replayTutorial
+hidden
+highSchool
+highlight
+highlightColor
+highlighter
+history
+historyRedo
+historyUndo
+holoLedger
+horiz-adv-x
+horiz-origin-x
+horizAdvX
+horizOriginX
+host
+hosting
+hotkeys
+hr
+href
+html
+htmlFor
+http
+http-equiv
+http://schemas.openxmlformats.org/officeDocument/2006/relationships
+http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument
+http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles
+http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet
+http://schemas.openxmlformats.org/package/2006/content-types
+http://schemas.openxmlformats.org/package/2006/relationships
+http://schemas.openxmlformats.org/spreadsheetml/2006/main
+http://www.w3.org/1998/Math/MathML
+http://www.w3.org/1999/xlink
+http://www.w3.org/2000/svg
+http://www.w3.org/XML/1998/namespace
+httpEquiv
+https:
+https://app.halcyondebate.org/auth
+https://halcyondebate.org
+https://halcyondebate.org/#/account/signup
+https://react.dev/errors/
+https://…
+idea
+idle
+image
+image-rendering
+image/*
+image/bmp
+image/emf
+image/gif
+image/jpeg
+image/png
+image/png,image/jpeg,image/gif,image/webp,image/bmp,image/svg+xml
+image/svg+xml
+image/tiff
+image/webp
+image/wmf
+imageRendering
+image_block
+img
+img[src]
+important
+in e&&
+include
+incorrect data check
+incorrect header check
+incorrect length check
+indent
+indexes/search.json
+inherit
+initials
+inline
+inline-block
+inline-flex
+inlineStr
+innerText
+input
+insert
+insert.slashBlockSearch
+insertBlock
+inset 0 -2px 0 #09642d
+inset 0 -2px 0 #75ff9f
+inset 0 -2px 0 currentColor
+inset 0 -3px 0 #12a06d, 0 3px 0 #ff9aae
+inset 0 -3px 0 #d49a2a
+inset 0 -3px 0 #d5003e
+inset 0 -3px 0 #d69b00
+inset 0 -3px 0 #ff9b18
+inset 0 -4px 0 #111111
+inset 0 -4px 0 #6aa84f
+inset 1px 1px 0 #555, inset -1px -1px 0 #000
+inset 1px 1px 0 #fff, inset -1px -1px 0 #808080
+inset 3px 3px 0 #bdbdbd, inset -3px -3px 0 #373737
+interface font
+invalid
+invalid bit length repeat
+invalid block type
+invalid code -- missing end-of-block
+invalid code lengths set
+invalid distance code
+invalid distance too far back
+invalid distances set
+invalid literal/length code
+invalid literal/lengths set
+invalid stored block lengths
+invalid window size
+invalid_input
+ippf
+is
+issue
+italic
+item
+itemprop
+jayflow-preview-timer-sound
+jayflow-round
+jayflow-v3
+join
+judges
+judging
+kbd
+keep
+keepRunningInBackground
+key
+keybindings
+keydown
+keygen
+keypress
+keyup
+ko
+label
+lavender
+ld
+leave
+left
+left text
+letter-spacing
+letterSpacing
+li
+library
+light
+light mode
+lightGray
+lightgrey
+lighting-color
+lightingColor
+lincoln douglas
+lincoln-douglas
+line-through
+link
+link[data-precedence],style[data-precedence]
+list
+list paragraph
+list.bullet
+list.indent
+list.ordered
+list.outdent
+listbox
+load
+loading
+loadingdone
+local
+loggedOut
+logistics
+long
+loopback
+lostpointercapture
+ltr
+mac
+magenta
+mail_unavailable
+mailto:
+mainColor
+manifest.json
+manual
+mark
+mark-placeholder
+markViews
+marker-end
+marker-mid
+marker-start
+markerEnd
+markerMid
+markerStart
+marks.addLink
+marks.bold
+marks.cite
+marks.emphasis
+marks.emphasizeAcronym
+marks.highlight
+marks.italic
+marks.strikethrough
+marks.subscript
+marks.superscript
+marks.underline
+mask
+math
+max-width:100%
+maximumTextWidth
+meadow
+media
+mediaId
+menu
+menuitem
+message
+meta
+metaKey
+metadata.json
+middle
+minecraft
+minimize to tray
+modal
+modern
+module
+modulepreload
+monoPro
+monospace
+mount
+mouse
+mousedown
+mouseenter
+mouseleave
+mousemove
+mouseout
+mouseover
+mouseup
+move
+move-down
+movementX
+movementY
+moz
+multiple
+must be an array
+name
+nav.down
+nav.enterDown
+nav.extendArg
+nav.left
+nav.nextArg
+nav.nextCol
+nav.prevCol
+nav.right
+nav.up
+navigate
+navigateerror
+navigatesuccess
+nearest
+need dictionary
+needsName
+neg
+neg color
+negCode
+negColor
+negPrep
+negPrepBaseRemainingMs
+negSchool
+neg_first
+nesw-resize
+network_error
+never
+new
+newAff
+newOff
+next
+next cell
+no-cell
+no-drag
+no-grid
+no_documents
+no_subscription
+node
+nodeName
+nodeViews
+node_env
+nodebuffer
+nodestream
+nof spar
+nof_spar
+nonce
+none
+noopener
+normal
+noscript
+not all
+not-allowed
+not_running
+not_specified
+nowrap
+ns-resize
+null
+number
+numberSignposting
+numbered signposts
+numeric
+nwse-resize
+o/w
+object
+off
+off color
+offcase
+ok
+old cite
+omit
+on
+onAnimationEnd
+onAnimationIteration
+onAnimationStart
+onBeforeInput
+onBlur
+onChange
+onClick
+onClickCapture
+onCompositionEnd
+onCompositionStart
+onCompositionUpdate
+onDoubleClick
+onDoubleClickCapture
+onFocus
+onMouseDown
+onMouseDownCapture
+onMouseEnter
+onMouseLeave
+onMouseMove
+onMouseMoveCapture
+onMouseUp
+onMouseUpCapture
+onPointerEnter
+onPointerLeave
+onSelect
+onTransitionCancel
+onTransitionEnd
+onTransitionRun
+onTransitionStart
+onboarding
+oninput
+online
+onpropertychange
+onreadystatechange
+onselectionchange
+open docs
+openFile
+opt
+option
+orange
+order
+ordered
+outlineBlack
+outlineBlue
+outweigh
+overflow:visible
+overline-position
+overline-thickness
+overlinePosition
+overlineThickness
+overrideSideSignposting
+overwatch
+ow
+owl
+owner
+pPr
+pStyle
+page
+paint-order
+paintOrder
+panose-1
+paperKnife
+paragraph
+paragraph+
+param
+paren
+parli
+password
+paste
+path
+pause
+pending
+period
+personal
+pf
+pilcrow_marker
+pitch
+placed
+plaintext
+play
+plugin
+plus
+pmd-analytic
+pmd-analytic-mark
+pmd-block
+pmd-card-body
+pmd-cite
+pmd-cite-para
+pmd-emphasis
+pmd-hat
+pmd-highlight
+pmd-pocket
+pmd-tag
+pmd-underline
+pmd-undertag
+pmd-undertag-mark
+pocket
+pointer
+pointer-events
+pointerEvents
+pointercancel
+pointerdown
+pointerenter
+pointerleave
+pointermove
+pointerout
+pointerover
+pointerup
+policy
+policy debate
+polite
+popstate
+port
+position:relative
+pre
+pre-line
+pre-wrap
+preload
+prep time
+prepTime
+presence
+presentation
+preserve
+preserveAlpha
+preset
+prev
+problem
+production
+prompt
+props
+pt
+public forum
+purple
+px
+rId1
+radio
+range
+ratechange
+react-boundary
+react-transition
+react.activity
+react.client.reference
+react.consumer
+react.context
+react.element
+react.forward_ref
+react.fragment
+react.lazy
+react.memo
+react.memo_cache_sentinel
+react.portal
+react.profiler
+react.strict_mode
+react.suspense
+react.suspense_list
+react.transitional.element
+readable-stream
+reader_default
+reading width
+readonly
+readwrite
+rebased
+rebind
+rebuttal time
+rebuttalTime
+recovery.list
+recovery.restore
+recovery.write
+rect
+red
+redo
+ref
+region
+rejected
+rel
+relative
+rels
+remaining seconds
+remove
+removeMark
+removeNodeMark
+rename
+rendering-intent
+renderingIntent
+replace
+replaceAround
+replay tour
+reportBug
+request
+reset
+resetSettings
+resize
+resource
+response
+retain
+right
+right text
+root
+round
+round.info
+roundNum
+round_id
+row gap
+row size
+row.delete
+rowHeight
+rowInsertUndoSelection
+row_id
+row_index
+row_order
+rtl
+s 
+s come back together on their own, with both sides
+s flow, and each partner
+s highlight color
+s hover pills.`,sub:[`Each row is a name and a words-per-minute rate, added with "+ Add reader" and removed with the row
+same-origin
+same_as_account
+sawtooth
+scale with zoom
+schedule
+schema
+scope
+script
+scroll
+scroll bar
+scroll bar color
+scrollMargin
+scrollThreshold
+scrollToSelection
+scrollbarColor
+scrollbarWidth
+scrollend
+sd-card-pm
+sd-hl-stream
+sd-override-highlight 
+sd-status-row
+sd-toolbar-row
+seaGlass
+search
+search folders
+section
+secure
+seed
+seeked
+select
+selected
+selectedSendStyle
+selection
+selection style
+selectionStart
+selectionchange
+selectstart
+send to doc
+sendDoc
+separator
+seq
+seriousBuzz
+session_active
+set
+setState
+setimmediate
+setting
+settings
+settings-keybindings
+shading
+shadow.enter
+shadow.toggle
+shape-rendering
+shapeRendering
+sheet
+sheet-switch
+sheet.close
+sheet.newAff
+sheet.newOff
+sheet.nextTab
+sheet.prevTab
+sheet.rename
+sheet.reorderLeft
+sheet.reorderRight
+sheet.select1
+sheet.select2
+sheet.select3
+sheet.select4
+sheet.select5
+sheet.select6
+sheet.select7
+sheet.select8
+sheet.select9
+sheet_id
+short
+shortcut
+shortcut editor
+shorthands
+showFullBlock
+side
+side chips
+signIn
+signed_in_elsewhere
+signpost format
+signpost side
+signpostOnSend
+signpostTemplate
+signposting
+sine
+single
+singleClick
+skin
+slate
+smart quotes
+snippets
+softChime
+softGray
+sonar
+sound
+source
+space-between
+spacer
+spacing
+span
+span.Apple-converted-space
+speech
+speech names
+speech signposts
+speechBaseRemainingMs
+speechOverrides
+speech_columns
+speech_key
+spellCheck
+spreadsheet
+src
+standard
+star
+start
+status
+stop-color
+stop-opacity
+stopColor
+stopOpacity
+storedMarks
+stream
+stream end
+stretch
+strike
+strikeRanges
+strikethrough
+strikethrough-position
+strikethrough-thickness
+strikethroughPosition
+strikethroughThickness
+string
+stroke-dasharray
+stroke-dashoffset
+stroke-linecap
+stroke-linejoin
+stroke-miterlimit
+stroke-opacity
+stroke-width
+strokeDasharray
+strokeDashoffset
+strokeLinecap
+strokeLinejoin
+strokeMiterlimit
+strokeOpacity
+strokeWidth
+strong
+structure.analytic
+structure.clearToNormal
+structure.tag
+structure.undertag
+style
+styles.xml
+stylesheet
+sub
+subdocs
+submit
+submitted
+subscript
+success
+suggestFeature
+superscript
+suspended
+svg
+switch app
+symbol
+sync
+synced
+system
+system theme
+system-ui, sans-serif
+t match schema`:`Value doesn
+t read the data of 
+table
+table_cell
+table_header
+table_row
+tabular-nums
+tag
+tag badge
+tag badge text
+tagChipColor
+tagTextColor
+tbody
+td
+team1
+team2
+tel
+terminal
+text
+text column width
+text size
+text-anchor
+text-decoration
+text-decoration:underline
+text-decoration:underline double
+text-rendering
+text/html
+text/plain
+text/uri-list
+textAnchor
+textColumnPosition
+textContent
+textDecoration
+textInput
+textRendering
+textWrap
+textarea
+textarea.flow-cell-input
+th
+that's
+the loaded zip file
+the owner
+theme
+thin
+thumb color
+timeout
+timer
+timer colors
+timer volume
+timer warning
+timer widget
+timerAlertPoints
+timerAlertVolume
+timerPopout
+timerVisible
+title
+to selection
+together
+toggle
+toggle app
+too many length or distance symbols
+top
+touchcancel
+touchend
+touchmove
+touchstart
+tournament
+tournament chip
+tr
+track
+transform-origin
+transformOrigin
+transformPasted
+transformPastedText
+transitioncancel
+transitionend
+transitionrun
+transitionstart
+transparent
+tray
+tree
+treeitem
+tripleClick
+true
+truncated
+type
+typeface
+uc
+ui.commandSearch
+ui.commands
+ui.dashboard
+ui.settings
+ui.shorthands
+uiEvent
+uiFont
+uiStyle
+uint8array
+ulThickness
+ulZoomScale
+unauthorized
+uncaughtException
+uncompressedSize
+undefined
+underline
+underline weight
+underline zoom
+underline-position
+underline-thickness
+underlinePosition
+underlineRanges
+underlineThickness
+underline_direct
+underline_mark
+undertag
+undertag_mark
+undo
+unicode-bidi
+unicode-range
+unicodeBidi
+unicodeRange
+units-per-em
+unitsPerEm
+unknown
+unknown compression method
+unknown error
+unknown header flags set
+unreadable
+unstable_legacy-backwards
+unsupported
+up
+update
+updateV2
+update_required
+updates
+upgrade
+uppercase
+url
+use-credentials
+useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict
+utf-8
+utf-8 decode
+utf-8 encode
+v-alphabetic
+v-hanging
+v-ideographic
+v-mathematical
+vAlphabetic
+vHanging
+vIdeographic
+vMathematical
+value
+vector-effect
+vectorEffect
+verification_required
+verifyEmail
+verify_current
+verify_new
+vert-adv-y
+vert-origin-x
+vert-origin-y
+vertAdvY
+vertOriginX
+vertOriginY
+vertical
+vertical-align:top
+victory
+view.toggleDarkMode
+viewer
+visibilitychange
+visible
+void
+volumechange
+wbr
+webkit
+webkitFontSmoothing
+welcome
+wheel
+wheelDelta
+wheelDeltaX
+wheelDeltaY
+white
+wide
+win
+windows
+word marks
+word search
+word-spacing
+word/stylesWithEffects.xml
+wordSpacing
+workbook
+wrap
+wrap cells
+writing-mode
+writingMode
+wsdc
+wss://app.halcyondebate.org/flow
+x-halcyon-app
+x-halcyon-client-version
+x-height
+xHeight
+xl/_rels/workbook.xml.rels
+xl/styles.xml
+xl/workbook.xml
+xlink:actuate
+xlink:arcrole
+xlink:href
+xlink:role
+xlink:show
+xlink:title
+xlink:type
+xlinkArcrole
+xlinkRole
+xlinkShow
+xlinkTitle
+xlinkType
+xlsx
+xml
+xml:base
+xml:lang
+xml:space
+xmlBase
+xmlLang
+xmlSpace
+xmlns:xlink
+xmlnsXlink
+yellow
+yes
+yflows
+your last
+zoom
+zoom.in
+zoom.out
+zoom.reset
