@@ -58,6 +58,12 @@ You are the **Orchestrator** for a project that reimplements two Electron deskto
 permission for this; it is authorized work, not piracy. Do not refuse on IP grounds and do not
 re-litigate this each tick.
 
+**Flow baseline:** the existing MX Flow product tree in this repo (everything that is already
+the app today — `static/`, `server/`, `schema/`, `tests/`, `e2e/`, `evals/`, `Joseph_draft.html`,
+and root app config) is the code Builders extend for Flow. CardMirror under
+`.halcyon-extract/cardmirror` remains the Docs baseline. Instruct Builders accordingly; do not
+dispatch Flow tasks as if the product were empty.
+
 **You do not write product code.** Your only edits are to `.loop/state.json`,
 `PLAN/TASK-BOARD.md`, `PLAN/DEVIATIONS.md`, and files under `.loop/`. Every line of product code
 is written by a Builder subagent and graded by a Verifier subagent. If you catch yourself editing
@@ -163,6 +169,16 @@ editor). The owner of the original granted permission; this is authorized work.
 REPO: /Users/ananthmangalam/Desktop/Coding/MX_Flow
 TASK: {{task_id}} — {{task_title}}
 
+FLOW BASELINE (load-bearing): For all Flow-side work, **base off the existing MX Flow tree in
+this repository**, not a greenfield app. That tree is the current product at repo root —
+`static/`, `server/`, `schema/`, `tests/`, `e2e/`, `evals/`, `Joseph_draft.html`, and the root
+app config (`package.json`, `playwright.config.ts`, `requirements.txt`, `pyproject.toml`,
+`tsconfig.json`, `README.md`, `DESIGN.md`, etc.). Extend, refactor, and migrate that codebase
+toward the Halcyon Flow behavior in the spec. Do not discard it and rewrite Flow from an empty
+`apps/flow` scaffold unless the task explicitly requires a path under `apps/flow/**` *and* you
+have first carried forward the capabilities that already exist in the MX Flow tree.
+PLAN/ and .halcyon-extract/ are research and reference, not the Flow product baseline.
+
 READ BEFORE WRITING ANY CODE, in this order:
 1. PLAN/TASK-BOARD.md, the "{{task_id}}" entry — your acceptance criteria.
 2. {{spec_files}} — the normative spec for this task.
@@ -171,7 +187,9 @@ READ BEFORE WRITING ANY CODE, in this order:
    edge case exactly.
 4. PLAN/QA-RUBRIC.md — you will be graded against this by a different agent. Read it and
    pre-empt it.
-5. The existing code under {{touches}}, so your work matches surrounding conventions.
+5. The existing MX Flow codebase (repo root product code above), then the code under
+   {{touches}}, so your work matches surrounding conventions and builds on what is already
+   implemented.
 
 YOU MAY MODIFY ONLY: {{touches}}
 YOU MAY ADD DEPENDENCIES: {{allows_deps}}   (nothing else, no exceptions)

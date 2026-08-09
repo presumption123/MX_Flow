@@ -31,9 +31,12 @@ exactly three: `live_view`, `linked_copy`, `reading_marker`. **So we do not buil
 extend CardMirror. The `.docx` round-trip, outline, highlighting, condense family, comments,
 tables, footnotes, spellcheck, and collaboration are all inherited.
 
-**Flow is the real work.** It shares no code with CardMirror and must be written from scratch:
-the grid, eleven debate-format templates, 65 rebindable actions, the round file format, the timer,
-and the bridge client.
+**Flow is the real work.** It shares no code with CardMirror. **Base it on the existing MX Flow
+repository** (the product tree already at repo root: `static/`, `server/`, `schema/`, `tests/`,
+`e2e/`, `Joseph_draft.html`, etc.) and evolve that code toward Halcyon Flow fidelity — do not
+start Flow as an empty greenfield app. The remaining gap is large: eleven debate-format templates,
+65 rebindable actions, the round file format, the timer, and the bridge client, on top of what
+MX Flow already has.
 
 **Both bridges are already loopback HTTP.** Halcyon's Flow↔Docs link is not exotic IPC — it is
 HTTP on 127.0.0.1 around port 53124 with `connect.json` discovery, and CardMirror ships an
